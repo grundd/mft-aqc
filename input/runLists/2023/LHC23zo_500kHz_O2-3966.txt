@@ -1,0 +1,10 @@
+group=LHC23zo_500kHz_cpass0
+period=LHC23zo
+jira=O2-3966
+pass=cpass0
+refRun=537963
+runs:
+539404
+539405
+539406
+539407

@@ -1,0 +1,15 @@
+period=LHC22p
+jira=O2-3529
+pass=apass2
+refRun=528617
+oldPath=true
+runs:
+528602
+528604
+528617
+528781
+528782
+528783
+528784
+528798
+528801

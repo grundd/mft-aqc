@@ -1,0 +1,3 @@
+mClusterPatternIndex
+mClusterOccupancy
+mClustersROFSize

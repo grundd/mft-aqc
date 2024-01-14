@@ -1,0 +1,9 @@
+period=LHC23f
+jira=O2-4443
+pass=apass1
+refRun=535069
+runs:
+535069
+535084
+535085
+535087

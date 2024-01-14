@@ -1,0 +1,9 @@
+period=LHC23zze
+jira=O2-4219
+pass=cpass0
+refRun=543950
+runs: 
+543918
+543921
+543922
+543950
