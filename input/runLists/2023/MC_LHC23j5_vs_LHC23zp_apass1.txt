@@ -1,0 +1,14 @@
+period=LHC23zp
+periodMC=LHC23j5
+group=MC_LHC23j5_vs_LHC23zp_apass1
+jira=O2-4439
+pass=apass1,passMC
+refPass=apass1
+runs:
+539421
+539422
+539423
+539424
+539425
+539426
+539427

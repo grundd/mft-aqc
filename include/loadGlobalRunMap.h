@@ -51,7 +51,7 @@ void printGlobalRunMap()
 // load and initialize the global run map from the .csv file
 bool loadGlobalRunMap(bool print = false, bool debug = false) 
 {
-    string fname = "input/runTable.csv";
+    string fname = "input/runTable2023.csv";
 	vector<vector<string>> content;
 	vector<string> row;
 	string line, item;

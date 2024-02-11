@@ -1,0 +1,14 @@
+period=LHC23zzh
+jira=O2-4575
+group=LHC23zzh_apass2
+pass=cpass0,apass1,apass2
+refPass=apass1
+runs:
+544091
+544095
+544098
+544116
+544121
+544122
+544123
+544124

@@ -74,9 +74,13 @@ void createSummaryPassComparison ()
     for(int r = 0; r < nRuns; r++) 
     {
         int run = rListUnique.at(r);
+        if(isRun("bad",run) || isRun("not participating",run)) continue;
         string fig = Form("%i_leg_",run);
         ofs << R"(\frame{)" << "\n"
-            << R"(\frametitle{)" << getRunPeriod(run) << " : "<< run << "} \n";
+            << R"(\frametitle{)" << getRunPeriod(run) << " : " << run;
+        string comment = getRunComment(run);
+        if(comment != "") ofs << R"(~{\small()" << getRunComment(run) << R"()})";
+        ofs << "} \n";
         float h = 37; // mm
         float x_min = 4;
         float space = 40;
@@ -87,7 +91,13 @@ void createSummaryPassComparison ()
         printFigure(ofs,path,fig+"mMFTTrackInvQPt","pdf",h,x_min+2*space,y_upp);
         printFigure(ofs,path,fig+"mMFTTrackNumberOfClusters","pdf",h,x_min,y_low);
         printFigure(ofs,path,fig+"mMFTTrackROFSize","pdf",h,x_min+space,y_low);
-        printFigure(ofs,path,fig+"mClustersROFSize","png",h,x_min+2*space,y_low);
+        printFigure(ofs,path,fig+"mClustersROFSize","pdf",h,x_min+2*space,y_low);
+        // printFigure(ofs,path,fig+"mMFTTrackEta_6_minClusters","pdf",h,x_min,y_upp);
+        // printFigure(ofs,path,fig+"mMFTTrackEta_7_minClusters","pdf",h,x_min+space,y_upp);
+        // printFigure(ofs,path,fig+"mMFTTrackEta_8_minClusters","pdf",h,x_min+2*space,y_upp);
+        // printFigure(ofs,path,fig+"mMFTTrackPhi_6_minClusters","pdf",h,x_min,y_low);
+        // printFigure(ofs,path,fig+"mMFTTrackPhi_7_minClusters","pdf",h,x_min+space,y_low);
+        // printFigure(ofs,path,fig+"mMFTTrackPhi_8_minClusters","pdf",h,x_min+2*space,y_low);
         ofs << "}" << "\n\n";
     }
     ofs.close();

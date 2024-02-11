@@ -29,6 +29,10 @@
 // show => show them as all other runs
 // ****
 
+string path_wo_leg;
+string path_leg;
+string path;
+
 // name, title, options
 vector<vector<string>> histos;
 
@@ -336,12 +340,8 @@ void plotComparison(int first, int N, string name, string title, string option, 
 
     gPad->RedrawAxis();
 
-    string filetype = "pdf";
-    if(name == "mClustersROFSize") filetype = "png";
-
     // print the plot without legend
-    if(!_comparePasses) c.Print(Form("plots/%s/%s.%s",_group.data(),name.data(),filetype.data()));
-    //else c.Print(Form("plots/%s/%i_%s.%s",_group.data(),runList->at(first),name.data(),filetype.data()));
+    if(path_wo_leg != "") c.Print(path_wo_leg.data());
 
     // print the legend
     TCanvas cLeg(Form("%sLeg",name.data()),"",240,600);
@@ -361,8 +361,7 @@ void plotComparison(int first, int N, string name, string title, string option, 
     ltx2->SetNDC();
     ltx2->DrawLatex(0.04,0.963,Form("Reference run:"));
     if(option.find("plotSeparateLegend") != string::npos) {
-        if(!_comparePasses) cLeg.Print(Form("plots/%s/leg.pdf",_group.data()));
-        //else cLeg.Print(Form("plots/%s/%i_leg.pdf",_group.data(),runList->at(first)));
+        if(path_leg != "") cLeg.Print(path_leg.data());
     }
 
     // print both pads at the same canvas;
@@ -383,10 +382,11 @@ void plotComparison(int first, int N, string name, string title, string option, 
     pRight.Draw();
     pRight.cd();
     cLeg.DrawClonePad();
-    if(!_comparePasses) cBoth.Print(Form("plots/%s/leg_%s.%s",_group.data(),name.data(),filetype.data()));
-    else                cBoth.Print(Form("plots/%s/%i_leg_%s.%s",_group.data(),runList->at(first),name.data(),filetype.data()));
+
+    if(path != "") cBoth.Print(path.data());
 
     delete arr;
+    delete p1;
     delete ltx;
     delete gBand;
     delete ltx2;
@@ -400,6 +400,8 @@ void plotQCObjects(string input)
     if(!loadConfigFile(input)) return;
     if(!loadGlobalRunMap()) return;
     if(!loadObjectsToPlots()) return;
+
+    //gROOT->SetBatch(kTRUE); // https://root-forum.cern.ch/t/saving-canvas-to-root-file-without-displaying-it/6661/2
 
     gStyle->SetLineStyleString(11,"[]");
     gStyle->SetLineStyleString(12,"16 8");
@@ -423,15 +425,40 @@ void plotQCObjects(string input)
 
     for(int round = 0; round < nRounds; round++) {
         int first = round * N;
-        cout << "Processing: " 
+        cout << "\nProcessing: " 
              << "(" << runList->at(first) << ", " << passList->at(first) << ") to "
              << "(" << runList->at(first+N-1) << ", " << passList->at(first+N-1) << ")\n";
-        for(int h = 0; h < histos.size(); h++) {
+        if(_comparePasses) {
+            int run = runList->at(first);
+            if(isRun("bad",run) || isRun("not participating",run)){
+                cout << "Run quality '" << getRunQuality(run) << "' -> skipping.\n";
+                continue;
+            }
+        }
+        for(int h = 0; h < histos.size(); h++) 
+        {
             string name = histos.at(h).at(0);
             string title = histos.at(h).at(1);
             string option = histos.at(h).at(2);
-            cout << "\nProcessing histogram: " << name << "\n";
-            plotComparison(first,N,name, title, option);
+            cout << " " << name << ":";
+
+            string filetype = "pdf";
+            if(name == "mClustersROFSize") filetype = "pdf";
+
+            if(!_comparePasses) {
+                path_wo_leg = Form("plots/%s/%s.%s",_group.data(),name.data(),filetype.data());
+                path_leg = Form("plots/%s/leg.pdf",_group.data());
+                path = Form("plots/%s/leg_%s.%s",_group.data(),name.data(),filetype.data());
+            } else {
+                path_wo_leg = "";
+                path_leg = "";
+                path = Form("plots/%s/%i_leg_%s.%s",_group.data(),runList->at(first),name.data(),filetype.data()); 
+            }
+            bool plotExists = !gSystem->AccessPathName(path.data());
+            if(!plotExists || (plotExists && _recreatePlots)) {
+                cout << "\n";
+                plotComparison(first,N,name, title, option);
+            } else cout << " already plotted \n";
         }
     }
 

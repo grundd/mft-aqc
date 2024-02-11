@@ -1,0 +1,11 @@
+period=more
+periodMC=LHC23k6c_cycle0
+group=MC_LHC23k6c_vs_LHC23PbPb_apass1
+jira=O2-4582
+pass=apass1,passMC
+refPass=apass1
+runs:
+544032
+544184
+544185
+544477

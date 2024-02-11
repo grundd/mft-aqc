@@ -9,29 +9,22 @@
 #include "include/loadGlobalRunMap.h"
 #include "include/loadHistoLists.h"
 
+o2::ccdb::CcdbApi api_ccdb;
+o2::ccdb::CcdbApi api_qcdb;
+o2::ccdb::CcdbApi api_test;
+
 long getTimestamp (int runNo, string pass) 
 {
-    long timestamp = -1; //1703980800000;
-    if(pass != "passMC") 
+    long timestamp = -1; // 1703980800000;
+    if(!_timestampMinusOne) 
     {
-        /* // (!)
-        if(runNo >= 543844 // 23zzd
-            || runNo == 543707 // 23zza
-            || runNo == 543708 // 23zza
-            || runNo == 543709 // 23zza
-            || runNo == 543713)// 23zza
-        */
-        { // the condition may need to be modified later!!!
-            o2::ccdb::CcdbApi api;
-            api.init("alice-ccdb.cern.ch");
-            map<string, string> hdRCT = api.retrieveHeaders("RCT/Info/RunInformation", map<string, string>(), runNo);
-            const auto startRCT = hdRCT.find("SOR");
-            if (startRCT != hdRCT.end()) {
-                timestamp = stol(startRCT->second);
-                cout << "SOR found, timestamp: " << timestamp << "\n";
-            } else {
-                cout << "SOR not found in headers!" << "\n";
-            }
+        map<string, string> hdRCT = api_ccdb.retrieveHeaders("RCT/Info/RunInformation", map<string, string>(), runNo);
+        const auto startRCT = hdRCT.find("SOR");
+        if (startRCT != hdRCT.end()) {
+            timestamp = stol(startRCT->second);
+            cout << "SOR found, timestamp: " << timestamp << "\n";
+        } else {
+            cout << "SOR not found in headers!" << "\n";
         }
     }
     return timestamp;
@@ -45,10 +38,6 @@ TH* downloadHisto(string histName, int runNo, string pass, long timestamp, bool 
     string spec_pas = "";
     string spec_per = "";
     string spec_ver = ""; //"1.119.0"; // (!)
-    // connect to ccdb
-    o2::ccdb::CcdbApi api;
-    if(pass == "passMC") api.init("ccdb-test.cern.ch:8080");
-    else                 api.init("ali-qcdb-gpn.cern.ch:8083");
     // evaluate metadata inputs:
     if(pass != "online") spec_pas = pass;
     if(pass == "passMC" && _periodMC != "none") spec_per = _periodMC;
@@ -67,9 +56,10 @@ TH* downloadHisto(string histName, int runNo, string pass, long timestamp, bool 
         if(spec_ver != "") cout << ", qc_version=" << spec_ver;
         cout << "\n";
     }
-    TH* h = api.retrieveFromTFileAny<TH>(histName,metadata,timestamp); 
-    if(h) return h;
-    else  return NULL;
+    TH* h = NULL;
+    if(pass == "passMC") h = api_test.retrieveFromTFileAny<TH>(histName,metadata,timestamp);
+    else                 h = api_qcdb.retrieveFromTFileAny<TH>(histName,metadata,timestamp);
+    return h;
 }
 
 void downloadHistos(string period, int runNo, string pass)
@@ -163,6 +153,11 @@ void downloadQCObjects (string input = "")
     cout << "\ndownloadQCObjects.cxx: \n";
     if(!loadConfigFile(input)) return;
     if(!loadGlobalRunMap()) return;
+
+    // connect to ccdb    
+    api_qcdb.init("ali-qcdb-gpn.cern.ch:8083");
+    api_test.init("ccdb-test.cern.ch:8080");
+    api_ccdb.init("alice-ccdb.cern.ch");
 
     int nRunPass = runList->size();
     for(int r = 0; r < nRunPass; r++) {

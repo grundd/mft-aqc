@@ -2,6 +2,8 @@
 // utils.h
 // David Grund, Oct 5, 2023
 
+#include <sstream>
+
 // remove all white spaces at the end of a string
 string remove_spaces (string s)
 {

@@ -1,7 +1,7 @@
 
 string getFiletype (string h) 
 {
-    if(h == "mClustersROFSize") return "png";
+    if(h == "mClustersROFSize") return "pdf"; // or png
     else return "pdf";
 }
 
@@ -86,7 +86,7 @@ vector<T> createUniqueVector (vector<T>* v)
 void printRunList (ofstream& ofs)
 {
     // options to set:
-    int runsPerSlide = 13;
+    int runsPerSlide = 18;
     // # runs in total:
     vector<int> rListUnique = createUniqueVector(runList);
     int nRuns = rListUnique.size();
@@ -119,8 +119,14 @@ void printRunList (ofstream& ofs)
         else if(_jira != "none") ofs << R"(\href{https://alice.its.cern.ch/jira/browse/)" << _jira << "}{" << _jira << "}";
         ofs << " (" << nRuns << " " << sRun << ")}" << "\n\n"
             << R"(\vspace{-2mm})" << "\n"
-            << R"({\small\begin{tabular}{c c c c l})" << "\n"
-            << R"(\textbf{fill} & \textbf{run} & \textbf{IR (kHz)} & \textbf{coll bcs} & \textbf{MFT quality} \\ )" << "\n";
+            << R"(\bgroup\scriptsize\def\arraystretch{1.05})" << "\n";
+        if(_singlePeriod) {
+            ofs << R"(\begin{tabular}{c c c c l})" << "\n"
+                << R"(\textbf{fill} & \textbf{run} & \textbf{IR (kHz)} & \textbf{coll bcs} & \textbf{MFT quality} \\ )" << "\n";
+        } else {
+            ofs << R"(\begin{tabular}{c c c c c l})" << "\n"
+                << R"(\textbf{period} & \textbf{fill} & \textbf{run} & \textbf{IR (kHz)} & \textbf{coll bcs} & \textbf{MFT quality} \\ )" << "\n";
+        }
         bool printRefExplanation = false;
         if(runsToPrint > 0) {
             int nFor = runsPerSlide;
@@ -134,6 +140,7 @@ void printRunList (ofstream& ofs)
                 if(isRun("bad",run)) quality = R"(\Bad)";
                 if(isRun("not participating",run)) quality = R"(\NotPart)";
                 string comment = getRunComment(run);
+                if(!_singlePeriod) ofs << getRunPeriod(run) << " & ";
                 ofs << getRunFill(run) << " & ";
                 if(run == _refRun ) {
                     ofs << R"(\RefRun{)" << run << "*} & ";
@@ -149,22 +156,22 @@ void printRunList (ofstream& ofs)
             }
             runsToPrint -= nFor;
         }
-        ofs << R"(\end{tabular}})" << "\n\n";
+        ofs << R"(\end{tabular})" << "\n\n";
         if(printRefExplanation) {
             ofs << R"(\begin{textblock*}{144mm}(8mm,81mm))" << "\n"
-                << R"({\small * selected as a reference})" << "\n"
+                << R"({\footnotesize * selected as a reference})" << "\n"
                 << R"(\end{textblock*})" << "\n\n";
         }
         if(iSl == nSl-1 && refPrinted == false) {
             ofs << R"(\begin{textblock*}{144mm}(8mm,81mm))" << "\n"
-                << R"({\small\textbf{Reference run}: \RefRun{)" << _refRun << "} "
+                << R"({\footnotesize\textbf{Reference run}: \RefRun{)" << _refRun << "} "
                 << "(" << getRunPeriod(_refRun);
             if(!(_singlePass == true && _refPass == _pass)) ofs << ", " << _refPass;
             ofs << ", IR = " << getRunIntRate(_refRun) << " kHz"
                 << ", " << getRunCollBcs(_refRun) << " coll bcs)}" << "\n"
                 << R"(\end{textblock*})" << "\n\n";
         }
-        ofs << "}" << "\n\n";
+        ofs << R"(\egroup})" << "\n\n";
     }
     return;
 }

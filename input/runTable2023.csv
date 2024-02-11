@@ -1,29 +1,4 @@
 period,fill,run,quality,comment,IR (kHz),coll bcs,/
-LHC22p,8334,528597,good,,500,1737,/
-LHC22p,8334,528602,good,,500,1737,/
-LHC22p,8334,528604,good,,500,1737,/
-LHC22p,8335,528617,good,,500,1737,/
-LHC22p,8345,528781,good,,500,1737,/
-LHC22p,8345,528782,good,,500,1737,/
-LHC22p,8345,528783,good,,500,1737,/
-LHC22p,8345,528784,good,,500,1737,/
-LHC22p,8347,528798,good,,500,1737,/
-LHC22p,8347,528801,good,,500,1737,/
-LHC22q,8379,528991,bad,,6.5,20,/
-LHC22q,8379,528997,not participating,,7.5,20,/
-LHC22q,8379,529003,not participating,,7.5,20,/
-LHC22q,8379,529005,good,,1.5,20,/
-LHC22q,8379,529006,good,,0.8,20,/
-LHC22q,8379,529008,good,,1.5,20,/
-LHC22q,8379,529009,good,,1.5,20,/
-LHC22q,8379,529011,not participating,,45,20,/
-LHC22q,8379,529014,not participating,,35,20,/
-LHC22q,8379,529015,good,,2,20,/
-LHC22q,8381,529035,good,,15,35,/
-LHC22q,8381,529037,good,,15,35,/
-LHC22q,8381,529038,good,,15,35,/
-LHC22q,8381,529039,good,,15,35,/
-LHC22q,8381,529043,not participating,,15,35,/
 LHC23b,8541,534133,not participating,,0.7,2,/
 LHC23b,8542,534152,good,,0.5,2,/
 LHC23b,8542,534161,good,,0.5,2,/
@@ -32,10 +7,10 @@ LHC23b,8550,534201,not participating,,3,8,/
 LHC23b,8550,534202,not participating,,2.5,8,/
 LHC23b,8550,534205,not participating,,2,8,/
 LHC23b,8550,534209,not participating,,1.5,8,/
-LHC23b,8550,534215,good,comment!,1,8,/
-LHC23b,8559,534265,good,comment!,3.5,8,/
-LHC23b,8559,534267,good,comment!,2.5,8,/
-LHC23b,8559,534268,good,comment!,1.5,8,/
+LHC23b,8550,534215,good,H0D3F1Z3 + H0D4F1Z2 excl.,1,8,/
+LHC23b,8559,534265,good,H0D3F1Z3 + H0D4F1Z2 and H1D4F0Z0 excl.,3.5,8,/
+LHC23b,8559,534267,good,H0D3F1Z3 + H0D4F1Z2 and H1D4F0Z0 excl.,2.5,8,/
+LHC23b,8559,534268,good,H0D3F1Z3 + H0D4F1Z2 and H1D4F0Z0 excl.,1.5,8,/
 LHC23b,8580,534453,not participating,,3,8,/
 LHC23b,8580,534454,not participating,,2.5,8,/
 LHC23b,8580,534468,not participating,,1.5,8,/
@@ -43,8 +18,8 @@ LHC23c,8637,534998,good,,20,2,/
 LHC23c,8637,535001,good,,20,2,/
 LHC23d,8639,535021,good,,70,8,/
 LHC23d,8639,535022,good,,60,8,/
-LHC23e,8642,535046,good,comment!,5.5,32,/
-LHC23e,8642,535047,good,comment!,10,32,/
+LHC23e,8642,535046,good,,5.5,32,/
+LHC23e,8642,535047,good,,10,32,/
 LHC23f,8644,535069,good,,10,32,/
 LHC23f,8645,535084,good,,10,32,/
 LHC23f,8645,535085,good,,10,32,/
@@ -58,13 +33,13 @@ LHC23g,8685,535479,good,,55,320,/
 LHC23g,8685,535480,good,,50,320,/
 LHC23g,8686,535514,good,,50,204,/
 LHC23g,8686,535517,good,,50,204,/
-LHC23g,8686,535525,bad,no reconfig after beam splash during 535524,55,204,/
+LHC23g,8686,535525,bad,no reconfig after a beam splash during 535524,55,204,/
 LHC23g,8686,535526,good,,55,204,/
 LHC23g,8690,535545,good,,50,204,/
 LHC23g,8691,535563,not participating,,50,204,/
 LHC23g,8691,535566,good,,50,204,/
 LHC23h,8695,535613,good,,100,591,/
-LHC23h,8695,535620,bad,declared globally BAD,100,591,/
+LHC23h,8695,535620,bad,,100,591,/
 LHC23h,8695,535621,good,,100,591,/
 LHC23h,8695,535623,good,,100,591,/
 LHC23h,8695,535624,good,,100,591,/
@@ -117,20 +92,20 @@ LHC23o,8775,536416,good,,55,1730,/
 LHC23p,8778,536461,good,,0.4,1,/
 LHC23q,8782,536487,good,,100,1730,/
 LHC23q,8782,536488,good,,100,1730,/
-LHC23q,8782,536489,good,beam splash at EOR \ra run crashed,100,1730,/
-LHC23q,8782,536490,bad,no reconfig. after previous beam splash,100,1730,/
+LHC23q,8782,536489,good,beam splash at EOR; run crashed,100,1730,/
+LHC23q,8782,536490,bad,no reconfig. after the previous beam splash,100,1730,/
 LHC23r,8784,536545,good,,250,1730,/
 LHC23r,8784,536547,good,,250,1730,/
 LHC23r,8784,536548,good,,250,1730,/
-LHC23r,8786,536590,bad,no entries in H0D1F1Z3 (chips in err); globally BAD,250,1730,/
+LHC23r,8786,536590,bad,no entries in H0D1F1Z3 - chips in error,250,1730,/
 LHC23r,8786,536606,not participating,,250,1730,/
-LHC23r,8786,536607,good,no entries in H0D1F1Z3: chips in err,250,1730,/
-LHC23r,8786,536608,good,no entries in H0D1F1Z3: chips in err,250,1730,/
-LHC23r,8786,536609,good,H0D3F0Z3 in error in last 30 mins,250,1730,/
-LHC23r,8786,536610,good,"H1D3F0Z0 excl., lots of errors in H0D3F0Z3",250,1730,/
+LHC23r,8786,536607,good,no entries in H0D1F1Z3 - chips in error,250,1730,/
+LHC23r,8786,536608,good,no entries in H0D1F1Z3 - chips in error,250,1730,/
+LHC23r,8786,536609,good,H0D3F0Z3 in error during the last 30 mins,250,1730,/
+LHC23r,8786,536610,good,H1D3F0Z0 excl. + lots of errors in H0D3F0Z3,250,1730,/
 LHC23r,8786,536611,good,H1D3F0Z0 excl.,250,1730,/
 LHC23r,8786,536612,good,H1D3F0Z0 excl.,250,1730,/
-LHC23r,8786,536613,good,"H1D3F0Z0 excl., lots of errors in H0D3F0Z3",250,1730,/
+LHC23r,8786,536613,good,H1D3F0Z0 excl. + lots of errors in H0D3F0Z3,250,1730,/
 LHC23s,8794,536663,good,,450,1730,/
 LHC23s,8796,536683,good,,500,1730,/
 LHC23s,8796,536685,good,,500,1730,/
@@ -140,12 +115,12 @@ LHC23s,8804,536762,good,,500,1730,/
 LHC23s,8807,536774,good,,500,1730,/
 LHC23s,8811,536790,good,,500,1730,/
 LHC23s,8816,536822,good,beam splash 30 mins before EOR; chips not recovered,500,1692,/
-LHC23s,8817,536834,good,H0D1F1Z3 fully in error (globally BAD in apass1),450,1692,/
+LHC23s,8817,536834,good,H0D1F1Z3 fully in error,450,1692,/
 LHC23s,8817,536839,good,H0D1F1Z3 fully in error,500,1692,/
 LHC23s,8817,536842,good,H0D1F1Z3 fully in error,500,1692,/
 LHC23s,8817,536843,good,H0D1F1Z3 fully in error,500,1692,/
 LHC23s,8817,536848,good,H0D1F1Z3 fully in error,500,1692,/
-LHC23s,8821,536896,bad,declared globally BAD,500,1692,/
+LHC23s,8821,536896,bad,,500,1692,/
 LHC23s,8821,536898,good,,500,1692,/
 LHC23t,8821,536899,bad,too many chips in error; H0D0 almost fully out,1000,1692,/
 LHC23s,8821,536906,good,,500,1692,/
@@ -159,7 +134,7 @@ LHC23u,8850,537249,good,,95,1692,/
 LHC23u,8850,537251,good,,95,1692,/
 LHC23u,8853,537274,good,,250,777,/
 LHC23u,8853,537276,good,,250,777,/
-LHC23u,8858,537396,bad,declared globally bad,250,1217,/
+LHC23u,8858,537396,bad,,250,1217,/
 LHC23u,8858,537397,good,,250,1217,/
 LHC23u,8858,537401,good,,250,1217,/
 LHC23u,8858,537411,good,,250,1217,/
@@ -173,7 +148,7 @@ LHC23u,8865,537465,good,,250,1217,/
 LHC23u,8865,537466,good,,250,1217,/
 LHC23u,8866,537480,good,,250,1217,/
 LHC23v,8870,537504,good,,500,1692,/
-LHC23v,8870,537505,good,FLP186 readout lost in last 2 mins,500,1692,/
+LHC23v,8870,537505,good,,500,1692,/
 LHC23v,8870,537509,not participating,,500,1692,/
 LHC23v,8870,537511,not participating,,500,1692,/
 LHC23v,8872,537531,good,beam splash 2 mins before EOR; chips not recovered,500,1692,/
@@ -182,7 +157,7 @@ LHC23v,8873,537547,good,,500,1692,/
 LHC23v,8873,537549,good,,500,1692,/
 LHC23v,8873,537551,good,,500,1692,/
 LHC23v,8873,537553,good,,500,1692,/
-LHC23v,8877,537583,bad,MFT crashed the run; declared globally BAD,450,1692,/
+LHC23v,8877,537583,bad,MFT crashed the run,450,1692,/
 LHC23w,8877,537594,good,,1000,1692,/
 LHC23y,8877,537602,good,,500,1692,/
 LHC23y,8877,537605,good,,400,1692,/
@@ -190,7 +165,7 @@ LHC23y,8880,537622,good,,500,1692,/
 LHC23y,8880,537623,good,,500,1692,/
 LHC23y,8880,537632,not participating,,500,1692,/
 LHC23y,8880,537636,good,,500,1692,/
-LHC23z,8880,537645,good,,350,1692,/
+LHC23z,8880,537645,good,MFT crashed the run,350,1692,/
 LHC23z,8882,537658,not participating,,350,1692,/
 LHC23z,8882,537659,good,,350,1692,/
 LHC23z,8882,537660,good,,350,1692,/
@@ -203,7 +178,7 @@ LHC23za,8885,537739,good,,500,1692,/
 LHC23za,8885,537740,good,,500,1692,/
 LHC23za,8887,537769,good,,500,1692,/
 LHC23za,8887,537770,good,,500,1692,/
-LHC23za,8891,537810,bad,very low statistics; declared globally BAD,500,1692,/
+LHC23za,8891,537810,bad,,500,1692,/
 LHC23za,8891,537812,good,,500,1692,/
 LHC23za,8891,537822,good,,500,1692,/
 LHC23za,8891,537825,good,,500,1692,/
@@ -218,8 +193,8 @@ LHC23zb,8894,537864,good,,1500,1692,/
 LHC23zb,8894,537865,good,,1500,1692,/
 LHC23zb,8894,537867,good,,1500,1692,/
 LHC23zc,8894,537870,good,,500,1692,/
-LHC23zc,8895,537893,bad,too many chips in err,500,1692,/
-LHC23zc,8895,537897,bad,too many chips in err,500,1692,/
+LHC23zc,8895,537893,bad,too many chips in error,500,1692,/
+LHC23zc,8895,537897,bad,too many chips in error,500,1692,/
 LHC23zc,8895,537899,good,,500,1692,/
 LHC23zc,8895,537900,good,,500,1692,/
 LHC23zc,8895,537901,good,,500,1692,/
@@ -311,10 +286,10 @@ LHC23zs,9049,539482,good,,500,1842,/
 LHC23zs,9049,539483,good,,500,1842,/
 LHC23zs,9050,539501,good,,500,1692,/
 LHC23zs,9055,539517,good,a hole in the acceptance at phi = pi/2,500,1842,/
-LHC23zs,9056,539531,good,ditto,450,1842,/
-LHC23zs,9057,539556,good,ditto,500,1842,/
-LHC23zs,9057,539557,good,ditto,500,1842,/
-LHC23zs,9059,539580,good,ditto,500,1842,/
+LHC23zs,9056,539531,good,a hole in the acceptance at phi = pi/2,450,1842,/
+LHC23zs,9057,539556,good,a hole in the acceptance at phi = pi/2,500,1842,/
+LHC23zs,9057,539557,good,a hole in the acceptance at phi = pi/2,500,1842,/
+LHC23zs,9059,539580,good,a hole in the acceptance at phi = pi/2,500,1842,/
 LHC23zs,9062,539622,good,,500,1842,/
 LHC23zs,9062,539623,good,,500,1842,/
 LHC23zs,9063,539636,good,,500,1842,/
@@ -324,7 +299,7 @@ LHC23zs,9063,539644,good,,500,1842,/
 LHC23zs,9063,539646,good,,500,1842,/
 LHC23zs,9063,539647,good,,500,1842,/
 LHC23zs,9063,539649,good,,500,1842,/
-LHC23zs,9066,539700,good,,500,1842,/
+LHC23zs,9066,539700,good,,0,1842,/
 LHC23zt,9070,539873,good,,500,1842,/
 LHC23zt,9070,539874,good,,500,1842,/
 LHC23zt,9070,539875,good,,500,1842,/
@@ -332,169 +307,192 @@ LHC23zt,9070,539876,good,,500,1842,/
 LHC23zt,9070,539877,good,,550,1842,/
 LHC23zt,9070,539881,good,,500,1842,/
 LHC23zt,9070,539882,good,,500,1842,/
-LHC23zt,9070,539883,good,beam splash 2 mins before EOR,500,1842,/
+LHC23zt,9070,539883,good,a beam splash 2 mins before the EOR,500,1842,/
 LHC23zt,9070,539884,good,,500,1842,/
 LHC23zt,9072,539906,good,,500,1842,/
-LHC23zt,9072,539907,bad,duration too short; globally BAD,500,1842,/
+LHC23zt,9072,539907,bad,,500,1842,/
 LHC23zt,9072,539908,good,,500,1842,/
-LHC23zw,9168,543107,good,,35,92,/
-LHC23zw,9168,543109,good,,35,92,/
-LHC23zw,9168,543113,good,,35,92,/
-LHC23zx,9192,543437,limited,,-,51,/
-LHC23zx,9192,543438,limited,,-,51,/
-LHC23zx,9192,543439,limited,,-,51,/
-LHC23zx,9192,543440,limited,,-,51,/
-LHC23zx,9192,543441,limited,,-,51,/
-LHC23zx,9192,543442,limited,,-,51,/
-LHC23zy,9193,543466,limited,,-,170,/
-LHC23zy,9193,543467,limited,,-,170,/
-LHC23zy,9193,543468,limited,,-,170,/
-LHC23zy,9193,543469,limited,,-,170,/
-LHC23zy,9194,543484,limited,,-,170,/
-LHC23zy,9194,543486,limited,,-,170,/
-LHC23zz,9197,543514,limited,,-,170,/
-LHC23zz,9197,543515,limited,,-,170,/
-LHC23zz,9200,543536,limited,,-,170,/
-LHC23zz,9206,543639,limited,,-,394,/
-LHC23zz,9206,543641,limited,,-,394,/
-LHC23zz,9206,543642,limited,,-,394,/
-LHC23zza,9209,543707,limited,,-,250,/
-LHC23zza,9209,543708,limited,,-,250,/
-LHC23zza,9209,543709,limited,,-,250,/
-LHC23zza,9209,543713,limited,,-,250,/
-LHC23zza,9209,543714,bad,beams fully separated,-,250,/
-LHC23zza,9212,543731,not participating,,-,222,/
-LHC23zza,9212,543732,limited,82 chips in error,-,222,/
-LHC23zza,9212,543733,limited,,-,222,/
-LHC23zza,9212,543734,limited,,-,222,/
-LHC23zza,9212,543735,limited,,-,222,/
-LHC23zzb,9213,543750,not participating,globally bad,-,394,/
-LHC23zzb,9213,543754,limited,globally bad,-,394,/
-LHC23zzb,9213,543760,limited,,-,394,/
-LHC23zzc,9216,543804,limited,,-,324,/
-LHC23zzc,9217,543818,limited,,-,324,/
-LHC23zzc,9217,543819,limited,,-,324,/
-LHC23zzc,9217,543820,limited,,-,324,/
-LHC23zzd,9218,543841,limited,H0D3F1Z2 backpressure,-,610,/
-LHC23zzd,9218,543842,limited,H0D3F1Z2 backpressure,-,610,/
-LHC23zzd,9218,543843,limited,H0D3F1Z2 backpressure,-,610,/
-LHC23zzd,9218,543844,limited,H0D3F1Z2 backpressure + excluded zones!,-,610,/
-LHC23zzd,9218,543845,limited,,-,610,/
-LHC23zzd,9218,543846,limited,,-,610,/
-LHC23zzd,9218,543847,not participating,,-,610,/
-LHC23zzd,9218,543849,limited,,-,610,/
-LHC23zzd,9218,543850,limited,,-,610,/
-LHC23zzd,9220,543868,limited,globally bad,-,610,/
-LHC23zzd,9220,543870,limited,globally bad,-,610,/
-LHC23zzd,9220,543872,limited,,-,610,/
-LHC23zzd,9220,543873,limited,,-,610,/
-LHC23zze,9222,543918,limited,,-,771,/
-LHC23zze,9222,543921,limited,,-,771,/
-LHC23zze,9222,543922,limited,,-,771,/
-LHC23zze,9223,543950,limited,,-,771,/
-LHC23zzf,9225,544013,good,,-,170,/
-LHC23zzg,9226,544028,good,,-,771,/
-LHC23zzg,9226,544032,good,,-,771,/
-LHC23zzg,9226,544033,good,,-,771,/
-LHC23zzh,9231,544091,good,,-,1010,/
-LHC23zzh,9231,544095,good,,-,1010,/
-LHC23zzh,9231,544098,good,,-,1010,/
-LHC23zzh,9232,544116,good,,-,1010,/
-LHC23zzh,9232,544121,good,,-,1010,/
-LHC23zzh,9232,544122,good,,-,1010,/
-LHC23zzh,9232,544123,good,,-,1010,/
-LHC23zzh,9232,544124,good,,-,1010,/
-LHC23zzh,9232,544126,good,low IR \Ra large background contribution at $\phi > 0$,-,1010,/
-LHC23zzi,9234,544167,good,,-,1088,/
-LHC23zzi,9235,544180,bad,one FLP lost,-,1088,/
-LHC23zzi,9235,544184,good,,-,1088,/
-LHC23zzi,9235,544185,good,,-,1088,/
-LHC23zzi,9237,544384,good,,-,1088,/
-LHC23zzi,9237,544389,good,,-,1088,/
-LHC23zzi,9237,544390,good,,-,1088,/
-LHC23zzi,9237,544391,good,,-,1088,/
-LHC23zzi,9237,544392,good,,-,1088,/
-LHC23zzj,9239,544418,not participating,,-,324,/
-LHC23zzj,9239,544420,not participating,,-,324,/
-LHC23zzj,9240,544434,not participating,,-,324,/
-LHC23zzk,9242,544451,good,,-,1088,/
-LHC23zzk,9242,544454,good,,-,1088,/
-LHC23zzk,9245,544474,good,,-,1088,/
-LHC23zzk,9245,544475,limited,RU H0D1F0Z1 sends corr. data; mft-stf-decoder crash,-,1088,/
-LHC23zzk,9245,544476,limited,a dip in the phi distribution around -1.3,-,1088,/
-LHC23zzk,9245,544477,limited,a dip in the phi distribution around -1.3,-,1088,/
-LHC23zzk,9246,544490,good,,-,1088,/
-LHC23zzk,9246,544491,good,,-,1088,/
-LHC23zzk,9246,544492,good,,-,1088,/
-LHC23zzk,9247,544508,good,,-,1088,/
-LHC23zzk,9247,544510,good,,-,1088,/
-LHC23zzk,9247,544511,good,,-,1088,/
-LHC23zzk,9247,544512,good,,-,1088,/
-LHC23zzk,9247,544513,good,,-,1088,/
-LHC23zzk,9247,544514,good,,-,1088,/
-LHC23zzk,9247,544515,good,,-,1088,/
-LHC23zzk,9247,544516,good,,-,1088,/
-LHC23zzk,9247,544518,good,,-,1088,/
-LHC23zzl,9250,544548,good,,-,1088,/
-LHC23zzl,9250,544549,good,,-,1088,/
-LHC23zzl,9250,544550,good,,-,1088,/
-LHC23zzl,9250,544551,good,,-,1088,/
-LHC23zzl,9251,544564,good,,-,1088,/
-LHC23zzl,9251,544565,good,,-,1088,/
-LHC23zzl,9251,544567,good,,-,1088,/
-LHC23zzl,9251,544568,good,,-,1088,/
-LHC23zzl,9252,544580,good,,-,1088,/
-LHC23zzl,9252,544582,good,,-,1088,/
-LHC23zzl,9252,544583,good,,-,1088,/
-LHC23zzl,9252,544585,good,,-,1088,/
-LHC23zzm,9254,544614,bad,FLP183 stopped sending data soon after SOR,-,1088,/
-LHC23zzm,9256,544640,good,,-,1088,/
-LHC23zzm,9258,544652,good,,-,1088,/
-LHC23zzm,9258,544653,good,,-,1088,/
-LHC23zzm,9258,544654,good,,-,1088,/
-LHC23zzm,9260,544672,good,,-,1088,/
-LHC23zzm,9260,544674,bad,FLP183 stopped sending data soon after SOR,-,1088,/
-LHC23zzm,9263,544692,good,,-,1088,/
-LHC23zzm,9263,544693,good,,-,1088,/
-LHC23zzm,9263,544694,good,,-,1088,/
-LHC23zzm,9263,544696,good,,-,1088,/
-LHC23zzm,9268,544739,good,,-,880,/
-LHC23zzm,9268,544742,good,,-,880,/
-LHC23zzm,9269,544754,good,,-,880,/
-LHC23zzm,9270,544767,good,,-,880,/
-LHC23zzn,9271,544794,good,,-,880,/
-LHC23zzn,9271,544795,good,,-,880,/
-LHC23zzn,9271,544797,good,,-,880,/
-LHC23zzn,9273,544813,good,,-,880,/
-LHC23zzo,9279,544868,good,,-,394,/
-LHC23zzo,9281,544886,good,,-,880,/
-LHC23zzo,9281,544887,good,,-,880,/
-LHC23zzo,9281,544894,good,,-,880,/
-LHC23zzo,9281,544896,good,,-,880,/
-LHC23zzo,9282,544911,good,,-,880,/
-LHC23zzo,9282,544913,good,,-,880,/
-LHC23zzo,9282,544914,good,,-,880,/
-LHC23zzo,9282,544917,good,,-,880,/
-LHC23zzo,9283,544931,good,,-,880,/
-LHC23zzo,9284,544947,good,,-,880,/
-LHC23zzo,9285,544961,good,,-,880,/
-LHC23zzo,9285,544963,good,,-,880,/
-LHC23zzo,9285,544964,good,,-,880,/
-LHC23zzo,9285,544968,good,,-,880,/
-LHC23zzo,9288,544991,good,,-,960,/
-LHC23zzo,9288,544992,good,,-,960,/
-LHC23zzo,9289,545004,bad,corrupted data,-,960,/
-LHC23zzo,9289,545008,not participating,,-,960,/
-LHC23zzo,9289,545009,good,,-,960,/
-LHC23zzo,9289,545010,good,,-,960,/
-LHC23zzo,9291,545041,good,,-,960,/
-LHC23zzo,9291,545042,good,,-,960,/
-LHC23zzo,9291,545044,good,,-,960,/
-LHC23zzo,9291,545047,good,,-,960,/
-LHC23zzo,9292,545060,good,,-,960,/
-LHC23zzo,9292,545062,good,,-,960,/
-LHC23zzo,9292,545063,good,,-,960,/
-LHC23zzo,9292,545064,good,,-,960,/
+LHC23zw,9168,543107,good,,35,64,/
+LHC23zw,9168,543109,good,,35,64,/
+LHC23zw,9168,543113,good,,35,64,/
+LHC23zx,9192,543437,limited,,,51,/
+LHC23zx,9192,543438,limited,,,51,/
+LHC23zx,9192,543439,limited,,,51,/
+LHC23zx,9192,543440,limited,,,51,/
+LHC23zx,9192,543441,limited,,,51,/
+LHC23zx,9192,543442,limited,,,51,/
+LHC23zy,9193,543466,limited,,,170,/
+LHC23zy,9193,543467,limited,,,170,/
+LHC23zy,9193,543468,limited,,,170,/
+LHC23zy,9193,543469,limited,,,170,/
+LHC23zy,9194,543484,limited,,,170,/
+LHC23zy,9194,543486,limited,,,170,/
+LHC23zz,9197,543514,limited,,,170,/
+LHC23zz,9197,543515,limited,,,170,/
+LHC23zz,9200,543536,limited,,,170,/
+LHC23zz,9206,543639,limited,,,394,/
+LHC23zz,9206,543641,limited,,,394,/
+LHC23zz,9206,543642,limited,,,394,/
+LHC23zza,9209,543707,limited,,,250,/
+LHC23zza,9209,543708,limited,,,250,/
+LHC23zza,9209,543709,limited,,,250,/
+LHC23zza,9209,543713,limited,,,250,/
+LHC23zza,9209,543714,bad,beams fully separated,,250,/
+LHC23zza,9212,543731,not participating,,,222,/
+LHC23zza,9212,543732,limited,82 chips in error,,222,/
+LHC23zza,9212,543733,limited,,,222,/
+LHC23zza,9212,543734,limited,,,222,/
+LHC23zza,9212,543735,limited,,,222,/
+LHC23zzb,9213,543750,not participating,,,394,/
+LHC23zzb,9213,543754,limited,,,394,/
+LHC23zzb,9213,543760,limited,,,394,/
+LHC23zzc,9216,543804,limited,,,324,/
+LHC23zzc,9217,543818,limited,,,324,/
+LHC23zzc,9217,543819,limited,,,324,/
+LHC23zzc,9217,543820,limited,,,324,/
+LHC23zzd,9218,543841,limited,H0D3F1Z2 backpressure,,610,/
+LHC23zzd,9218,543842,limited,H0D3F1Z2 backpressure,,610,/
+LHC23zzd,9218,543843,limited,H0D3F1Z2 backpressure,,610,/
+LHC23zzd,9218,543844,limited,H0D3F1Z2 backpressure + excluded zones,,610,/
+LHC23zzd,9218,543845,limited,,,610,/
+LHC23zzd,9218,543846,limited,,,610,/
+LHC23zzd,9218,543847,not participating,,,610,/
+LHC23zzd,9218,543849,limited,,,610,/
+LHC23zzd,9218,543850,limited,,,610,/
+LHC23zzd,9220,543868,limited,,,610,/
+LHC23zzd,9220,543870,limited,,,610,/
+LHC23zzd,9220,543872,limited,,,610,/
+LHC23zzd,9220,543873,limited,,,610,/
+LHC23zze,9222,543918,limited,,,771,/
+LHC23zze,9222,543921,limited,,,771,/
+LHC23zze,9222,543922,limited,,,771,/
+LHC23zze,9223,543950,limited,,,771,/
+LHC23zzf,9225,544013,good,,,771,/
+LHC23zzg,9226,544028,good,,,771,/
+LHC23zzg,9226,544032,good,,,771,/
+LHC23zzg,9226,544033,good,,,771,/
+LHC23zzh,9231,544091,good,,,1010,/
+LHC23zzh,9231,544095,good,,,1010,/
+LHC23zzh,9231,544098,good,,,1010,/
+LHC23zzh,9232,544116,good,,,1010,/
+LHC23zzh,9232,544121,good,,,1010,/
+LHC23zzh,9232,544122,good,,,1010,/
+LHC23zzh,9232,544123,good,,,1010,/
+LHC23zzh,9232,544124,good,,,1010,/
+LHC23zzh,9232,544126,good,low IR => large background contribution at phi > 0,,1010,/
+LHC23zzi,9234,544167,good,,,1088,/
+LHC23zzi,9235,544180,bad,FLP 182 lost,,1088,/
+LHC23zzi,9235,544184,good,,,1088,/
+LHC23zzi,9235,544185,good,,,1088,/
+LHC23zzi,9237,544384,good,,,1088,/
+LHC23zzi,9237,544389,good,,,1088,/
+LHC23zzi,9237,544390,good,,,1088,/
+LHC23zzi,9237,544391,good,,,1088,/
+LHC23zzi,9237,544392,good,,,1088,/
+LHC23zzj,9239,544418,not participating,,,324,/
+LHC23zzj,9239,544420,not participating,,,324,/
+LHC23zzj,9240,544434,not participating,,,324,/
+LHC23zzk,9242,544451,good,,,1088,/
+LHC23zzk,9242,544454,good,,,1088,/
+LHC23zzk,9245,544474,good,,,1088,/
+LHC23zzk,9245,544475,limited,RU H0D1F0Z1 sends corr. data; mft-stf-decoder crash,,1088,/
+LHC23zzk,9245,544476,limited,a dip in the phi distribution around -1.3,,1088,/
+LHC23zzk,9245,544477,limited,a dip in the phi distribution around -1.3,,1088,/
+LHC23zzk,9246,544490,good,,,1088,/
+LHC23zzk,9246,544491,good,,,1088,/
+LHC23zzk,9246,544492,good,,,1088,/
+LHC23zzk,9247,544508,good,,,1088,/
+LHC23zzk,9247,544510,good,,,1088,/
+LHC23zzk,9247,544511,good,,,1088,/
+LHC23zzk,9247,544512,good,,,1088,/
+LHC23zzk,9247,544513,good,,,1088,/
+LHC23zzk,9247,544514,good,,,1088,/
+LHC23zzk,9247,544515,good,,,1088,/
+LHC23zzk,9247,544516,good,,,1088,/
+LHC23zzk,9247,544518,good,,,1088,/
+LHC23zzl,9250,544548,good,,,1088,/
+LHC23zzl,9250,544549,good,,,1088,/
+LHC23zzl,9250,544550,good,,,1088,/
+LHC23zzl,9250,544551,good,,,1088,/
+LHC23zzl,9251,544564,good,,,1088,/
+LHC23zzl,9251,544565,good,,,1088,/
+LHC23zzl,9251,544567,good,,,1088,/
+LHC23zzl,9251,544568,good,,,1088,/
+LHC23zzl,9252,544580,good,,,1088,/
+LHC23zzl,9252,544582,good,,,1088,/
+LHC23zzl,9252,544583,good,,,1088,/
+LHC23zzl,9252,544585,good,,,1088,/
+LHC23zzm,9254,544614,bad,FLP 183 stopped sending data soon after the SOR,,1088,/
+LHC23zzm,9256,544640,good,,,1088,/
+LHC23zzm,9258,544652,good,,,1088,/
+LHC23zzm,9258,544653,good,,,1088,/
+LHC23zzm,9258,544654,good,,,1088,/
+LHC23zzm,9260,544672,good,,,1088,/
+LHC23zzm,9260,544674,bad,FLP 183 stopped sending data soon after the SOR,,1088,/
+LHC23zzm,9263,544692,good,,,1088,/
+LHC23zzm,9263,544693,good,,,1088,/
+LHC23zzm,9263,544694,good,,,1088,/
+LHC23zzm,9263,544696,good,,,1088,/
+LHC23zzm,9268,544739,good,,,880,/
+LHC23zzm,9268,544742,good,,,880,/
+LHC23zzm,9269,544754,good,,,880,/
+LHC23zzm,9270,544767,good,,,880,/
+LHC23zzn,9271,544794,good,,,880,/
+LHC23zzn,9271,544795,good,,,880,/
+LHC23zzn,9271,544797,good,,,880,/
+LHC23zzn,9273,544813,good,,,880,/
+LHC23zzo,9279,544868,good,,,394,/
+LHC23zzo,9281,544886,good,,,880,/
+LHC23zzo,9281,544887,good,,,880,/
+LHC23zzo,9281,544894,good,,,880,/
+LHC23zzo,9281,544896,good,,,880,/
+LHC23zzo,9282,544911,good,,,880,/
+LHC23zzo,9282,544913,good,,,880,/
+LHC23zzo,9282,544914,good,,,880,/
+LHC23zzo,9282,544917,good,,,880,/
+LHC23zzo,9283,544931,good,,,880,/
+LHC23zzo,9284,544947,good,,,880,/
+LHC23zzo,9285,544961,good,,,880,/
+LHC23zzo,9285,544963,good,,,880,/
+LHC23zzo,9285,544964,good,,,880,/
+LHC23zzo,9285,544968,good,,,880,/
+LHC23zzo,9288,544991,good,,,960,/
+LHC23zzo,9288,544992,good,,,960,/
+LHC23zzo,9289,545004,bad,corrupted data,,960,/
+LHC23zzo,9289,545008,not participating,,,960,/
+LHC23zzo,9289,545009,good,,,960,/
+LHC23zzo,9289,545010,good,,,960,/
+LHC23zzo,9291,545041,good,,,960,/
+LHC23zzo,9291,545042,good,,,960,/
+LHC23zzo,9291,545044,good,,,960,/
+LHC23zzo,9291,545047,good,,,960,/
+LHC23zzo,9292,545060,good,,,960,/
+LHC23zzo,9292,545062,good,,,960,/
+LHC23zzo,9292,545063,good,,,960,/
+LHC23zzo,9292,545064,good,,,960,/
+LHC23zzo,9292,545066,good,,,960,/
+LHC23zzo,9294,545086,good,,,960,/
+LHC23zzo,9296,545103,good,,,960,/
+LHC23zzo,9297,545117,good,,,960,/
+LHC23zzo,9301,545171,good,,,880,/
+LHC23zzo,9302,545184,good,,,880,/
+LHC23zzo,9302,545185,good,,,880,/
+LHC23zzo,9305,545210,good,,,880,/
+LHC23zzo,9306,545222,good,,,880,/
+LHC23zzo,9306,545223,good,,,880,/
+LHC23zzo,9309,545246,good,,,880,/
+LHC23zzo,9309,545249,good,,,880,/
+LHC23zzo,9310,545262,good,,,880,/
+LHC23zzo,9312,545289,good,,,875,/
+LHC23zzo,9312,545291,good,,,875,/
+LHC23zzo,9312,545294,good,,,875,/
+LHC23zzo,9312,545295,good,,,875,/
+LHC23zzo,9312,545296,good,,,875,/
+LHC23zzo,9314,545311,good,,,875,/
+LHC23zzo,9314,545312,good,,,875,/
+LHC23zzo,9316,545332,good,,,960,/
+LHC23zzo,9317,545345,good,,,960,/
+LHC23zzo,9319,545367,good,,,960,/
 LHC23zzo,9292,545066,good,,-,960,/
 LHC23zzo,9294,545086,good,,-,960,/
 LHC23zzo,9296,545103,good,,-,960,/

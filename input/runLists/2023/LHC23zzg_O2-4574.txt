@@ -1,0 +1,8 @@
+period=LHC23zzg
+jira=O2-4574
+group=LHC23zzg_apass2
+pass=cpass0,apass1,apass2
+refPass=apass1
+runs:
+544028
+544032

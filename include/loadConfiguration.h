@@ -21,6 +21,8 @@ bool _comparePasses = false;
 bool _rewriteFiles = false;
 bool _oldPath = false;
 bool _plotBand20Pc = true;
+bool _timestampMinusOne = false;
+bool _recreatePlots = false;
 // run list to be loaded from the input file:
 int _nRuns = 0;
 vector<int>* runList = new vector<int>;
@@ -60,6 +62,8 @@ bool loadParameter (string key, string value)
     if(key == "rewriteFiles") _rewriteFiles = to_bool(value);
     if(key == "oldPath") _oldPath = to_bool(value);
     if(key == "plotBand20Pc") _plotBand20Pc = to_bool(value);
+    if(key == "timestampMinusOne") _timestampMinusOne = to_bool(value);
+    if(key == "recreatePlots") _recreatePlots = to_bool(value);
     return true;
 }
 
@@ -185,6 +189,8 @@ bool loadConfigFile (string fname, bool verbose = false)
             << " rewrite files?  " << _rewriteFiles << "\n"
             << " old QC path?    " << _oldPath << "\n"
             << " band at 20%?    " << _plotBand20Pc << "\n"
+            << " timestamp -1?   " << _timestampMinusOne << "\n"
+            << " recreate plots? " << _recreatePlots << "\n"
             << " # runs:         " << _nRuns << "\n"
             << " # run-pass:     " << nRunPass << "\n";         
         for(int i = 0; i < nRunPass; i++) cout << Form("  %03i -> ",i+1) << runList->at(i) << "\n";
