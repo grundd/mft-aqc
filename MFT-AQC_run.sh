@@ -107,7 +107,7 @@ declare -a arr=(
         # '2023/MC_LHC23j5_vs_LHC23zo_apass1'
         # '2023/MC_LHC23j5_vs_LHC23zp_apass1'
         # '2023/MC_LHC23k4b_vs_LHC23pp_apass1'
-        # '2023/MC_LHC23k4b_vs_LHC23pp_apass1_bkg'
+        # '2023/MC_LHC23k4b_vs_LHC23n+zk_apass1'
         # '2023/MC_LHC23k6c_vs_LHC23PbPb_apass1'
         # '2023/MC_LHC23k6d_vs_LHC23PbPb_apass2'
 )
