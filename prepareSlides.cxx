@@ -4,6 +4,7 @@
 
 // root
 #include "TSystem.h"
+#include "TROOT.h"
 // my headers
 #include "include/utils.h"
 #include "include/loadConfiguration.h"
@@ -74,7 +75,9 @@ void createSummaryPassComparison ()
     for(int r = 0; r < nRuns; r++) 
     {
         int run = rListUnique.at(r);
+        // skip this run, if it's BAD or MFT was not participating
         if(isRun("bad",run) || isRun("not participating",run)) continue;
+        // add the slide
         string fig = Form("%i_leg_",run);
         ofs << R"(\frame{)" << "\n"
             << R"(\frametitle{)" << getRunPeriod(run) << " : " << run;
@@ -86,18 +89,20 @@ void createSummaryPassComparison ()
         float space = 40;
         float y_upp = 11.5;
         float y_low = 49;
-        printFigure(ofs,path,fig+"mMFTTrackEta_5_minClusters","pdf",h,x_min,y_upp);
-        printFigure(ofs,path,fig+"mMFTTrackPhi_5_minClusters","pdf",h,x_min+space,y_upp);
-        printFigure(ofs,path,fig+"mMFTTrackInvQPt","pdf",h,x_min+2*space,y_upp);
-        printFigure(ofs,path,fig+"mMFTTrackNumberOfClusters","pdf",h,x_min,y_low);
-        printFigure(ofs,path,fig+"mMFTTrackROFSize","pdf",h,x_min+space,y_low);
-        printFigure(ofs,path,fig+"mClustersROFSize","pdf",h,x_min+2*space,y_low);
+        bool figsPlotted = true;
+        if(!printFigure(ofs,path,fig+"mMFTTrackEta_5_minClusters","pdf",h,x_min,y_upp)) figsPlotted = false;
+        if(!printFigure(ofs,path,fig+"mMFTTrackPhi_5_minClusters","pdf",h,x_min+space,y_upp)) figsPlotted = false;
+        if(!printFigure(ofs,path,fig+"mMFTTrackInvQPt","pdf",h,x_min+2*space,y_upp)) figsPlotted = false;
+        if(!printFigure(ofs,path,fig+"mMFTTrackNumberOfClusters","pdf",h,x_min,y_low)) figsPlotted = false;
+        if(!printFigure(ofs,path,fig+"mMFTTrackROFSize","pdf",h,x_min+space,y_low)) figsPlotted = false;
+        if(!printFigure(ofs,path,fig+"mClustersROFSize","pdf",h,x_min+2*space,y_low)) figsPlotted = false;
         // printFigure(ofs,path,fig+"mMFTTrackEta_6_minClusters","pdf",h,x_min,y_upp);
         // printFigure(ofs,path,fig+"mMFTTrackEta_7_minClusters","pdf",h,x_min+space,y_upp);
         // printFigure(ofs,path,fig+"mMFTTrackEta_8_minClusters","pdf",h,x_min+2*space,y_upp);
         // printFigure(ofs,path,fig+"mMFTTrackPhi_6_minClusters","pdf",h,x_min,y_low);
         // printFigure(ofs,path,fig+"mMFTTrackPhi_7_minClusters","pdf",h,x_min+space,y_low);
         // printFigure(ofs,path,fig+"mMFTTrackPhi_8_minClusters","pdf",h,x_min+2*space,y_low);
+        if(!figsPlotted) ofs << R"({\small QC objects for )" << _refPass << " not available}\n";
         ofs << "}" << "\n\n";
     }
     ofs.close();

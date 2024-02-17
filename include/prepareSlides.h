@@ -176,11 +176,16 @@ void printRunList (ofstream& ofs)
     return;
 }
 
-void printFigure (ofstream& ofs, string path, string fig, string ftype,
+bool printFigure (ofstream& ofs, string path, string fig, string ftype,
     float height, float x1, float y1)
 {
-    ofs << R"(\begin{textblock*}{0mm}()" << x1 << "mm," << y1 << "mm)\n"
-        << R"(\includegraphics[height=)" << height << "mm]{" << path << fig << "." << ftype << "}\n"
-        << R"(\end{textblock*})" << "\n";
-    return;
+    // skip the plot if it has not been created
+    // otherwise, latex throws an error
+    bool figExists = !gSystem->AccessPathName(Form("plots/%s/%s.%s",_group.data(),fig.data(),ftype.data()));
+    if(figExists) {
+        ofs << R"(\begin{textblock*}{0mm}()" << x1 << "mm," << y1 << "mm)\n"
+            << R"(\includegraphics[height=)" << height << "mm]{" << path << fig << "." << ftype << "}\n"
+            << R"(\end{textblock*})" << "\n";
+        return true;
+    } else return false;
 }

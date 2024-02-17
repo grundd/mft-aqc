@@ -144,7 +144,7 @@ void plotComparison(int first, int N, string name, string title, string option, 
         return;
     }
     if(N > 3*nColors) {
-        cout << "Too many runs (max 27).\n";
+        cout << "Too many runs (max 30).\n";
         return;
     }
 

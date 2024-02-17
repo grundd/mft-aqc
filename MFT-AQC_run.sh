@@ -104,6 +104,7 @@ declare -a arr=(
         # 'PbPb_IR_groups/25-30kHz'
         # 'PbPb_IR_groups/30-45kHz'
     # MC
+        # '2022/MC_LHC23k2c_vs_LHC22pp_apass4'
         # '2023/MC_LHC23j5_vs_LHC23zo_apass1'
         # '2023/MC_LHC23j5_vs_LHC23zp_apass1'
         # '2023/MC_LHC23k4b_vs_LHC23pp_apass1'
