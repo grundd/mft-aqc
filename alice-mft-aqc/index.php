@@ -19,9 +19,6 @@
         <h2>2023 Pb+Pb</h2>
         <?php include "./2023_PbPb.html" ?>
 
-        <h2>MC production</h2>
-        <?php include "./MC.html" ?>
-
         <h2>2023: extra reports</h2>
         <ul>
             <li><a href="reports/LHC23zs_apass2_vs_1.pdf">LHC23zs_apass2_vs_1.pdf</a></li>
@@ -29,6 +26,15 @@
         </ul>
 
         <h2>2022</h2>
-        to be added
+        <ul>
+            <li><a href="reports/LHC22o_apass6.pdf">LHC22o_apass6.pdf</a></li>
+            <li><a href="reports/LHC22p_apass2.pdf">LHC22p_apass2.pdf</a></li>
+            <li><a href="reports/LHC22p_apass3.pdf">LHC22p_apass3.pdf</a></li>
+            <li><a href="reports/LHC22q_apass2.pdf">LHC22q_apass2.pdf</a></li>
+            <li><a href="reports/LHC22q_apass3.pdf">LHC22q_apass3.pdf</a></li>
+        </ul>
+
+        <h2>MC production</h2>
+        <?php include "./MC.html" ?>
     </body>
 </html>

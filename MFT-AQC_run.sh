@@ -11,6 +11,8 @@ declare -a arr=(
     # apass3
         # '2022/LHC22p_O2-3573'
         # '2022/LHC22q_O2-3569'
+    # newer passes:
+        # '2022/LHC22o_O2-4663'
     # 2023:
         # '2023/544475+544476'
     # cpass0:
@@ -111,6 +113,7 @@ declare -a arr=(
         # '2023/MC_LHC23k4b_vs_LHC23n+zk_apass1'
         # '2023/MC_LHC23k6c_vs_LHC23PbPb_apass1'
         # '2023/MC_LHC23k6d_vs_LHC23PbPb_apass2'
+        # '2023/MC_LHC23k6_TRDFix_cycle0_vs_LHC23PbPb_apass2'
 )
 
 do_aqc () {
