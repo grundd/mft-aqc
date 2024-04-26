@@ -56,7 +56,6 @@ bool createHtml(string dataset)
         ofs << "</tr>\n";
         iRow++;
     }
-    
 
     // header row 2
     ofs << "<tr> ";
@@ -70,6 +69,8 @@ bool createHtml(string dataset)
         ofs << "<td>" << table[i][0] << "</td> "; // period name
         for(int j = 0; j < passes; j++) {
             int col = 1+2*j;
+            //string pass = "";
+            //if(dataset != "MC") pass = table[0][col] + "/";
             // JIRA:
             string jira = table[i][col];
             if(jira == "" || jira == "-") ofs << "<td>" << jira << "</td> ";
@@ -82,7 +83,11 @@ bool createHtml(string dataset)
             }
             // report:
             string report = table[i][col];
-            if(report == "" || report == "-" || report == "VdM scans") ofs << "<td>" << report << "</td> ";
+            if(report == "" 
+                || report == "-" 
+                || report == "VdM scans"
+                || report == "not for physics"
+            ) ofs << "<td>" << report << "</td> ";
             else ofs << "<td>" << "<a href='reports/" << report << ".pdf'>" << report << ".pdf</a>" << "</td> ";
             col++;
             // MC: description
@@ -104,6 +109,7 @@ void createHtmlTables ()
 {
     createHtml("2023_pp");
     createHtml("2023_PbPb");
+    createHtml("2024_pp");
     createHtml("MC");
     return;
 }

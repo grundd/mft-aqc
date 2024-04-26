@@ -8,16 +8,20 @@
     <body>
         <h1>ALICE MFT Asynchronous QC</h1>
         <p><a href="https://docs.google.com/spreadsheets/d/1h16tgJ4k90bdZ45qB3fpbw9DqZPEyc02FR2wl0bckyE/edit?usp=sharing">MFT A-QC Google Sheet</a></p>
-        <p>QC Summary Tables: 
+        <p>QC Summary Tables (RCTs): 
+        <a href="https://docs.google.com/spreadsheets/d/1ZI8RWtJfl9le0GdtaQ3lzJwcqgYPiWSAc9Md4hvkxTk/">2024 pp</a>, 
         <a href="https://docs.google.com/spreadsheets/d/1vsl-pkLdUoNXZm6muPyMENWdDSKM7UDtQLcXc2B9QhE/">2023 PbPb</a>, 
         <a href="https://docs.google.com/spreadsheets/d/1YBQLXWwwc3aC3B_PYVpFkTgEP0n6u1ovtYfiCOMWnTc/">2023 pp</a>, 
         <a href="https://docs.google.com/spreadsheets/d/14vXFYVx3oVE8wgJKmIBhjvAt6NpGp7D6H4AmBM9E0Cw/">2022</a></p>
 
-        <h2>2023 pp</h2>
-        <?php include "./2023_pp.html" ?>
-        
+        <h2>2024 pp</h2>
+        <?php include "./2024_pp.html" ?>
+
         <h2>2023 Pb+Pb</h2>
         <?php include "./2023_PbPb.html" ?>
+
+        <h2>2023 pp</h2>
+        <?php include "./2023_pp.html" ?>
 
         <h2>2023: extra reports</h2>
         <ul>
@@ -27,14 +31,16 @@
 
         <h2>2022</h2>
         <ul>
+            <li><a href="reports/LHC22f_apass4.pdf">LHC22f_apass4.pdf</a></li>
             <li><a href="reports/LHC22o_apass6.pdf">LHC22o_apass6.pdf</a></li>
             <li><a href="reports/LHC22p_apass2.pdf">LHC22p_apass2.pdf</a></li>
             <li><a href="reports/LHC22p_apass3.pdf">LHC22p_apass3.pdf</a></li>
             <li><a href="reports/LHC22q_apass2.pdf">LHC22q_apass2.pdf</a></li>
             <li><a href="reports/LHC22q_apass3.pdf">LHC22q_apass3.pdf</a></li>
+            <li><a href="reports/LHC22s_apass5.pdf">LHC22s_apass5.pdf</a></li>
         </ul>
 
-        <h2>MC production</h2>
+        <h2>MC productions</h2>
         <?php include "./MC.html" ?>
     </body>
 </html>
