@@ -76,7 +76,7 @@ struct histogram_list
       }
     }
     // fill the list of histograms
-    for(int i = 1; i < (int)table.size(); i++) {
+    for(int i = 2; i < (int)table.size(); i++) {
       histogram h(table[i][0],table[i][1],table[i][2],table[i][3],
         table[i][4],table[i][5],table[i][6]);
       vect_histos.push_back(h);
