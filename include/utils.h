@@ -1,6 +1,6 @@
-// MFT asynchronous Quality Control
-// utils.h
-// David Grund, Oct 5, 2023
+// MFT Asynchronous Quality Control
+// David Grund
+// 2024
 
 #include <sstream>
 
