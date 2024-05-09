@@ -1,24 +1,29 @@
-// MFT asynchronous Quality Control
-// downloadQCObjects.cxx
-// David Grund, Oct 5, 2023
+// MFT Asynchronous Quality Control
+// David Grund
+// 2024
+
+// root 'downloadQCObjects.cxx("'input/runLists/2024/LHC24aa_O2-4810.txt'")'
 
 #include "CCDB/CcdbApi.h"
 // my headers
+#include "include/load-list-of-histograms.h"
+
 #include "include/utils.h"
 #include "include/loadConfiguration.h"
 #include "include/loadGlobalRunMap.h"
-#include "include/loadHistoLists.h"
 
 o2::ccdb::CcdbApi api_ccdb;
 o2::ccdb::CcdbApi api_qcdb;
-o2::ccdb::CcdbApi api_test;
+o2::ccdb::CcdbApi api_qcdbmc;
+histogram_list full_hlist;
+//configuration config;
 
-long getTimestamp (int runNo, string pass) 
+long getTimestamp (int run_no, string pass) 
 {
     long timestamp = -1; // 1703980800000;
     if(!_timestampMinusOne) 
     {
-        map<string, string> hdRCT = api_ccdb.retrieveHeaders("RCT/Info/RunInformation", map<string, string>(), runNo);
+        map<string, string> hdRCT = api_ccdb.retrieveHeaders("RCT/Info/RunInformation", map<string, string>(), run_no);
         const auto startRCT = hdRCT.find("SOR");
         if (startRCT != hdRCT.end()) {
             timestamp = stol(startRCT->second);
@@ -31,119 +36,99 @@ long getTimestamp (int runNo, string pass)
 }
 
 template <typename TH>
-TH* downloadHisto(string histName, int runNo, string pass, long timestamp, bool verbose = true)
+TH* downloadHisto(string hname, int run_no, string pass, long timestamp, bool verbose = true)
 {
     // options to specify:
-    string spec_run = to_string(runNo);
-    string spec_pas = "";
-    string spec_per = "";
-    string spec_ver = ""; //"1.119.0"; // (!)
+    string specify_run = std::to_string(run_no);
+    string specify_pass = "";
+    string specify_period = "";
+    string specify_version = "";
     // evaluate metadata inputs:
-    if(pass != "online") spec_pas = pass;
-    if(pass == "passMC" && _periodMC != "none") spec_per = _periodMC;
+    if(pass != "online") specify_pass = pass;
+    if(pass == "passMC" && _periodMC != "none") specify_period = _periodMC;
     // create metadata:
     map<string, string> metadata;
-    metadata["RunNumber"] = spec_run;
-    if(spec_pas != "") metadata["PassName"] = spec_pas;
-    if(spec_per != "") metadata["PeriodName"] = spec_per;
-    if(spec_ver != "") metadata["qc_version"] = spec_ver;
+    metadata["RunNumber"] = specify_run;
+    if(specify_pass != "") metadata["PassName"] = specify_pass;
+    if(specify_period != "") metadata["PeriodName"] = specify_period;
+    if(SET_QC_VERSION != "") metadata["qc_version"] = specify_version;
     // print the used metadata:
     if(verbose) {
         cout << "\nmetadata specifications: \n";
-        cout << " -> RunNumber=" << spec_run;
-        if(spec_pas != "") cout << ", PassName=" << spec_pas;
-        if(spec_per != "") cout << ", PeriodName=" << spec_per;
-        if(spec_ver != "") cout << ", qc_version=" << spec_ver;
+        cout << " -> RunNumber=" << specify_run;
+        if(specify_pass != "") cout << ", PassName=" << specify_pass;
+        if(specify_period != "") cout << ", PeriodName=" << specify_period;
+        if(specify_version != "") cout << ", qc_version=" << specify_version;
         cout << "\n";
     }
     TH* h = NULL;
-    if(pass == "passMC") h = api_test.retrieveFromTFileAny<TH>(histName,metadata,timestamp);
-    else                 h = api_qcdb.retrieveFromTFileAny<TH>(histName,metadata,timestamp);
+    if(pass == "passMC") h = api_qcdbmc.retrieveFromTFileAny<TH>(hname,metadata,timestamp);
+    else                 h = api_qcdb.retrieveFromTFileAny<TH>(hname,metadata,timestamp);
     return h;
 }
 
-void downloadHistos(string period, int runNo, string pass)
+void downloadHistos(string period, int run_no, string pass)
 {
-    gSystem->Exec(Form("mkdir -p rootFiles/%s/",period.data()));
+    gSystem->Exec(Form("mkdir -p %s%s/",ROOT_FILES_FOLDER.data(),period.data()));
     // check if the file already exists
-    string sFile = Form("rootFiles/%s/%i_%s.root",period.data(),runNo,pass.data());
-    bool fileExists = !gSystem->AccessPathName(sFile.data());
-    if(fileExists && !_rewriteFiles) {
-        cout << sFile << ": already downloaded -> skipping...\n";
+    string fname = Form("%s%s/%i_%s.root",ROOT_FILES_FOLDER.data(),period.data(),run_no,pass.data());
+    bool file_exists = !gSystem->AccessPathName(fname.data());
+    if(file_exists && !_rewriteFiles) {
+        cout << fname << " : already downloaded -> skipping\n";
     } else {
-        cout << sFile << ": will be downloaded now.\n";
-        long timestamp = getTimestamp(runNo,pass);
-        TFile* f = new TFile(sFile.data(),"recreate");
-        string sCls;
-        string sTrk;
+        cout << fname << " : will be downloaded now\n";
+        long timestamp = getTimestamp(run_no,pass);
+        TFile* f = new TFile(fname.data(),"recreate");
+        string s_cls;
+        string s_trks;
+        int ver = 0;
+        if (_oldPath) ver = 1;
         // online QC
-        if(pass == "online") {
-            if(_oldPath) {
-                sCls = "qc/MFT/MO/MFTAsyncTask/clusters/";
-                sTrk = "qc/MFT/MO/MFTAsyncTask/tracks/";
-            } else {
-                sCls = "qc/MFT/MO/MFTClusterTask/";
-                sTrk = "qc/MFT/MO/MFTAsyncTask/";
-            }
-        // async QC for MC
-        } else if(pass == "passMC") {
-            if(_oldPath) {
-                sCls = "qc_mc/MFT/MO/Tracks/clusters/";
-                sTrk = "qc_mc/MFT/MO/Tracks/tracks/";
-            } else {
-                sCls = "qc_mc/MFT/MO/Clusters/";
-                sTrk = "qc_mc/MFT/MO/Tracks/";
-            }
-        // async QC for data
+        if (pass == "online") {
+          s_cls = PATH_QC_CLS[ver];
+          s_trks = PATH_QC_TRKS[ver];
+        // async QC of MC data
+        } else if (pass == "passMC") {
+          s_cls = PATH_MC_CLS[ver];
+          s_trks = PATH_MC_TRKS[ver];
+        // async QC of data
         } else {
-            if(_oldPath) {
-                sCls = "qc_async/MFT/MO/Tracks/clusters/";
-                sTrk = "qc_async/MFT/MO/Tracks/tracks/";
-            } else {
-                sCls = "qc_async/MFT/MO/Clusters/";
-                sTrk = "qc_async/MFT/MO/Tracks/";
-            }
+          s_cls = PATH_AQC_CLS[ver];
+          s_trks = PATH_AQC_TRKS[ver];
         }
-        // track position
-        vector<string>* tracks_th2f = loadHistoList("input/QCObjectLists/Tracks_TH2F.txt",sTrk);
-        for(int i = 0; i < tracks_th2f->size(); i++) {
-            TH2F* h = downloadHisto<TH2F>(tracks_th2f->at(i),runNo,pass,timestamp);
+        // tracks : TH2F
+        vector<histogram> hlist = full_hlist.get_list_to_download("track","TH2F");
+        for(auto hist : hlist) {
+            TH2F* h = downloadHisto<TH2F>(s_trks+hist.name,run_no,pass,timestamp);
             if(h) {
-                cout << "run " << runNo << ", " << pass << ": " << h->GetName() << " loaded\n";
+                cout << "run " << run_no << ", " << pass << ": " << h->GetName() << " downloaded\n";
                 f->cd();
-                h->Write(renameHisto(h->GetName()).data());
+                h->Write(hist.name_short.data());
             }
         }
-        // track kinematics
-        vector<string>* tracks_th1f = loadHistoList("input/QCObjectLists/Tracks_TH1F.txt",sTrk);
-        for(int i = 0; i < tracks_th1f->size(); i++) {
-            TH1F* h = downloadHisto<TH1F>(tracks_th1f->at(i),runNo,pass,timestamp);
+        // tracks : TH1F
+        hlist = full_hlist.get_list_to_download("track","TH1F");
+        for(auto hist : hlist) {
+            TH1F* h = downloadHisto<TH1F>(s_trks+hist.name,run_no,pass,timestamp);
             if(h) {
-                cout << "run " << runNo << ", " << pass << ": " << h->GetName() << " loaded\n";
+                cout << "run " << run_no << ", " << pass << ": " << h->GetName() << " downloaded\n";
                 f->cd();
-                h->Write(renameHisto(h->GetName()).data());
+                h->Write(hist.name_short.data());
             }
         }
-        // clusters info
-        vector<string>* clusters = NULL;
-        if(_oldPath) clusters = loadHistoList("input/QCObjectLists/Clusters_old.txt",sCls);
-        else         clusters = loadHistoList("input/QCObjectLists/Clusters_new.txt",sCls);
-        if(true) {
-            for(int i = 0; i < clusters->size(); i++) {
-                TH1F* h = downloadHisto<TH1F>(clusters->at(i),runNo,pass,timestamp);
-                if(h) {
-                    cout << "run " << runNo << ", " << pass << ": " << h->GetName() << " loaded\n";
-                    f->cd();
-                    h->Write(renameHisto(h->GetName()).data());
-                }
+        // clusters : TH1F
+        hlist = full_hlist.get_list_to_download("cluster","TH1F");
+        for(auto hist : hlist) {
+            TH1F* h = downloadHisto<TH1F>(s_cls+hist.name,run_no,pass,timestamp);
+            if(h) {
+                cout << "run " << run_no << ", " << pass << ": " << h->GetName() << " downloaded\n";
+                f->cd();
+                h->Write(hist.name_short.data());
             }
         }
-        // save the file and terminate
+        // save the file
         f->Write("",TObject::kWriteDelete);
         f->Close();
-        delete tracks_th2f;
-        delete tracks_th1f;
-        delete clusters;
     }
     return;
 }
@@ -153,18 +138,19 @@ void downloadQCObjects (string input = "")
     cout << "\ndownloadQCObjects.cxx: \n";
     if(!loadConfigFile(input)) return;
     if(!loadGlobalRunMap()) return;
+    full_hlist.load_from_csv(PATH_TO_HISTO_LIST);
 
-    // connect to ccdb    
-    api_qcdb.init("ali-qcdb-gpn.cern.ch:8083");
-    api_test.init("ccdb-test.cern.ch:8080");
+    // connect to ccdb, qcdb, qcdbmc    
     api_ccdb.init("alice-ccdb.cern.ch");
+    api_qcdb.init("ali-qcdb-gpn.cern.ch:8083");
+    api_qcdbmc.init("ali-qcdbmc-gpn.cern.ch:8083");
 
     int nRunPass = runList->size();
     for(int r = 0; r < nRunPass; r++) {
-        int runNo = runList->at(r);
+        int run_no = runList->at(r);
         string pass = passList->at(r);
-        string period = getRunPeriod(runNo,pass);
-        downloadHistos(period,runNo,pass);
+        string period = getRunPeriod(run_no,pass);
+        downloadHistos(period,run_no,pass);
     }
 
     // download also the reference run, in case it is not a part of the ticket
