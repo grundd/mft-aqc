@@ -1,0 +1,32 @@
+task,type,name,title,options,download,plot,/
+track,TH2F,mMFTTrackEtaPhi_5_MinClusters,"Track #eta, #phi (NCls >= 5)",-,-,-,/
+track,TH2F,mMFTTrackXY_5_MinClusters,Track Position (NCls >= 5),-,-,-,/
+track,TH2F,mMFTTrackEtaPhi_7_MinClusters,"Track #eta, #phi (NCls >= 7)",-,-,-,/
+track,TH2F,mMFTTrackXY_7_MinClusters,Track Position (NCls >= 7),-,-,-,/
+track,TH1F,mMFTTrackEta_5_MinClusters,Track #eta (NCls >= 5),plotSeparateLegend,y,y,/
+track,TH1F,mMFTTrackEta_6_MinClusters,Track #eta (NCls >= 6),-,y,-,/
+track,TH1F,mMFTTrackEta_7_MinClusters,Track #eta (NCls >= 7),-,y,-,/
+track,TH1F,mMFTTrackEta_8_MinClusters,Track #eta (NCls >= 8),-,y,-,/
+track,TH1F,mMFTTrackEta_9_MinClusters,Track #eta (NCls >= 9),-,y,-,/
+track,TH1F,mMFTTrackEta_10_MinClusters,Track #eta (NCls >= 10),-,y,-,/
+track,TH1F,mMFTTrackPhi_5_MinClusters,Track #phi (NCls >= 5),-,y,y,/
+track,TH1F,mMFTTrackPhi_6_MinClusters,Track #phi (NCls >= 6),-,y,-,/
+track,TH1F,mMFTTrackPhi_7_MinClusters,Track #phi (NCls >= 7),-,y,-,/
+track,TH1F,mMFTTrackPhi_8_MinClusters,Track #phi (NCls >= 8),-,y,-,/
+track,TH1F,mMFTTrackPhi_9_MinClusters,Track #phi (NCls >= 9),-,y,-,/
+track,TH1F,mMFTTrackPhi_10_MinClusters,Track #phi (NCls >= 10),-,y,-,/
+track,TH1F,mMFTTrackTanl,Track tan #lambda,-,y,-,/
+track,TH1F,mMFTTrackInvQPt,Track q/p_{T},-,y,y,/
+track,TH1F,mMFTTrackCharge,Track Charge,-,y,-,/
+track,TH1F,mMFTTrackChi2,Track #chi^{2}/NDF,-,y,-,/
+track,TH1F,mMFTTrackNumberOfClusters,# clusters per track,-,y,y,/
+track,TH1F,mMFTTrackROFSize,Distribution of the #tracks per ROF,logx logy rebinROF noratio,y,y,/
+track,TH1F,mMFTTracksBC,Tracks per BC,-,y,-,/
+track,TH1F,mAssociatedClusterFraction,Fraction of clusters in tracks,logy noratio,y,-,/
+track,TH1F,CA/mMFTCATrackPt,CA Track p_{T} ,-,-,-,/
+track,TH1F,LTF/mMFTLTFTrackPt,LTF Track p_{T},-,-,-,/
+track,TH1F,CA/mMFTCATrackEta,CA Track #eta,-,-,-,/
+track,TH1F,LTF/mMFTLTFTrackEta,LTF Track #eta,-,-,-,/
+cluster,TH1F,mClusterPatternIndex,Cluster Pattern ID,-,-,-,/
+cluster,TH1F,mClusterOccupancy,Chip Cluster Occupancy,-,-,-,/
+cluster,TH1F,mClustersROFSize,Distribution of the #clusters per ROF,logx logy rebinROF noratio,y,y,/
