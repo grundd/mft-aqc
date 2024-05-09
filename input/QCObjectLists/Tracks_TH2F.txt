@@ -1,4 +1,0 @@
-mMFTTrackEtaPhi_5_MinClusters
-mMFTTrackXY_5_MinClusters
-mMFTTrackEtaPhi_7_MinClusters
-mMFTTrackXY_7_MinClusters

@@ -1,3 +1,0 @@
-mMFTClusterPatternIndex
-mMFTClusterSensorIndex
-mMFTClustersROFSize
