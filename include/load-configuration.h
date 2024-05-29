@@ -46,13 +46,19 @@ class configuration
     int n_runs;
     vector<int> run_list;
     int n_combs;
-    vector<run_specifier> comb_list; // (run, pass, period_mc) list
+    vector<run_specifier> full_list; // (run, pass, period_mc) list
   public:
     configuration ();
     bool load_parameter (string key, string val);
     bool check ();
     void print ();
     bool load_from_file (string fname, bool verbose = false);
+    vector<run_specifier> get_full_list () { return full_list; }
+    run_specifier get_ref_run () { return run_specifier(ref_run, ref_pass, ref_period_mc); }
+    string get_compare () { return compare; }
+    long get_timestamp () { return timestamp; }
+    bool is_rewrite_qc_files () { return rewrite_qc_files; }
+    bool is_old_path () { return old_path; }
 };
 
 configuration::configuration():
@@ -65,7 +71,7 @@ configuration::configuration():
   n_passes(0), pass_list(), 
   n_periods_mc(0), period_mc_list(),
   n_runs(0), run_list(),
-  n_combs(0), comb_list()
+  n_combs(0), full_list()
 {
   // default constructor
 }
@@ -195,7 +201,7 @@ void configuration::print ()
     << " # (run,pass,MC period): " << n_combs << "\n"
     << "\n";
   int i(1);
-  for(auto r : comb_list) {
+  for(auto r : full_list) {
     printf("   %03i -> %i, %s", i, r.run, r.pass.data());
     if (r.period_mc != "") printf(", %s\n", r.period_mc.data());
     else printf("\n");
@@ -239,12 +245,12 @@ bool configuration::load_from_file (string fname, bool verbose)
         for(auto ps : pass_list) {
           if(ps == "passMC") {
             for(auto per_mc : period_mc_list) {
-              comb_list.push_back(run_specifier(stoi(run),ps,per_mc));
+              full_list.push_back(run_specifier(stoi(run),ps,per_mc));
             }
           } else {
-            comb_list.push_back(run_specifier(stoi(run),ps));
+            full_list.push_back(run_specifier(stoi(run),ps));
           }
-          n_combs = (int)comb_list.size();
+          n_combs = (int)full_list.size();
         }
       }
     }

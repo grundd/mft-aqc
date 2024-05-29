@@ -9,8 +9,6 @@
 #include <sstream>
 #include <map>
 
-#include "global-settings.h"
-
 struct run_info
 {
   string period;

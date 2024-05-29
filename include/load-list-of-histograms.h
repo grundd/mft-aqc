@@ -8,8 +8,6 @@
 #include <sstream>
 #include <iostream>
 
-#include "global-settings.h"
-
 string get_name_short (string name)
 {
     string name_short = name;

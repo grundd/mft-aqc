@@ -1,3 +1,7 @@
+// MFT Asynchronous Quality Control
+// David Grund
+// 2024
+
 string SET_QC_VERSION = "";
 char csv_delimiter = ',';
 string STR_TRUE = "y";
