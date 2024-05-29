@@ -88,7 +88,7 @@ struct histogram_list
   {
     vector<histogram> list;
     for(auto h : vect_histos) {
-      if ((h.download == STRING_TRUE)
+      if ((h.download == STR_TRUE)
         && (h.task == _task)
         && (h.type == _type)
       ) list.push_back(h);
@@ -99,8 +99,8 @@ struct histogram_list
   {
     vector<histogram> list;
     for(auto h : vect_histos) {
-      if ((h.download == STRING_TRUE)
-        && (h.plot == STRING_TRUE)
+      if ((h.download == STR_TRUE)
+        && (h.plot == STR_TRUE)
         && (h.task == _task)
         && (h.type == _type)
       ) list.push_back(h);

@@ -24,12 +24,12 @@ long getTimestamp (int run_no, string pass)
     if(!_timestampMinusOne) 
     {
         map<string, string> hdRCT = api_ccdb.retrieveHeaders("RCT/Info/RunInformation", map<string, string>(), run_no);
-        const auto startRCT = hdRCT.find("SOR");
+        const auto startRCT = hdRCT.find(STR_SOR);
         if (startRCT != hdRCT.end()) {
             timestamp = stol(startRCT->second);
-            cout << "SOR found, timestamp: " << timestamp << "\n";
+            cout << STR_SOR << " found, timestamp: " << timestamp << "\n";
         } else {
-            cout << "SOR not found in headers!" << "\n";
+            cout << STR_SOR << " not found in headers!" << "\n";
         }
     }
     return timestamp;

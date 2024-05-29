@@ -1,6 +1,7 @@
 string SET_QC_VERSION = "";
 char csv_delimiter = ',';
-string STRING_TRUE = "y";
+string STR_TRUE = "y";
+string STR_SOR = "SOR";
 string ROOT_FILES_FOLDER = "root_files/";
 string PATH_TO_HISTO_LIST = "input/list-of-histograms.csv";
 // qc paths: new, old
