@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <map>
 
 #include "global-settings.h"
 
@@ -36,6 +37,15 @@ class run_map
     run_map();
     void print();
     bool load_from_file (bool print = false, bool debug = false);
+    bool run_in_map(int r);
+    bool is_run(int r, string quality);
+    // get functions
+    string get_run_period(int r) { return (run_in_map(r) ? r_map.at(r).period : "N/A"); }
+    int get_run_fill(int r) { return (run_in_map(r) ? r_map.at(r).fill : -1); }
+    string get_run_quality(int r) { return (run_in_map(r) ? r_map.at(r).quality : "N/A!"); }
+    string get_run_comment(int r) { return (run_in_map(r) ? r_map.at(r).comment : "N/A!"); }
+    string get_run_int_rate(int r) { return (run_in_map(r) ? r_map.at(r).int_rate : "N/A!"); }
+    int get_run_coll_bcs(int r) { return (run_in_map(r) ? r_map.at(r).coll_bcs : -1); }
 };
 
 run_map::run_map():
@@ -81,13 +91,13 @@ bool run_map::load_from_file (bool verbose, bool debug)
   }
   // print the loaded values?
   if(debug) {
-    for(int i = 0; i < content.size(); i++) {
-      for(int j = 0; j < content[i].size(); j++) cout << content[i][j] << "\t";
+    for(int i = 0; i < (int)content.size(); i++) {
+      for(int j = 0; j < (int)content[i].size(); j++) cout << content[i][j] << "\t";
       cout << "\n";
     }
   }
   // fill the run map
-  for(int i = 1; i < content.size(); i++) {
+  for(int i = 1; i < (int)content.size(); i++) {
       run_info rinf(content[i][0],stoi(content[i][1]),content[i][3],content[i][4],content[i][5],stoi(content[i][6]));
       int run = stoi(content[i][2]);
       r_map.insert({run,rinf});
@@ -96,4 +106,19 @@ bool run_map::load_from_file (bool verbose, bool debug)
   if(verbose) print();
   cout << "Run map loaded successfully\n";
   return true;
+}
+
+bool run_map::run_in_map(int r)
+{
+  if(r_map.find(r) == r_map.end()) { // not found
+    cout << "Run " << r << " missing in the run map\n";
+    return false;
+  } else return true;
+}
+
+bool run_map::is_run(int r, string quality)
+{
+  string q;
+  run_in_map(r) ? q = r_map.at(r).quality : q = "N/A";
+  return (q == quality ? true : false);
 }
