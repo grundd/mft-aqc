@@ -12,15 +12,15 @@
 // my headers
 #include "include/global-settings.h"
 #include "include/load-configuration.h"
-#include "include/load-global-run-map.h"
 #include "include/load-list-of-histograms.h"
 
 o2::ccdb::CcdbApi api_ccdb;
 o2::ccdb::CcdbApi api_qcdb;
 o2::ccdb::CcdbApi api_qcdbmc;
-histogram_list full_hlist;
-configuration cfg; // global configuration
+
 run_map grm; // global run map
+configuration cfg; // global configuration
+histogram_list full_hlist;
 
 long get_timestamp (int run) 
 {
@@ -69,9 +69,7 @@ void download_histos(run_specifier rsp)
 {
   int run = rsp.run;
   string pass = rsp.pass;
-  string period_mc = rsp.period_mc;
-  string period = grm.get_run_period(run);
-  if(pass == "passMC") period = period_mc;
+  string period = rsp.period;
 
   gSystem->Exec(Form("mkdir -p %s%s/",ROOT_FILES_FOLDER.data(),period.data()));
   string fname = Form("%s%s/%i_%s.root",ROOT_FILES_FOLDER.data(),period.data(),run,pass.data());
@@ -141,8 +139,8 @@ void download_histos(run_specifier rsp)
 void download_qc_objects (string input = "", bool verbose = false)
 {
   cout << "\n download_qc_objects.cxx: \n";
-  if(!cfg.load_from_file(input, verbose)) return;
   if(!grm.load_from_file(verbose, false)) return;
+  if(!cfg.load_from_file(input, grm, verbose)) return;
   full_hlist.load_from_csv(PATH_TO_HISTO_LIST);
 
   // connect to ccdb, qcdb, qcdbmc    
@@ -154,7 +152,7 @@ void download_qc_objects (string input = "", bool verbose = false)
   for(auto r : list_full) download_histos(r);
 
   // download the reference run, in case it might not be part of the ticket
-  if(cfg.get_compare() == "runs") download_histos(cfg.get_ref_run());
+  if(cfg.get_compare() == "runs") download_histos(cfg.get_ref_run(grm));
 
   cout << "Done\n\n";
   return;

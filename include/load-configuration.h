@@ -7,17 +7,19 @@
 #include <fstream>
 #include <iostream>
 
+// my headers
 #include "utils.h"
+#include "load-global-run-map.h"
 
 struct run_specifier
 {
   int run;
   string pass;
-  string period_mc;
-  run_specifier (int r, string ps, string per_mc = "") {
+  string period;
+  run_specifier (int r, string ps, string per) {
     run = r;
     pass = ps;
-    period_mc = per_mc;
+    period = per;
   }
 };
 
@@ -46,15 +48,15 @@ class configuration
     int n_runs;
     vector<int> run_list;
     int n_combs;
-    vector<run_specifier> full_list; // (run, pass, period_mc) list
+    vector<run_specifier> full_list; // (run, pass, period) list
   public:
     configuration ();
     bool load_parameter (string key, string val);
     bool check ();
     void print ();
-    bool load_from_file (string fname, bool verbose = false);
+    bool load_from_file (string fname, run_map rm, bool verbose = false);
+    run_specifier get_ref_run (run_map rm);
     vector<run_specifier> get_full_list () { return full_list; }
-    run_specifier get_ref_run () { return run_specifier(ref_run, ref_pass, ref_period_mc); }
     string get_compare () { return compare; }
     long get_timestamp () { return timestamp; }
     bool is_rewrite_qc_files () { return rewrite_qc_files; }
@@ -159,7 +161,7 @@ bool configuration::check ()
   bool passMC = false;
   for(auto ps : pass_list) if(ps == "passMC") passMC = true;
   if(passMC && n_periods_mc == 0) {
-    cout << "passMC requested but period_mc not specified\n";
+    cout << "passMC requested but no periods_mc specified\n";
     return false;
   }
   // create group name, if not given
@@ -202,15 +204,13 @@ void configuration::print ()
     << "\n";
   int i(1);
   for(auto r : full_list) {
-    printf("   %03i -> %i, %s", i, r.run, r.pass.data());
-    if (r.period_mc != "") printf(", %s\n", r.period_mc.data());
-    else printf("\n");
+    printf("   %03i -> %i \t%s \t%s \n", i, r.run, r.pass.data(), r.period.data());
     i++;
   }
   return;
 }
 
-bool configuration::load_from_file (string fname, bool verbose)
+bool configuration::load_from_file (string fname, run_map rm, bool verbose)
 {
   ifstream f(fname);
   if(f.is_open()) {
@@ -248,7 +248,7 @@ bool configuration::load_from_file (string fname, bool verbose)
               full_list.push_back(run_specifier(stoi(run),ps,per_mc));
             }
           } else {
-            full_list.push_back(run_specifier(stoi(run),ps));
+            full_list.push_back(run_specifier(stoi(run),ps,rm.get_run_period(stoi(run))));
           }
           n_combs = (int)full_list.size();
         }
@@ -267,4 +267,11 @@ bool configuration::load_from_file (string fname, bool verbose)
     cout << "\nConfiguration invalid\n";
     return false;
   }
+}
+
+run_specifier configuration::get_ref_run (run_map rm)
+{ 
+  string period = ref_period_mc;
+  if(ref_period_mc == "") period = rm.get_run_period(ref_run);
+  return run_specifier(ref_run, ref_pass, period); 
 }
