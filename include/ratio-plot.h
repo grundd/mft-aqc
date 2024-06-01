@@ -53,6 +53,7 @@ class ratio_plot
     // private methods
     TH1F* load_histo (run_specifier rsp);
     void set_axes (TH1F* h);
+    
   public:
     ratio_plot ();
     void set_histo_type (histogram h);
@@ -170,32 +171,26 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
   TCanvas* c = new TCanvas(histo_type.name_short.data(),"",620,600);
   c->cd();
 
-  TLatex ltx;
-  ltx.SetTextFont(63);
-  ltx.SetTextSize(text_size_px);
-  ltx.SetTextAlign(21);
-  ltx.SetNDC();
-
   // will there be a ratio panel?
   float y_divide = 0.4;
   bool ratio_panel = !(histo_type.options.find("noratio") != string::npos);
   if(!ratio_panel) y_divide = 0.;
 
   // upper pad: QC distributions
-  TPad p1("p1","",0.,y_divide,1.,1.);
-  p1.SetTopMargin(0.09); if(!ratio_panel) p1.SetTopMargin(0.053);
-  p1.SetBottomMargin(0.); if(!ratio_panel) p1.SetBottomMargin(0.10);
-  p1.SetRightMargin(0.035);
-  p1.SetLeftMargin(0.11);
-  if(debug) p1.SetFillColor(kBlue-10);
-  p1.Draw();
-  p1.cd();
+  TPad* p1 = new TPad("p1","",0.,y_divide,1.,1.);
+  p1->SetTopMargin(0.09); if(!ratio_panel) p1->SetTopMargin(0.053);
+  p1->SetBottomMargin(0.); if(!ratio_panel) p1->SetBottomMargin(0.10);
+  p1->SetRightMargin(0.035);
+  p1->SetLeftMargin(0.11);
+  if(debug) p1->SetFillColor(kBlue-10);
+  p1->Draw();
+  p1->cd();
 
   // setting the axes
   float x_min_plot = range_x[0];
   float y_min_plot = range_y[0];
-  if(histo_type.options.find("logx") != string::npos) { x_min_plot = range_x[1]; p1.SetLogx(); }
-  if(histo_type.options.find("logy") != string::npos) { y_min_plot = range_y[1]; p1.SetLogy(); }
+  if(histo_type.options.find("logx") != string::npos) { x_min_plot = range_x[1]; p1->SetLogx(); }
+  if(histo_type.options.find("logy") != string::npos) { y_min_plot = range_y[1]; p1->SetLogy(); }
   TH1F* h_axis_upp = gPad->DrawFrame(x_min_plot,y_min_plot,range_x[2],range_y[2]*1.05);
   set_axes(h_axis_upp);
   if(!ratio_panel) h_axis_upp->GetXaxis()->SetTitleOffset(1.25);
@@ -242,23 +237,28 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
   // print the title
   float y_ltx = 0.94;
   if(!ratio_panel) y_ltx = 0.965;
-  ltx.DrawLatex(0.5,y_ltx,Form("%s: %s", cfg.get_group().data(), histo_type.title.data()));
+  TLatex ltx;
+  ltx.SetTextFont(63);
+  ltx.SetTextSize(text_size_px);
+  ltx.SetTextAlign(21);
+  ltx.SetNDC();
+  ltx.DrawLatex(0.5,y_ltx,Form("%s : %s", cfg.get_group().data(), histo_type.title.data()));
 
   gPad->RedrawAxis();
 
   // lower pad: ratios
   c->cd();
-  TPad p2("p1","",0.0,0.0,1.,y_divide);
+  TPad* p2 = new TPad("p2","",0.0,0.0,1.,y_divide);
   TGraph gr_band(4);
   if(ratio_panel) {
-    p2.SetTopMargin(0.);
-    p2.SetBottomMargin(0.19);
-    p2.SetRightMargin(0.035);
-    p2.SetLeftMargin(0.11);
-    if(histo_type.options.find("logx") != string::npos) p2.SetLogx();
-    if(debug) p2.SetFillColor(kRed-10);
-    p2.Draw();
-    p2.cd();
+    p2->SetTopMargin(0.);
+    p2->SetBottomMargin(0.19);
+    p2->SetRightMargin(0.035);
+    p2->SetLeftMargin(0.11);
+    if(histo_type.options.find("logx") != string::npos) p2->SetLogx();
+    if(debug) p2->SetFillColor(kRed-10);
+    p2->Draw();
+    p2->cd();
 
     TH1F* h_axis_low = gPad->DrawFrame(x_min_plot,range_y_ratio[0],range_x[2],range_y_ratio[1]);
     set_axes(h_axis_low);
@@ -320,10 +320,10 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
   if(debug) c->SetFillColor(kYellow-10);
 
   // make the lines bolder
-  for(auto rh : r_arr) {
-    TH1F* h = (TH1F*)rh.get_histo();
-    if(h) h->SetLineWidth(2);
-  }
+  // for(auto rh : r_arr) {
+  //   TH1F* h = (TH1F*)rh.get_histo();
+  //   if(h) h->SetLineWidth(2);
+  // }
 
   // create the legend
   float y_top = 0.98;
@@ -335,13 +335,13 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
     return NULL;
   }
 
-  TLegend l(0,y_top-(r_arr.size() + extra_rows) * 0.027, 0.95, y_top);
+  TLegend* l = new TLegend(0,y_top-(r_arr.size() + extra_rows) * 0.027, 0.95, y_top);
 
   // add the reference run
-  l.AddEntry((TObject*)0,"","");
-  l.AddEntry(h_ref,Form("%i : %s, %s", 
-    r_ref.get_rsp().run, r_ref.get_rsp().period.data(), r_ref.get_rsp().pass.data()),"L");
-  l.AddEntry((TObject*)0,"","");
+  l->AddEntry((TObject*)0,"","");
+  l->AddEntry(h_ref,Form("%i : %s, %s", 
+    r_ref.get_rsp().run, shorten_period_name(r_ref.get_rsp().period).data(), r_ref.get_rsp().pass.data()),"L");
+  l->AddEntry((TObject*)0,"","");
 
   // add others
   for(auto rh : r_arr) {
@@ -349,7 +349,7 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
     string pass = rh.get_rsp().pass; 
     string period = rh.get_rsp().period; 
     TH1F* h = (TH1F*)rh.get_histo();
-    bool is_empty = h->GetEntries() > 0;
+    bool is_empty = h->GetEntries() == 0;
     bool is_bad = rm.is_run(run, STR_BAD);
     bool is_not_part = rm.is_run(run, STR_NOT_PART);
     if(!is_empty) {
@@ -357,22 +357,22 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
         string text = Form("%i", run);
         if(cfg.get_n_periods_mc() > 1 && pass == "passMC") text += Form(" : %s", shorten_period_name(period).data());
         if(cfg.get_n_passes() > 1 && pass != "passMC") text += Form(" : %s", pass.data());
-        l.AddEntry(h, text.data(), "L");
+        l->AddEntry(h, text.data(), "L");
       } else if (is_bad) {
-        if(cfg.get_bad_runs() == "hide") l.AddEntry((TObject*)0,Form("%i : bad",run),"");
-        else if(cfg.get_bad_runs() == "mute") l.AddEntry(h,Form("%i : bad",run),"L");
+        if(cfg.get_bad_runs() == "hide") l->AddEntry((TObject*)0,Form("%i : bad",run),"");
+        else if(cfg.get_bad_runs() == "mute") l->AddEntry(h,Form("%i : bad",run),"L");
       }
     } else {
-      if(is_not_part) l.AddEntry((TObject*)0,Form("%i : not part.",run),""); // MFT not part.
-      else l.AddEntry((TObject*)0,Form("%i : not available",run),""); // QC objects not available
+      if(is_not_part) l->AddEntry((TObject*)0,Form("%i : not part.",run),""); // MFT not part.
+      else l->AddEntry((TObject*)0,Form("%i : not available",run),""); // QC objects not available
     }   
   }
-  l.SetTextFont(63);
-  l.SetTextSize(text_size_px-3);
-  l.SetBorderSize(0);
-  l.SetFillStyle(0);
-  l.SetMargin(0.20);
-  l.Draw();
+  l->SetTextFont(63);
+  l->SetTextSize(text_size_px-3);
+  l->SetBorderSize(0);
+  l->SetFillStyle(0);
+  l->SetMargin(0.20);
+  l->Draw();
 
   TLatex ltx;
   ltx.SetTextFont(63);
