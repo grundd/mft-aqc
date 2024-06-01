@@ -18,11 +18,7 @@ o2::ccdb::CcdbApi api_ccdb;
 o2::ccdb::CcdbApi api_qcdb;
 o2::ccdb::CcdbApi api_qcdbmc;
 
-run_map grm; // global run map
-configuration cfg; // global configuration
-histogram_list full_hlist;
-
-long get_timestamp (int run) 
+long get_timestamp (configuration cfg, int run) 
 {
   long timestamp = -1;
   if(cfg.get_timestamp() == 0) {
@@ -65,7 +61,7 @@ TH* download_histo(string hname, int run, string pass, string period, long times
   return h;
 }
 
-void download_histos(run_specifier rsp)
+void download_histos(configuration cfg, histogram_list hlst, run_specifier rsp)
 {
   int run = rsp.run;
   string pass = rsp.pass;
@@ -80,7 +76,7 @@ void download_histos(run_specifier rsp)
     cout << fname << " : already downloaded -> skipping\n";
   } else {
     cout << fname << " : will be downloaded now\n";
-    long timestamp = get_timestamp(run);
+    long timestamp = get_timestamp(cfg, run);
     TFile* f = new TFile(fname.data(),"recreate");
     string s_cls;
     string s_trks;
@@ -100,8 +96,7 @@ void download_histos(run_specifier rsp)
       s_trks = PATH_AQC_TRKS[ver];
     }
     // tracks : TH2F
-    vector<histogram> hlist = full_hlist.get_list_to_download("track","TH2F");
-    for(auto hist : hlist) {
+    for(auto hist : hlst.get_list_to_download("track","TH2F")) {
       TH2F* h = download_histo<TH2F>(s_trks+hist.name,run,pass,period,timestamp);
       if(h) {
         cout << "run " << run << ", " << pass << ": " << h->GetName() << " downloaded\n";
@@ -110,8 +105,7 @@ void download_histos(run_specifier rsp)
       }
     }
     // tracks : TH1F
-    hlist = full_hlist.get_list_to_download("track","TH1F");
-    for(auto hist : hlist) {
+    for(auto hist : hlst.get_list_to_download("track","TH1F")) {
       TH1F* h = download_histo<TH1F>(s_trks+hist.name,run,pass,period,timestamp);
       if(h) {
         cout << "run " << run << ", " << pass << ": " << h->GetName() << " downloaded\n";
@@ -120,8 +114,7 @@ void download_histos(run_specifier rsp)
       }
     }
     // clusters : TH1F
-    hlist = full_hlist.get_list_to_download("cluster","TH1F");
-    for(auto hist : hlist) {
+    for(auto hist : hlst.get_list_to_download("cluster","TH1F")) {
       TH1F* h = download_histo<TH1F>(s_cls+hist.name,run,pass,period,timestamp);
       if(h) {
         cout << "run " << run << ", " << pass << ": " << h->GetName() << " downloaded\n";
@@ -136,12 +129,19 @@ void download_histos(run_specifier rsp)
   return;
 }
 
-void download_qc_objects (string input = "", bool verbose = false)
+void download_qc_objects (string input = "_test.txt", bool verbose = false)
 {
-  cout << "\n download_qc_objects.cxx: \n";
+  // global run map
+  run_map grm;
   if(!grm.load_from_file(verbose, false)) return;
-  if(!cfg.load_from_file(input, grm, verbose)) return;
-  full_hlist.load_from_csv(PATH_TO_HISTO_LIST);
+
+  // global configuration
+  configuration cfg;
+  if(!cfg.load_from_file(input,grm, verbose)) return;
+
+  // list of histograms
+  histogram_list hlst;
+  if(!hlst.load_from_csv(PATH_TO_HISTO_LIST)) return;
 
   // connect to ccdb, qcdb, qcdbmc    
   api_ccdb.init("alice-ccdb.cern.ch");
@@ -149,10 +149,10 @@ void download_qc_objects (string input = "", bool verbose = false)
   api_qcdbmc.init("ali-qcdbmc-gpn.cern.ch:8083");
 
   vector<run_specifier> list_full = cfg.get_full_list();
-  for(auto r : list_full) download_histos(r);
+  for(auto r : list_full) download_histos(cfg, hlst, r);
 
   // download the reference run, in case it might not be part of the ticket
-  if(cfg.get_compare() == "runs") download_histos(cfg.get_ref_run(grm));
+  if(cfg.get_compare() == "runs") download_histos(cfg, hlst, cfg.get_ref_run(grm));
 
   cout << "Done\n\n";
   return;
