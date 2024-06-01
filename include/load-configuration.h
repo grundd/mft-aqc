@@ -9,6 +9,7 @@
 
 // my headers
 #include "utils.h"
+#include "global-settings.h"
 #include "load-global-run-map.h"
 
 struct run_specifier
@@ -54,6 +55,7 @@ class configuration
     vector<int> run_list;
     int n_combs;
     vector<run_specifier> full_list; // (run, pass, period) list
+    int n_rounds;
   public:
     configuration ();
     bool load_parameter (string key, string val);
@@ -83,7 +85,8 @@ configuration::configuration():
   n_passes(0), pass_list(), 
   n_periods_mc(0), period_mc_list(),
   n_runs(0), run_list(),
-  n_combs(0), full_list()
+  n_combs(0), full_list(), 
+  n_rounds(0)
 {
   // default constructor
 }
@@ -210,8 +213,9 @@ void configuration::print ()
     << " recreate plots?   " << recreate_plots << "\n"
     << " *** \n"
     << " # runs: " << n_runs << "\n"
-    << " # (run,pass,MC period): " << n_combs << "\n"
-    << "\n";
+    << " # (run,pass,MC period): " << n_combs << "\n";
+  if(compare == "runs") cout << " # rounds: " << n_rounds << "\n";
+  cout << "\n";
   int i(1);
   for(auto r : full_list) {
     printf("   %03i -> %i \t%s \t%s \n", i, r.run, r.pass.data(), r.period.data());
@@ -264,6 +268,8 @@ bool configuration::load_from_file (string fname, run_map rm, bool verbose)
         }
       }
     }
+    n_rounds = n_combs / (n_colors * n_styles);
+    if(n_combs % (n_colors * n_styles) > 0) n_rounds += 1;
   } else {
     cout << "Could not open config file " << fname << "\n"; 
     return false;

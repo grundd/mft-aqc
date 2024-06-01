@@ -18,3 +18,18 @@ string PATH_QC_TRKS[2] = {"qc/MFT/MO/MFTAsyncTask/", "qc/MFT/MO/MFTAsyncTask/tra
 string PATH_QC_CLS[2] = {"qc/MFT/MO/MFTClusterTask/", "qc/MFT/MO/MFTAsyncTask/clusters/"};
 string PATH_MC_TRKS[2] = {"qc_mc/MFT/MO/Tracks/", "qc_mc/MFT/MO/Tracks/tracks/"};
 string PATH_MC_CLS[2] = {"qc_mc/MFT/MO/Clusters/", "qc_mc/MFT/MO/Tracks/clusters/"};
+
+const int n_colors = 10; // base colors available
+const int n_styles = 3;
+Color_t color_table[n_colors] = { 
+  kBlue,
+  kOrange,
+  kCyan,
+  kRed,
+  kGreen,
+  kMagenta,
+  kYellow+1,
+  kViolet,
+  kGray,
+  43
+};

@@ -14,20 +14,6 @@
 #include "TLatex.h"
 #include "TLegend.h"
 
-const int n_cols = 10; // base colors available
-Color_t color_table[n_cols] = { 
-  kBlue,
-  kOrange,
-  kCyan,
-  kRed,
-  kGreen,
-  kMagenta,
-  kYellow+1,
-  kViolet,
-  kGray,
-  43
-};
-
 class run_histo
 {
   private:
@@ -230,9 +216,9 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
     if(h && (plot_this == true)) {
       if(h->GetEntries() > 0) {
         if(!is_bad || cfg.get_bad_runs() == "show") {
-          Color_t clr = color_table[(int)(i_line / 3)] + i_line % 3;
+          Color_t clr = color_table[(int)(i_line / n_styles)] + i_line % n_styles;
           h->SetLineColor(clr);
-          h->SetLineStyle(11 + (i_line % 3));
+          h->SetLineStyle(11 + (i_line % n_styles));
           h->SetLineWidth(1);
           i_line++;
         } else if(cfg.get_bad_runs() == "mute") {

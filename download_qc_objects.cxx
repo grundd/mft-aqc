@@ -10,7 +10,6 @@
 #include "TH2.h"
 #include "CCDB/CcdbApi.h"
 // my headers
-#include "include/global-settings.h"
 #include "include/load-configuration.h"
 #include "include/load-list-of-histograms.h"
 
