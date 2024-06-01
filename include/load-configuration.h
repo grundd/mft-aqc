@@ -16,6 +16,11 @@ struct run_specifier
   int run;
   string pass;
   string period;
+  run_specifier () {
+    run = 0;
+    pass = "";
+    period = "";
+  }
   run_specifier (int r, string ps, string per) {
     run = r;
     pass = ps;
@@ -58,9 +63,14 @@ class configuration
     run_specifier get_ref_run (run_map rm);
     vector<run_specifier> get_full_list () { return full_list; }
     string get_compare () { return compare; }
+    string get_group () { return group; }
+    string get_bad_runs () { return bad_runs; }
+    float get_plot_band () { return plot_band; }
     long get_timestamp () { return timestamp; }
     bool is_rewrite_qc_files () { return rewrite_qc_files; }
     bool is_old_path () { return old_path; }
+    int get_n_passes () { return n_passes; }
+    int get_n_periods_mc () { return n_periods_mc; }
 };
 
 configuration::configuration():
