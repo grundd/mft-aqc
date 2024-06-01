@@ -40,9 +40,9 @@ class run_map
     // get functions
     string get_run_period(int r) { return (run_in_map(r) ? r_map.at(r).period : "N/A"); }
     int get_run_fill(int r) { return (run_in_map(r) ? r_map.at(r).fill : -1); }
-    string get_run_quality(int r) { return (run_in_map(r) ? r_map.at(r).quality : "N/A!"); }
-    string get_run_comment(int r) { return (run_in_map(r) ? r_map.at(r).comment : "N/A!"); }
-    string get_run_int_rate(int r) { return (run_in_map(r) ? r_map.at(r).int_rate : "N/A!"); }
+    string get_run_quality(int r) { return (run_in_map(r) ? r_map.at(r).quality : "N/A"); }
+    string get_run_comment(int r) { return (run_in_map(r) ? r_map.at(r).comment : "N/A"); }
+    string get_run_int_rate(int r) { return (run_in_map(r) ? r_map.at(r).int_rate : "N/A"); }
     int get_run_coll_bcs(int r) { return (run_in_map(r) ? r_map.at(r).coll_bcs : -1); }
 };
 

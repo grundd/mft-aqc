@@ -47,12 +47,12 @@ class configuration
     bool rewrite_qc_files; // default: false
     bool recreate_plots; // default: false
     // evaluated automatically:
+    int n_runs;
+    vector<int> run_list;
     int n_passes;
     vector<string> pass_list;
     int n_periods_mc;
     vector<string> period_mc_list;
-    int n_runs;
-    vector<int> run_list;
     int n_combs;
     vector<run_specifier> full_list; // (run, pass, period) list
     int n_rounds;
@@ -63,7 +63,12 @@ class configuration
     void print ();
     bool load_from_file (string fname, run_map rm, bool verbose = false);
     run_specifier get_ref_run (run_map rm);
+    string get_ref_pass () { return ref_pass; }
+    string get_ref_period_mc () { return ref_period_mc; }
     vector<run_specifier> get_full_list () { return full_list; }
+    vector<int> get_run_list () { return run_list; }
+    vector<string> get_pass_list () { return pass_list; }
+    vector<string> get_period_mc_list () { return period_mc_list; }
     string get_compare () { return compare; }
     string get_group () { return group; }
     string get_bad_runs () { return bad_runs; }
@@ -71,6 +76,7 @@ class configuration
     long get_timestamp () { return timestamp; }
     bool is_rewrite_qc_files () { return rewrite_qc_files; }
     bool is_old_path () { return old_path; }
+    int get_n_runs () { return n_runs; }
     int get_n_passes () { return n_passes; }
     int get_n_periods_mc () { return n_periods_mc; }
     int get_n_rounds () { return n_rounds; }
@@ -159,6 +165,9 @@ bool configuration::check ()
   } else if (compare == "passes") {
     // comparison of passes: check ref pass
     if(ref_pass == "") { success = false; par = "ref_pass"; }
+    if(ref_run != 0) {
+      cout << "INFO: Ref run specified but not relevant for comparison of passes\n";
+    }
   } else {
     // other comparison type not defined
     cout << "Unsupported option for 'compare'. Use 'runs' or 'passes'\n";

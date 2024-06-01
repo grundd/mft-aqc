@@ -61,8 +61,8 @@ class ratio_plot
     void set_r_ref (run_specifier rsp);
     void set_r_arr (vector<run_specifier> v_rsp); 
     void set_ranges (configuration cfg, run_map rm);
-    bool create_plot (configuration cfg, run_map rm, histogram h, string path,
-      run_specifier ref, vector<run_specifier> v_rsp, bool debug);
+    bool create_plot (configuration cfg, run_map rm, string path, string preffix, 
+      histogram h, run_specifier ref, vector<run_specifier> v_rsp, bool debug);
 };
 
 ratio_plot::ratio_plot ():
@@ -249,9 +249,10 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
 
   // lower pad: ratios
   c->cd();
-  TPad* p2 = new TPad("p2","",0.0,0.0,1.,y_divide);
+  TPad* p2 = NULL; 
   TGraph gr_band(4);
   if(ratio_panel) {
+    p2 = new TPad("p2","",0.0,0.0,1.,y_divide);
     p2->SetTopMargin(0.);
     p2->SetBottomMargin(0.19);
     p2->SetRightMargin(0.035);
@@ -385,8 +386,8 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
   return c;
 }
 
-bool ratio_plot::create_plot (configuration cfg, run_map rm, histogram h, string path,
-  run_specifier ref, vector<run_specifier> v_rsp, bool debug)
+bool ratio_plot::create_plot (configuration cfg, run_map rm, string path, string preffix, 
+  histogram h, run_specifier ref, vector<run_specifier> v_rsp, bool debug)
 {
   string name = h.name_short;
   set_histo_type(h);
@@ -411,7 +412,7 @@ bool ratio_plot::create_plot (configuration cfg, run_map rm, histogram h, string
     p_r.Draw();
     p_r.cd();
     c_leg->DrawClonePad();
-    c_both.Print(Form("%s%s.pdf", path.data(), name.data()));
+    c_both.Print(Form("%s%s%s.pdf", path.data(), preffix.data(), name.data()));
     delete c;
     delete c_leg;
   } else {
