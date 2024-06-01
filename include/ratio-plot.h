@@ -53,15 +53,16 @@ class ratio_plot
     // private methods
     TH1F* load_histo (run_specifier rsp);
     void set_axes (TH1F* h);
-    
+    TCanvas* make_plot (configuration cfg, run_map rm, bool debug = false);
+    TCanvas* make_legend (configuration cfg, run_map rm, bool debug = false);
   public:
     ratio_plot ();
     void set_histo_type (histogram h);
     void set_r_ref (run_specifier rsp);
     void set_r_arr (vector<run_specifier> v_rsp); 
     void set_ranges (configuration cfg, run_map rm);
-    TCanvas* make_plot (configuration cfg, run_map rm, bool debug = false);
-    TCanvas* make_legend (configuration cfg, run_map rm, bool debug = false);
+    bool create_plot (configuration cfg, run_map rm, histogram h, string path,
+      run_specifier ref, vector<run_specifier> v_rsp, bool debug);
 };
 
 ratio_plot::ratio_plot ():
@@ -382,4 +383,40 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
   ltx.DrawLatex(0.04,0.963,Form("Reference run:"));
 
   return c;
+}
+
+bool ratio_plot::create_plot (configuration cfg, run_map rm, histogram h, string path,
+  run_specifier ref, vector<run_specifier> v_rsp, bool debug)
+{
+  string name = h.name_short;
+  set_histo_type(h);
+  set_r_ref(ref);
+  set_r_arr(v_rsp);
+  set_ranges(cfg, rm);
+
+  // print plot and legend together
+  TCanvas* c = make_plot(cfg, rm, debug);
+  TCanvas* c_leg = make_legend(cfg, rm, debug);
+  if(c && c_leg) {
+    TCanvas c_both(Form("%s_both",name.data()),"",860,600);
+    c_both.cd();
+    TPad p_l("p_left","",0.,0.,0.7209,1.);
+    if(debug) p_l.SetFillColor(kMagenta-10);
+    p_l.Draw();
+    p_l.cd();
+    c->DrawClonePad();
+    c_both.cd();
+    TPad p_r("p_right","",0.7209,0.,1.,1.);
+    if(debug) p_r.SetFillColor(kGreen-10);
+    p_r.Draw();
+    p_r.cd();
+    c_leg->DrawClonePad();
+    c_both.Print(Form("%s%s.pdf", path.data(), name.data()));
+    delete c;
+    delete c_leg;
+  } else {
+    cout << "Error plotting " << name << "\n";
+    return false;
+  }
+  return true;
 }
