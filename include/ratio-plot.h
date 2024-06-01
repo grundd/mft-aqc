@@ -15,6 +15,8 @@
 #include "TLegend.h"
 #include "TSystem.h"
 
+#include "binning-rof.h"
+
 class run_histo
 {
   private:
@@ -85,7 +87,7 @@ TH1F* ratio_plot::load_histo (run_specifier rsp)
     gROOT->cd();
     TH1F* h_clone = (TH1F*)h->Clone(Form("%s_cl",h->GetName()));
     f->Close();
-    //if(h.options.find("rebinROF") != string::npos) h_clone = rebin_rof(h_clone); // TODO: implement rebin_rof()
+    if(histo_type.options.find("rebinROF") != string::npos) h_clone = rebin_rof(h_clone);
     h_clone->Scale(1./h_clone->Integral());
     return h_clone;
   } else {
