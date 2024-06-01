@@ -74,8 +74,9 @@ class configuration
     string get_bad_runs () { return bad_runs; }
     float get_plot_band () { return plot_band; }
     long get_timestamp () { return timestamp; }
-    bool is_rewrite_qc_files () { return rewrite_qc_files; }
     bool is_old_path () { return old_path; }
+    bool is_rewrite_qc_files () { return rewrite_qc_files; }
+    bool is_recreate_plots () { return recreate_plots; }
     int get_n_runs () { return n_runs; }
     int get_n_passes () { return n_passes; }
     int get_n_periods_mc () { return n_periods_mc; }

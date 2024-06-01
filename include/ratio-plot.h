@@ -13,6 +13,7 @@
 #include "TStyle.h"
 #include "TLatex.h"
 #include "TLegend.h"
+#include "TSystem.h"
 
 class run_histo
 {
@@ -412,12 +413,16 @@ bool ratio_plot::create_plot (configuration cfg, run_map rm, string path, string
     p_r.Draw();
     p_r.cd();
     c_leg->DrawClonePad();
-    c_both.Print(Form("%s%s%s.pdf", path.data(), preffix.data(), name.data()));
+
+    string file = Form("%s%s%s.pdf", path.data(), preffix.data(), name.data());
+    bool plot_exists = !gSystem->AccessPathName(file.data());
+    if(!plot_exists || (plot_exists && cfg.is_recreate_plots())) c_both.Print(file.data());
+    else cout << "  " << name << " already plotted\n";
     delete c;
     delete c_leg;
+    return true;
   } else {
     cout << "Error plotting " << name << "\n";
     return false;
   }
-  return true;
 }

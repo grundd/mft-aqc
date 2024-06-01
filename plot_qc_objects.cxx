@@ -27,7 +27,7 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
          << " Reference run: " << ref.run << ", " << ref.period << ", " << ref.pass << "\n";
     for (int r = 0; r < n_rounds; r++) 
     {
-      cout << " Round " << r+1 << ": \n";
+      cout << "\n Round " << r+1 << ":\n";
       if(n_rounds > 1) path = Form("plots/%s_%02i/", cfg.get_group().data(), r+1);
       gSystem->Exec(Form("mkdir -p %s", path.data()));
 
@@ -40,7 +40,7 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
       for (auto h : hlst) 
       {
         string name = h.name_short;
-        cout << "  QC object: " << name << "\n";
+        //cout << "  QC object: " << name << "\n";
         ratio_plot rplt;
         rplt.create_plot(cfg, rm, path, "", h, ref, list_part, debug);
       }
@@ -64,7 +64,7 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
     string ref_period_mc = cfg.get_ref_period_mc();
     for (auto run : list_runs)
     {
-      cout << " Run " << run << ":\n"; 
+      cout << "\n Run " << run << ":\n"; 
       vector<run_specifier> list_part;
       run_specifier ref;
       for (auto pass : list_pass) {
@@ -85,7 +85,7 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
       for (auto h : hlst) 
       {
         string name = h.name_short;
-        cout << "  QC object: " << name << "\n";
+        //cout << "  QC object: " << name << "\n";
         ratio_plot rplt;
         rplt.create_plot(cfg, rm, path, Form("%i_", run), h, ref, list_part, debug);
       }
