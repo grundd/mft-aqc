@@ -93,13 +93,12 @@ struct histogram_list
     }
     return list;
   }
-  vector<histogram> get_list_to_plot (string _task = "", string _type = "") 
+  vector<histogram> get_list_to_plot (string _type = "") 
   {
     vector<histogram> list;
     for(auto h : vect_histos) {
       if ((h.download == STR_TRUE)
         && (h.plot == STR_TRUE)
-        && (h.task == _task)
         && (h.type == _type)
       ) list.push_back(h);
     }

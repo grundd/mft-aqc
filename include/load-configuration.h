@@ -73,6 +73,7 @@ class configuration
     bool is_old_path () { return old_path; }
     int get_n_passes () { return n_passes; }
     int get_n_periods_mc () { return n_periods_mc; }
+    int get_n_rounds () { return n_rounds; }
 };
 
 configuration::configuration():
