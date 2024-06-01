@@ -7,13 +7,13 @@
 #include "TCanvas.h"
 #include "TPad.h"
 #include "TH1.h"
-#include "TObjArray.h"
 #include "TFile.h"
 #include "TROOT.h"
 #include "TStyle.h"
 #include "TLatex.h"
 #include "TLegend.h"
 #include "TSystem.h"
+#include "TGraph.h"
 
 #include "binning-rof.h"
 
@@ -64,7 +64,7 @@ class ratio_plot
     void set_r_ref (run_specifier rsp);
     void set_r_arr (vector<run_specifier> v_rsp); 
     void set_ranges (configuration cfg, run_map rm);
-    bool create_plot (configuration cfg, run_map rm, string path, string preffix, 
+    bool create_plot (configuration cfg, run_map rm, string path, string prefix, 
       histogram h, run_specifier ref, vector<run_specifier> v_rsp, bool debug);
 };
 
@@ -389,42 +389,43 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
   return c;
 }
 
-bool ratio_plot::create_plot (configuration cfg, run_map rm, string path, string preffix, 
+bool ratio_plot::create_plot (configuration cfg, run_map rm, string path, string prefix, 
   histogram h, run_specifier ref, vector<run_specifier> v_rsp, bool debug)
 {
   string name = h.name_short;
-  set_histo_type(h);
-  set_r_ref(ref);
-  set_r_arr(v_rsp);
-  set_ranges(cfg, rm);
+  string file = Form("%s%s%s.pdf", path.data(), prefix.data(), name.data());
+  bool plot_exists = !gSystem->AccessPathName(file.data());
+  if(!plot_exists || (plot_exists && cfg.is_recreate_plots()))
+  {
+    set_histo_type(h);
+    set_r_ref(ref);
+    set_r_arr(v_rsp);
+    set_ranges(cfg, rm);
 
-  // print plot and legend together
-  TCanvas* c = make_plot(cfg, rm, debug);
-  TCanvas* c_leg = make_legend(cfg, rm, debug);
-  if(c && c_leg) {
-    TCanvas c_both(Form("%s_both",name.data()),"",860,600);
-    c_both.cd();
-    TPad p_l("p_left","",0.,0.,0.7209,1.);
-    if(debug) p_l.SetFillColor(kMagenta-10);
-    p_l.Draw();
-    p_l.cd();
-    c->DrawClonePad();
-    c_both.cd();
-    TPad p_r("p_right","",0.7209,0.,1.,1.);
-    if(debug) p_r.SetFillColor(kGreen-10);
-    p_r.Draw();
-    p_r.cd();
-    c_leg->DrawClonePad();
-
-    string file = Form("%s%s%s.pdf", path.data(), preffix.data(), name.data());
-    bool plot_exists = !gSystem->AccessPathName(file.data());
-    if(!plot_exists || (plot_exists && cfg.is_recreate_plots())) c_both.Print(file.data());
-    else cout << "  " << name << " already plotted\n";
+    // print plot and legend together
+    TCanvas* c = make_plot(cfg, rm, debug);
+    TCanvas* c_leg = make_legend(cfg, rm, debug);
+    if(c && c_leg) {
+      TCanvas c_both(Form("%s_both",name.data()),"",860,600);
+      c_both.cd();
+      TPad p_l("p_left","",0.,0.,0.7209,1.);
+      if(debug) p_l.SetFillColor(kMagenta-10);
+      p_l.Draw();
+      p_l.cd();
+      c->DrawClonePad();
+      c_both.cd();
+      TPad p_r("p_right","",0.7209,0.,1.,1.);
+      if(debug) p_r.SetFillColor(kGreen-10);
+      p_r.Draw();
+      p_r.cd();
+      c_leg->DrawClonePad();
+      c_both.Print(file.data());
+    } else {
+      cout << "Error plotting " << name << "\n";
+      return false;
+    }
     delete c;
     delete c_leg;
-    return true;
-  } else {
-    cout << "Error plotting " << name << "\n";
-    return false;
-  }
+  } else cout << "  " << name << " already plotted\n"; 
+  return true;
 }

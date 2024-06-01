@@ -150,7 +150,7 @@ void download_qc_objects (string input = "_test.txt", bool verbose = false)
   vector<run_specifier> list_full = cfg.get_full_list();
   for(auto r : list_full) download_histos(cfg, hlst, r);
 
-  // download the reference run, in case it might not be part of the ticket
+  // download the reference run, as it might not be a part of the ticket
   if(cfg.get_compare() == "runs") download_histos(cfg, hlst, cfg.get_ref_run(grm));
 
   cout << "Done\n\n";
