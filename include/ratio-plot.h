@@ -41,7 +41,8 @@ run_histo::run_histo (run_specifier r, TH1F* h):
 class ratio_plot
 {
   private:
-    histogram* histo_type;
+    histogram histo_type;
+    bool histo_type_empty;
     run_histo r_ref;
     vector<run_histo> r_arr;
     float range_x[3] = { 0 }; // x_min, x_min_non_zero, x_max
@@ -51,10 +52,10 @@ class ratio_plot
     int text_size_px_leg = 17;
     // private methods
     TH1F* load_histo (run_specifier rsp);
+    void set_axes (TH1F* h);
   public:
     ratio_plot ();
-    void set_histo_type (histogram h) { histo_type = &h; return; }
-    void set_axes (TH1F* h);
+    void set_histo_type (histogram h);
     void set_r_ref (run_specifier rsp);
     void set_r_arr (vector<run_specifier> v_rsp); 
     void set_ranges (configuration cfg, run_map rm);
@@ -63,20 +64,20 @@ class ratio_plot
 };
 
 ratio_plot::ratio_plot ():
-  histo_type(NULL), r_ref(), r_arr()
+  histo_type(), histo_type_empty(true), r_ref(), r_arr()
 {
   // default constructor
 }
 
 TH1F* ratio_plot::load_histo (run_specifier rsp)
 {
-  if(histo_type == NULL) {
+  if(histo_type_empty) {
     cout << "histo_type is empty, please specify using set_histo_type()\n";
     return NULL;
   }
   string fname = Form("%s%s/%i_%s.root",ROOT_FILES_FOLDER.data(),rsp.period.data(),rsp.run,rsp.pass.data());
   TFile* f = TFile::Open(fname.data(),"read");
-  TH1F* h = (TH1F*)f->Get(histo_type->name.data());
+  TH1F* h = (TH1F*)f->Get(histo_type.name_short.data());
   if(h) {
     gROOT->cd();
     TH1F* h_clone = (TH1F*)h->Clone(Form("%s_cl",h->GetName()));
@@ -86,7 +87,7 @@ TH1F* ratio_plot::load_histo (run_specifier rsp)
     return h_clone;
   } else {
     f->Close();
-    cout << histo_type->name << " not found for (" << rsp.run << ", " << rsp.pass << ", " << rsp.period << ")\n";
+    cout << histo_type.name_short << " not found for (" << rsp.run << ", " << rsp.pass << ", " << rsp.period << ")\n";
     return NULL;
   }
 }
@@ -108,6 +109,13 @@ void ratio_plot::set_axes (TH1F* h)
     h->GetYaxis()->SetTitleOffset(1.65);
     h->GetYaxis()->SetMaxDigits(3);
     return;
+}
+
+void ratio_plot::set_histo_type (histogram h)
+{
+  histo_type = h;
+  histo_type_empty = false;
+  return;
 }
 
 void ratio_plot::set_r_ref (run_specifier rsp)
@@ -151,7 +159,7 @@ void ratio_plot::set_ranges (configuration cfg, run_map rm)
 
 TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
 {
-  if(!histo_type) {
+  if(histo_type_empty) {
     cout << "Cannot make plot without histo_type specified\n";
     return NULL;
   }
@@ -159,7 +167,7 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
   gStyle->SetOptStat(0);
   gStyle->SetOptTitle(0);
 
-  TCanvas* c = new TCanvas(histo_type->name.data(),"",620,600);
+  TCanvas* c = new TCanvas(histo_type.name_short.data(),"",620,600);
   c->cd();
 
   TLatex ltx;
@@ -170,7 +178,7 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
 
   // will there be a ratio panel?
   float y_divide = 0.4;
-  bool ratio_panel = !(histo_type->options.find("noratio") != string::npos);
+  bool ratio_panel = !(histo_type.options.find("noratio") != string::npos);
   if(!ratio_panel) y_divide = 0.;
 
   // upper pad: QC distributions
@@ -186,8 +194,8 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
   // setting the axes
   float x_min_plot = range_x[0];
   float y_min_plot = range_y[0];
-  if(histo_type->options.find("logx") != string::npos) { x_min_plot = range_x[1]; p1.SetLogx(); }
-  if(histo_type->options.find("logy") != string::npos) { y_min_plot = range_y[1]; p1.SetLogy(); }
+  if(histo_type.options.find("logx") != string::npos) { x_min_plot = range_x[1]; p1.SetLogx(); }
+  if(histo_type.options.find("logy") != string::npos) { y_min_plot = range_y[1]; p1.SetLogy(); }
   TH1F* h_axis_upp = gPad->DrawFrame(x_min_plot,y_min_plot,range_x[2],range_y[2]*1.05);
   set_axes(h_axis_upp);
   if(!ratio_panel) h_axis_upp->GetXaxis()->SetTitleOffset(1.25);
@@ -234,7 +242,7 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
   // print the title
   float y_ltx = 0.94;
   if(!ratio_panel) y_ltx = 0.965;
-  ltx.DrawLatex(0.5,y_ltx,Form("%s: %s", cfg.get_group().data(), histo_type->title.data()));
+  ltx.DrawLatex(0.5,y_ltx,Form("%s: %s", cfg.get_group().data(), histo_type.title.data()));
 
   gPad->RedrawAxis();
 
@@ -247,7 +255,7 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
     p2.SetBottomMargin(0.19);
     p2.SetRightMargin(0.035);
     p2.SetLeftMargin(0.11);
-    if(histo_type->options.find("logx") != string::npos) p2.SetLogx();
+    if(histo_type.options.find("logx") != string::npos) p2.SetLogx();
     if(debug) p2.SetFillColor(kRed-10);
     p2.Draw();
     p2.cd();
@@ -302,7 +310,12 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
 
 TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
 {
-  TCanvas* c = new TCanvas(Form("%s_leg",histo_type->name.data()),"",240,600);
+  if(histo_type_empty) {
+    cout << "Cannot make legend without histo_type specified\n";
+    return NULL;
+  }
+
+  TCanvas* c = new TCanvas(Form("%s_leg",histo_type.name_short.data()),"",240,600);
   c->cd();
   if(debug) c->SetFillColor(kYellow-10);
 
