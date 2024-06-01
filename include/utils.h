@@ -22,3 +22,10 @@ bool to_bool (string s)
     iss >> std::boolalpha >> b;
     return b;
 }
+
+// remove 'LHC' from the period name
+string shorten_period_name(string n) {
+  string lhc = "LHC";
+  for(int i = 0; i < 3; i++) if(n[0] == lhc[i]) n.erase(0,1);
+  return n;
+}
