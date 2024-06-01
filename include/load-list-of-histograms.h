@@ -30,6 +30,10 @@ struct histogram
   string download;
   string plot;
   string name_short;
+  histogram () {
+    task = ""; type = ""; name = ""; title = ""; options = "";
+    download = ""; plot = ""; name_short = "";
+  }
   histogram (string _task, string _type, string _name, 
     string _title, string _options, string _download, string _plot
   ) {
