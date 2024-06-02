@@ -8,32 +8,19 @@
 void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
 {
   bool single_period = cfg.get_n_periods() == 1;
-  bool single_pass = cfg.get_n_passes() == 1;
-  string jira = cfg.get_jira();
-  if(single_period) ofs << R"(\renewcommand{\period}{)" << cfg.get_period_list()[0] << "}\n";
-  if(single_pass) ofs << R"(\renewcommand{\pass}{)" << cfg.get_pass_list()[0] << "}\n";
-  if(jira != "") ofs << R"(\renewcommand{\jira}{)" << jira << "}\n\n";
 
   // print the runs, n_runs_per_slide
   vector<int> runs_to_print = cfg.get_run_list();
   bool ref_printed = false;
 
   // loop over all runs
-  while (runs_to_print.size() > 0) 
+  while (runs_to_print.size() > 0)
   {
+    string str_run = "run";
+    if(runs_to_print.size() > 1) str_run = "runs";
     ofs << R"(\frame[t]{)" << "\n"
-        << R"(\frametitle{)";
-
-    // print the title
-    if (single_period || single_pass) {
-      if (single_period && single_pass) ofs << R"(\period~\pass)";
-      else if (single_period) ofs << R"(\period)";
-      else if (single_pass) ofs << R"(\pass)";
-      if (jira != "") ofs << R"(: \href{https://alice.its.cern.ch/jira/browse/)" << jira << "}{" << jira << "}";
-    } else if (jira != "") ofs << R"(\href{https://alice.its.cern.ch/jira/browse/)" << jira << "}{" << jira << "}";
-    string s_run = "run";
-    if(runs_to_print.size() > 1) s_run = "runs";
-    ofs << " (" << cfg.get_n_runs() << " " << s_run << ")}" << "\n\n"
+        << R"(\frametitle{)" << cfg.get_latex_title() 
+        << " (" << cfg.get_n_runs() << " " << str_run << ")}\n\n"
         << R"(\vspace{-2mm})" << "\n";
 
     // print the table
@@ -137,9 +124,6 @@ void create_main_latex (configuration cfg, run_map rm)
 \newcommand{\Bad}{\textcolor{Red}{\textbf{BAD}}}
 \newcommand{\NotPart}{\textbf{not participating}}
 \newcommand{\RefRun}[1]{\colorbox{Goldenrod}{\textcolor{Black}{#1}}}
-\newcommand{\period}{}
-\newcommand{\jira}{}
-\newcommand{\pass}{}
 \usetheme{Madrid}
 \usecolortheme{beaver}
 \setbeamertemplate{navigation symbols}{}
@@ -159,7 +143,7 @@ void create_main_latex (configuration cfg, run_map rm)
   print_run_list(ofs, cfg, rm);
 
   for (int r = 0; r < cfg.get_n_rounds(); r++) {
-    ofs << "\n" << R"(\include)" << Form("{%s}\n",cfg.get_latex_fname_list()[r].data());
+    ofs << "\n" << R"(\include)" << Form("{%s}\n", cfg.get_latex_fname_list()[r].data());
   }
   ofs << R"(\end{document})";
   ofs.close();
@@ -171,21 +155,66 @@ bool print_fig (ofstream& ofs, string path, string name, float h, float x, float
 {
   // skip the plot if it has not been created
   // otherwise, latex throws an error
-  bool exists = !gSystem->AccessPathName(Form("%s%s.pdf", path.data(), name.data()));
+  string fname = Form("%s%s.pdf", path.data(), name.data());
+  bool exists = !gSystem->AccessPathName(fname.data());
   if(exists) {
     ofs << R"(\begin{textblock*}{0mm}()" << x << "mm," << y << "mm)\n"
-        << R"(\includegraphics[height=)" << h << "mm]{" << path << name << ".pdf}\n"
-        << R"(\end{textblock*})" << "\n";
+        << R"(\includegraphics[height=)" << h << "mm]{../" << path << name << ".pdf}\n"
+        << R"(\end{textblock*})" << "\n\n";
     return true;
-  } else return false;
+  } else {
+    cout << " Plot " << fname << " not found\n";
+    return false;
+  }
 }
 
-// void create_slides(configuration cfg, run_map rm)
-// {
-//   // one latex subfile for each round
-//   for (int r = 0; r < cfg.get_n_rounds(); r++) 
-//   {
-//     ofstream ofs(cfg.get_latex_fname_list()[r].data());
-//   }
-//   return;
-// }
+void create_slide_run_comparison (ofstream& ofs, string path, string prefix, string title)
+{
+  ofs << R"(\frame[t]{)" << "\n"
+      << R"(\frametitle{)" << title << "}\n\n";
+  
+  float h = 37; // mm
+  float x_min = 4;
+  float space = 40;
+  float y_upp = 11.5;
+  float y_low = 49;
+
+  float coord_x[6] = {x_min, x_min + space, x_min + 2*space, x_min, x_min + space, x_min + 2*space};
+  float coord_y[6] = {y_upp, y_upp, y_upp, y_low, y_low, y_low};
+
+  bool all_plotted = true;
+  for (int i = 0; i < n_plots_per_slide; i++)
+    if(!print_fig(ofs, path, prefix+PLOTS_TO_PPT[i], h, coord_x[i], coord_y[i])) all_plotted = false;
+
+  if(!all_plotted) ofs << R"({\small QC objects not available})" << "\n";
+  ofs << "} \n\n";
+    
+  return;
+}
+
+void create_slides (configuration cfg)
+{
+  // one latex subfile for each round
+  int n_rounds = cfg.get_n_rounds();
+  for (int r = 0; r < n_rounds; r++) 
+  {
+    string fname = Form("%s%s", LATEX_FOLDER.data(), cfg.get_latex_fname_list()[r].data());
+    ofstream ofs(fname.data());
+    string path = Form("%s%s/", PLOTS_FOLDER.data(), cfg.get_group().data());
+
+    if(cfg.get_compare() == "runs")
+    {
+      // create a title
+      string title = cfg.get_latex_title();
+      if(n_rounds == 1) title.append(": comparison of the runs");
+      else title.append(Form(": comparison of the runs %i/%i", r, n_rounds));
+      string prefix = "";
+      if(n_rounds > 1) prefix = Form("%02i_", r+1);
+      create_slide_run_comparison(ofs, path, prefix, title);
+    }
+
+    ofs.close();
+    cout << "File " << fname << " created\n";
+  }
+  return;
+}
