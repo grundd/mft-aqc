@@ -35,7 +35,7 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
 
       int first = r * n_per_round;
       int last = first;
-      r < n_rounds-1 ? last = first + n_per_round : last = list_full.size()-1;
+      r < n_rounds-1 ? last = first + n_per_round : last = list_full.size();
       vector<run_specifier> list_part(&list_full[first], &list_full[last]);
 
       // loop over QC objects

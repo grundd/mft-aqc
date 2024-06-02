@@ -40,7 +40,7 @@ const double bins_rof[n_bins_rof+1] = {
 
 TH1F* rebin_rof (TH1F* h) 
 {
-    TH1F* h_new = new TH1F(Form("%s_new", h->GetName()), h->GetTitle(), n_bins_rof, bins_rof);
+    TH1F* h_new = new TH1F(Form("%s_rebin", h->GetName()), h->GetTitle(), n_bins_rof, bins_rof);
     h_new->GetXaxis()->SetTitle(h->GetXaxis()->GetTitle());
     for(int i = 1; i <= h->GetNbinsX(); i++) 
     {

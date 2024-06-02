@@ -85,7 +85,7 @@ TH1F* ratio_plot::load_histo (run_specifier rsp)
   TH1F* h = (TH1F*)f->Get(histo_type.name_short.data());
   if(h) {
     gROOT->cd();
-    TH1F* h_clone = (TH1F*)h->Clone(Form("%s_cl",h->GetName()));
+    TH1F* h_clone = (TH1F*)h->Clone(Form("%i_%s_%s", rsp.run, rsp.pass.data(), h->GetName()));
     f->Close();
     if(histo_type.options.find("rebinROF") != string::npos) h_clone = rebin_rof(h_clone);
     h_clone->Scale(1./h_clone->Integral());
