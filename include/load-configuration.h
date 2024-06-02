@@ -187,7 +187,8 @@ bool configuration::check ()
     // comparison of passes: check ref pass:
     if(ref_pass == "") { success = false; par = "ref_pass"; }
     if(ref_run != 0) {
-      cout << "INFO: Ref run specified but not relevant for comparison of passes\n";
+      cout << "Ref run specified but not relevant for comparison of passes\n";
+      return false;
     }
   } else {
     // other comparison type not defined:

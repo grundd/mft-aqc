@@ -6,8 +6,11 @@ string SET_QC_VERSION = "";
 char csv_delimiter = ',';
 string STR_TRUE = "y";
 string STR_SOR = "SOR";
+string STR_GOOD = "good";
+string STR_MIXED = "mixed";
 string STR_BAD = "bad";
 string STR_NOT_PART = "not participating";
+string STR_LIM = "limited";
 string ROOT_FILES_FOLDER = "root_files/";
 string PATH_TO_HISTO_LIST = "input/list-of-histograms.csv";
 string PATH_TO_GLOBAL_MAP = "input/run-table.csv";
@@ -25,7 +28,7 @@ string PATH_QC_CLS[2] = {"qc/MFT/MO/MFTClusterTask/", "qc/MFT/MO/MFTAsyncTask/cl
 string PATH_MC_TRKS[2] = {"qc_mc/MFT/MO/Tracks/", "qc_mc/MFT/MO/Tracks/tracks/"};
 string PATH_MC_CLS[2] = {"qc_mc/MFT/MO/Clusters/", "qc_mc/MFT/MO/Tracks/clusters/"};
 
-const int runs_per_slide = 18;
+const int n_runs_per_slide = 18;
 
 const int n_colors = 10; // base colors available
 const int n_styles = 3;

@@ -12,12 +12,12 @@
 struct run_info
 {
   string period;
-  int fill;
+  string fill;
   string quality;
   string comment;
   string int_rate;
-  int coll_bcs;
-  run_info(string per, int fil, string qlt, string com, string irt, int cbs) {
+  string coll_bcs;
+  run_info(string per, string fil, string qlt, string com, string irt, string cbs) {
     period = per;
     fill = fil;
     quality = qlt;
@@ -39,11 +39,11 @@ class run_map
     bool is_run(int r, string quality);
     // get functions
     string get_run_period(int r) { return (run_in_map(r) ? r_map.at(r).period : "N/A"); }
-    int get_run_fill(int r) { return (run_in_map(r) ? r_map.at(r).fill : -1); }
+    string get_run_fill(int r) { return (run_in_map(r) ? r_map.at(r).fill : "N/A"); }
     string get_run_quality(int r) { return (run_in_map(r) ? r_map.at(r).quality : "N/A"); }
     string get_run_comment(int r) { return (run_in_map(r) ? r_map.at(r).comment : "N/A"); }
     string get_run_int_rate(int r) { return (run_in_map(r) ? r_map.at(r).int_rate : "N/A"); }
-    int get_run_coll_bcs(int r) { return (run_in_map(r) ? r_map.at(r).coll_bcs : -1); }
+    string get_run_coll_bcs(int r) { return (run_in_map(r) ? r_map.at(r).coll_bcs : "N/A"); }
 };
 
 run_map::run_map():
@@ -96,7 +96,7 @@ bool run_map::load_from_file (bool verbose, bool debug)
   }
   // fill the run map
   for(int i = 1; i < (int)content.size(); i++) {
-      run_info rinf(content[i][0],stoi(content[i][1]),content[i][3],content[i][4],content[i][5],stoi(content[i][6]));
+      run_info rinf(content[i][0], content[i][1], content[i][3], content[i][4], content[i][5], content[i][6]);
       int run = stoi(content[i][2]);
       r_map.insert({run,rinf});
   }
