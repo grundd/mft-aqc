@@ -71,7 +71,7 @@ void download_histos(configuration cfg, histogram_list hlst, run_specifier rsp)
 
   // check if the file already exists
   bool fexists = !gSystem->AccessPathName(fname.data());
-  if(fexists && !cfg.is_rewrite_qc_files()) {
+  if(fexists && !cfg.is_rewrite_input()) {
     cout << fname << " : already downloaded -> skipping\n";
   } else {
     cout << fname << " : will be downloaded now\n";

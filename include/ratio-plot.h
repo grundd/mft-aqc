@@ -395,7 +395,7 @@ bool ratio_plot::create_plot (configuration cfg, run_map rm, string path, string
   string name = h.name_short;
   string file = Form("%s%s%s.pdf", path.data(), prefix.data(), name.data());
   bool plot_exists = !gSystem->AccessPathName(file.data());
-  if(!plot_exists || (plot_exists && cfg.is_recreate_plots()))
+  if(!plot_exists || (plot_exists && cfg.is_rewrite_plots()))
   {
     set_histo_type(h);
     set_r_ref(ref);
