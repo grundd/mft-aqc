@@ -223,14 +223,21 @@ bool configuration::check ()
   }
   // set latex variables:
   latex_fname_main = Form("%s%s.tex", LATEX_FOLDER.data(), group.data());
-  latex_title = jira;
-  if(n_periods == 1 && n_passes == 1) latex_title = Form("%s of %s", pass_list[0].data(), period_list[0].data());
+  string jira_to_link = "";
+  if(jira != "") {
+    string link = R"(\href{https://alice.its.cern.ch/jira/browse/)";
+    jira_to_link = Form("%s%s}{%s}", link.data(), jira.data(), jira.data());
+  }
+  if(n_periods == 1) latex_title.append(Form("%s", period_list.front().data()));
+  if(n_periods == 1 && n_passes == 1) latex_title.append(Form(" %s", pass_list.front().data()));
+  if(latex_title != "") latex_title.append(", ");
+  latex_title.append(jira_to_link.data());
   if(latex_title == "") {
-    cout << "Cannot create latex title. JIRA number is not provided and there are more periods/passes than 1\n";
+    cout << "Cannot create latex title. JIRA ticket is not provided or there are more periods/passes than 1\n";
     return false;
   }
   if(n_rounds == 1) {
-    string fname = Form("%s%s%s.tex", LATEX_FOLDER.data(), LATEX_SUBFOLDER.data(), group.data());
+    string fname = Form("%s%s.tex", LATEX_SUBFOLDER.data(), group.data());
     latex_fname_list.push_back(fname);
   } else {
     for (int i = 0; i < n_rounds; i++) {
@@ -279,12 +286,12 @@ void configuration::print ()
     << " # runs: " << n_runs << "\n"
     << " # (run,pass,period): " << n_combs << "\n"
     << " # rounds: " << n_rounds << "\n";
-  cout << "\n";
   int i(1);
   for(auto r : full_list) {
     printf("   %03i -> %i, %s, %s \n", i, r.run, r.pass.data(), r.period.data());
     i++;
   }
+  cout << "\n";
   return;
 }
 
