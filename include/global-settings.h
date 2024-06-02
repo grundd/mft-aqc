@@ -11,6 +11,12 @@ string STR_NOT_PART = "not participating";
 string ROOT_FILES_FOLDER = "root_files/";
 string PATH_TO_HISTO_LIST = "input/list-of-histograms.csv";
 string PATH_TO_GLOBAL_MAP = "input/run-table.csv";
+string PLOTS_FOLDER = "plots/";
+string STR_AUTHOR = "[D. Grund for the MFT team]{David Grund on behalf of the MFT team}";
+string STR_INSTITUTE = "[]{}";
+string STR_DATE = R"([\today]{\today})";
+string LATEX_FOLDER = "latex/";
+string LATEX_SUBFOLDER = "include/";
 // qc paths: new, old
 string PATH_AQC_TRKS[2] = {"qc_async/MFT/MO/Tracks/", "qc_async/MFT/MO/Tracks/tracks/"};
 string PATH_AQC_CLS[2] = {"qc_async/MFT/MO/Clusters/", "qc_async/MFT/MO/Tracks/clusters/"};
@@ -18,6 +24,8 @@ string PATH_QC_TRKS[2] = {"qc/MFT/MO/MFTAsyncTask/", "qc/MFT/MO/MFTAsyncTask/tra
 string PATH_QC_CLS[2] = {"qc/MFT/MO/MFTClusterTask/", "qc/MFT/MO/MFTAsyncTask/clusters/"};
 string PATH_MC_TRKS[2] = {"qc_mc/MFT/MO/Tracks/", "qc_mc/MFT/MO/Tracks/tracks/"};
 string PATH_MC_CLS[2] = {"qc_mc/MFT/MO/Clusters/", "qc_mc/MFT/MO/Tracks/clusters/"};
+
+const int runs_per_slide = 18;
 
 const int n_colors = 10; // base colors available
 const int n_styles = 3;

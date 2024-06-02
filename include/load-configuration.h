@@ -45,8 +45,9 @@ class configuration
     float plot_band; // default: 0.2 (20 % green band)
     long timestamp; // default: 0 (-> will use SOR timestamp)
     bool old_path; // default: false
-    bool rewrite_qc_files; // default: false
-    bool recreate_plots; // default: false
+    bool rewrite_input; // default: false
+    bool rewrite_plots; // default: false
+    bool rewrite_latex; // default: false
     // evaluated automatically:
     int n_runs;
     vector<int> run_list;
@@ -59,6 +60,10 @@ class configuration
     int n_combs;
     vector<run_specifier> full_list; // (run, pass, period) list
     int n_rounds;
+    // for latex slides:
+    string latex_fname_main;
+    vector<string> latex_fname_list;
+    string latex_title;
   public:
     configuration ();
     bool load_parameter (string key, string val);
@@ -75,17 +80,23 @@ class configuration
     vector<run_specifier> get_full_list () { return full_list; }
     string get_compare () { return compare; }
     string get_group () { return group; }
+    string get_jira () { return jira; }
     string get_bad_runs () { return bad_runs; }
     float get_plot_band () { return plot_band; }
     long get_timestamp () { return timestamp; }
     bool is_old_path () { return old_path; }
-    bool is_rewrite_qc_files () { return rewrite_qc_files; }
-    bool is_recreate_plots () { return recreate_plots; }
+    bool is_rewrite_input () { return rewrite_input; }
+    bool is_rewrite_plots () { return rewrite_plots; }
+    bool is_rewrite_latex () { return rewrite_latex; }
     int get_n_runs () { return n_runs; }
     int get_n_passes () { return n_passes; }
     int get_n_periods_mc () { return n_periods_mc; }
     int get_n_rounds () { return n_rounds; }
     int get_n_periods () { return n_periods; }
+    // for latex slides:
+    string get_latex_fname_main () { return latex_fname_main; }
+    vector<string> get_latex_fname_list () { return latex_fname_list; }
+    string get_latex_title () { return latex_title; }
 };
 
 configuration::configuration():
@@ -94,13 +105,15 @@ configuration::configuration():
   ref_run(0), ref_pass(""), ref_period_mc(""), 
   bad_runs("hide"), old_path(false), 
   plot_band(0.2), timestamp(0), 
-  rewrite_qc_files(false), recreate_plots(false),
+  rewrite_input(false), rewrite_plots(false), rewrite_latex(false),
   n_passes(0), pass_list(), 
   n_periods_mc(0), period_mc_list(),
   n_periods(0), period_list(),
   n_runs(0), run_list(),
   n_combs(0), full_list(), 
-  n_rounds(0)
+  n_rounds(0),
+  // for latex slides:
+  latex_fname_main(""), latex_fname_list(), latex_title("")
 {
   // default constructor
 }
@@ -143,8 +156,9 @@ bool configuration::load_parameter (string key, string val)
   else if (key == "old_path") old_path = to_bool(val);
   else if (key == "plot_band") plot_band = stof(val); 
   else if (key == "timestamp") timestamp = stol(val); 
-  else if (key == "rewrite_root_files") rewrite_qc_files = to_bool(val);
-  else if (key == "recreate_plots") recreate_plots = to_bool(val);
+  else if (key == "rewrite_input") rewrite_input = to_bool(val);
+  else if (key == "rewrite_plots") rewrite_plots = to_bool(val);
+  else if (key == "rewrite_latex") rewrite_latex = to_bool(val);
   else {
     cout << "Unsupported identifier: '" << key << "'\n"; 
     return false;
@@ -157,11 +171,11 @@ bool configuration::check ()
   bool success = true;
   string par = "";
 
-  // check if any passes are provided
+  // check if any passes are provided:
   if(n_passes == 0) { success = false; par = "passes"; }
   
   if (compare == "runs") {
-    // comparison of runs: check ref run & ref pass
+    // comparison of runs: check ref run & ref pass:
     if(ref_run <= 0) { success = false; par = "ref_run"; }
     if(ref_pass == "") { 
       if(n_passes == 1) {
@@ -170,31 +184,31 @@ bool configuration::check ()
       } else { success = false; par = "ref_pass"; } 
     }
   } else if (compare == "passes") {
-    // comparison of passes: check ref pass
+    // comparison of passes: check ref pass:
     if(ref_pass == "") { success = false; par = "ref_pass"; }
     if(ref_run != 0) {
       cout << "INFO: Ref run specified but not relevant for comparison of passes\n";
     }
   } else {
-    // other comparison type not defined
+    // other comparison type not defined:
     cout << "Unsupported option for 'compare'. Use 'runs' or 'passes'\n";
     return false;
   }
-  // reference is MC but period is not specified
+  // reference is MC but period is not specified:
   if(ref_period_mc == "" && ref_pass == "passMC") {
     if(n_periods_mc == 1) {
       cout << "Ref MC period not specified, taking the global one: " << periods_mc << "\n"; 
       ref_period_mc = periods_mc;
     } else { success = false; par = "ref_period_mc"; } 
   }
-  // passMC requested but period MC not specified
+  // passMC requested but period MC not specified:
   bool passMC = false;
   for(auto ps : pass_list) if(ps == "passMC") passMC = true;
   if(passMC && n_periods_mc == 0) {
     cout << "passMC requested but no periods_mc specified\n";
     return false;
   }
-  // create group name, if not given
+  // create group name, if not given:
   if(group == "") {
     cout << "Group name not given\n";
     if(n_periods == 1 && n_passes == 1) {
@@ -206,7 +220,24 @@ bool configuration::check ()
       group = jira;
     } else { success = false; par = "group"; }
   }
-  // successful?
+  // set latex variables:
+  latex_fname_main = Form("%s%s.tex", LATEX_FOLDER.data(), group.data());
+  latex_title = jira;
+  if(n_periods == 1 && n_passes == 1) latex_title = Form("%s of %s", pass_list[0].data(), period_list[0].data());
+  if(latex_title == "") {
+    cout << "Cannot create latex title. JIRA number is not provided and there are more periods/passes than 1\n";
+    return false;
+  }
+  if(n_rounds == 1) {
+    string fname = Form("%s%s%s.tex", LATEX_FOLDER.data(), LATEX_SUBFOLDER.data(), group.data());
+    latex_fname_list.push_back(fname);
+  } else {
+    for (int i = 0; i < n_rounds; i++) {
+      string fname = Form("%s%s_%02i.tex", LATEX_SUBFOLDER.data(), group.data(), i+1);
+      latex_fname_list.push_back(fname);
+    } 
+  }
+  // config check successful?
   if(!success) {
     cout << "Parameter '" << par << "' not set properly\n";
     return false;
@@ -236,16 +267,17 @@ void configuration::print ()
   if(ref_period_mc != "") cout << ", " << ref_period_mc;
   cout << "\n"
     << " *** \n"
-    << " bad runs mode:    " << bad_runs << "\n"
-    << " plot band:        " << plot_band << "\n"
-    << " timestamp:        " << timestamp << " (0 -> SOR)\n"
-    << " old QC paths?     " << old_path << "\n"
-    << " rewrite QC files? " << rewrite_qc_files << "\n"
-    << " recreate plots?   " << recreate_plots << "\n"
+    << " bad runs mode: " << bad_runs << "\n"
+    << " plot band:     " << plot_band << "\n"
+    << " timestamp:     " << timestamp << " (0 -> SOR)\n"
+    << " old QC paths?  " << old_path << "\n"
+    << " rewrite input? " << rewrite_input << "\n"
+    << " rewrite plots? " << rewrite_plots << "\n"
+    << " rewrite latex? " << rewrite_latex << "\n"
     << " *** \n"
     << " # runs: " << n_runs << "\n"
-    << " # (run,pass,period): " << n_combs << "\n";
-  if(compare == "runs") cout << " # rounds: " << n_rounds << "\n";
+    << " # (run,pass,period): " << n_combs << "\n"
+    << " # rounds: " << n_rounds << "\n";
   cout << "\n";
   int i(1);
   for(auto r : full_list) {
@@ -300,8 +332,10 @@ bool configuration::load_from_file (string fname, run_map rm, bool verbose)
       }
     }
     // calculate # rounds
-    n_rounds = n_combs / (n_colors * n_styles);
-    if(n_combs % (n_colors * n_styles) > 0) n_rounds += 1;
+    if(compare == "runs") {
+      n_rounds = n_combs / (n_colors * n_styles);
+      if(n_combs % (n_colors * n_styles) > 0) n_rounds += 1;
+    } else n_rounds = 1;
     // calculate # of periods
     string period = "";
     for (auto r : full_list) {
