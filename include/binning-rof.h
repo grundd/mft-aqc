@@ -1,3 +1,7 @@
+// MFT Asynchronous Quality Control
+// David Grund
+// 2024
+
 const int n_bins_rof = 319;
 const double bins_rof[n_bins_rof+1] = {
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10,

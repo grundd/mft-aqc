@@ -6,6 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 // my headers
 #include "utils.h"
@@ -53,6 +54,8 @@ class configuration
     vector<string> pass_list;
     int n_periods_mc;
     vector<string> period_mc_list;
+    int n_periods;
+    vector<string> period_list;
     int n_combs;
     vector<run_specifier> full_list; // (run, pass, period) list
     int n_rounds;
@@ -65,10 +68,11 @@ class configuration
     run_specifier get_ref_run (run_map rm);
     string get_ref_pass () { return ref_pass; }
     string get_ref_period_mc () { return ref_period_mc; }
-    vector<run_specifier> get_full_list () { return full_list; }
     vector<int> get_run_list () { return run_list; }
     vector<string> get_pass_list () { return pass_list; }
     vector<string> get_period_mc_list () { return period_mc_list; }
+    vector<string> get_period_list () { return period_list; }
+    vector<run_specifier> get_full_list () { return full_list; }
     string get_compare () { return compare; }
     string get_group () { return group; }
     string get_bad_runs () { return bad_runs; }
@@ -81,6 +85,7 @@ class configuration
     int get_n_passes () { return n_passes; }
     int get_n_periods_mc () { return n_periods_mc; }
     int get_n_rounds () { return n_rounds; }
+    int get_n_periods () { return n_periods; }
 };
 
 configuration::configuration():
@@ -92,6 +97,7 @@ configuration::configuration():
   rewrite_qc_files(false), recreate_plots(false),
   n_passes(0), pass_list(), 
   n_periods_mc(0), period_mc_list(),
+  n_periods(0), period_list(),
   n_runs(0), run_list(),
   n_combs(0), full_list(), 
   n_rounds(0)
@@ -191,9 +197,13 @@ bool configuration::check ()
   // create group name, if not given
   if(group == "") {
     cout << "Group name not given\n";
+    if(n_periods == 1 && n_passes == 1) {
+      cout << " -> single period and pass detected, <period>_<pass> will be used\n";
+      group = Form("%s_%s", period_list[0].data(), pass_list[0].data());
+    }
     if(jira != "") {
-      group = jira;
       cout << " -> JIRA ticket number will be used\n";
+      group = jira;
     } else { success = false; par = "group"; }
   }
   // successful?
@@ -208,15 +218,25 @@ void configuration::print ()
   cout << std::boolalpha
     << "\nConfiguration: \n"
     << " compare:    " << compare << "\n"
-    << " group:      " << group << "\n"
+    << " group name: " << group << "\n"
     << " jira:       " << jira << "\n"
-    << " passes:     " << passes << " (total: " << n_passes << ")\n"
-    << " MC periods: " << periods_mc << " (total: " << n_periods_mc << ")\n";
+    << " passes:     " << passes << " (total: " << n_passes << ")\n";
+  if(n_periods_mc == 0) cout << " MC periods: -";
+  else cout << " MC periods: " << periods_mc;
+  cout << " (total: " << n_periods_mc << ")\n"
+    << " period:     ";
+  for(int i = 0; i < n_periods; i++) {
+    string p = period_list[i];
+    if(i == n_periods - 1) cout << p;
+    else cout << p << ", ";
+  }
+  cout << " (total: " << n_periods << ")\n";
   if(compare == "runs") cout << " reference:  " << ref_run << ", " << ref_pass;
   else cout << " reference:  " << ref_pass;
   if(ref_period_mc != "") cout << ", " << ref_period_mc;
   cout << "\n"
     << " *** \n"
+    << " bad runs mode:    " << bad_runs << "\n"
     << " plot band:        " << plot_band << "\n"
     << " timestamp:        " << timestamp << " (0 -> SOR)\n"
     << " old QC paths?     " << old_path << "\n"
@@ -224,12 +244,12 @@ void configuration::print ()
     << " recreate plots?   " << recreate_plots << "\n"
     << " *** \n"
     << " # runs: " << n_runs << "\n"
-    << " # (run,pass,MC period): " << n_combs << "\n";
+    << " # (run,pass,period): " << n_combs << "\n";
   if(compare == "runs") cout << " # rounds: " << n_rounds << "\n";
   cout << "\n";
   int i(1);
   for(auto r : full_list) {
-    printf("   %03i -> %i \t%s \t%s \n", i, r.run, r.pass.data(), r.period.data());
+    printf("   %03i -> %i, %s, %s \n", i, r.run, r.pass.data(), r.period.data());
     i++;
   }
   return;
@@ -279,8 +299,16 @@ bool configuration::load_from_file (string fname, run_map rm, bool verbose)
         }
       }
     }
+    // calculate # rounds
     n_rounds = n_combs / (n_colors * n_styles);
     if(n_combs % (n_colors * n_styles) > 0) n_rounds += 1;
+    // calculate # of periods
+    string period = "";
+    for (auto r : full_list) {
+      if (std::find(period_list.begin(), period_list.end(), r.period) == period_list.end())
+        period_list.push_back(r.period);
+    }
+    n_periods = (int)period_list.size();
   } else {
     cout << "Could not open config file " << fname << "\n"; 
     return false;
