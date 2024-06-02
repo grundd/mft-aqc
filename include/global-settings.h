@@ -28,8 +28,6 @@ string PATH_QC_CLS[2] = {"qc/MFT/MO/MFTClusterTask/", "qc/MFT/MO/MFTAsyncTask/cl
 string PATH_MC_TRKS[2] = {"qc_mc/MFT/MO/Tracks/", "qc_mc/MFT/MO/Tracks/tracks/"};
 string PATH_MC_CLS[2] = {"qc_mc/MFT/MO/Clusters/", "qc_mc/MFT/MO/Tracks/clusters/"};
 
-const int n_runs_per_slide = 18;
-
 const int n_colors = 10; // base colors available
 const int n_styles = 3;
 Color_t color_table[n_colors] = { 
@@ -43,4 +41,16 @@ Color_t color_table[n_colors] = {
   kViolet,
   kGray,
   43
+};
+
+const int n_runs_per_slide = 18;
+
+const int n_plots_per_slide = 6;
+string PLOTS_TO_PPT[6] = {
+  "mMFTTrackEta_5_MinClusters",
+  "mMFTTrackPhi_5_MinClusters",
+  "mMFTTrackInvQPt",
+  "mMFTTrackNumberOfClusters",
+  "mMFTTrackROFSize",
+  "mClustersROFSize"
 };

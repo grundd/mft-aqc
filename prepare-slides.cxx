@@ -20,7 +20,7 @@ void prepare_slides (string input = "_test.txt", bool verbose = false)
   histogram_list hlst;
   if(!hlst.load_from_csv(PATH_TO_HISTO_LIST)) return;
 
-  create_main_latex(cfg);
+  create_main_latex(cfg, grm);
 
   cout << "\nDone\n\n";
   return;
