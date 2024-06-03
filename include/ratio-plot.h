@@ -56,14 +56,14 @@ class ratio_plot
     // private methods
     TH1F* load_histo (run_specifier rsp);
     void set_axes (TH1F* h);
-    TCanvas* make_plot (configuration cfg, run_map rm, bool debug = false);
-    TCanvas* make_legend (configuration cfg, run_map rm, bool debug = false);
-  public:
-    ratio_plot ();
     void set_histo_type (histogram h);
     void set_r_ref (run_specifier rsp);
     void set_r_arr (vector<run_specifier> v_rsp); 
     void set_ranges (configuration cfg, run_map rm);
+    TCanvas* make_plot (configuration cfg, run_map rm, bool debug = false);
+    TCanvas* make_legend (configuration cfg, run_map rm, bool debug = false);
+  public:
+    ratio_plot ();
     bool create_plot (configuration cfg, run_map rm, string path, string prefix, 
       histogram h, run_specifier ref, vector<run_specifier> v_rsp, bool debug);
 };
@@ -384,7 +384,7 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
   ltx.SetTextSize(text_size_px_leg);
   ltx.SetTextAlign(11);
   ltx.SetNDC();
-  ltx.DrawLatex(0.04,0.963,Form("Reference run:"));
+  ltx.DrawLatex(0.04,0.963,Form("Reference:"));
 
   return c;
 }

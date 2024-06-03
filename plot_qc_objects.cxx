@@ -56,8 +56,9 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
     vector<string> list_per_mc = cfg.get_period_mc_list();
 
     int n_runs = cfg.get_n_runs();
-    cout << "Plotting comparison of passes. Total runs: " << n_runs << "\n"
-         << " Reference: " << cfg.get_ref_run(rm).period << ", " << cfg.get_ref_run(rm).pass << "\n";
+    cout << "Plotting comparison of passes. Total runs: " << n_runs << "\n";
+    if(cfg.get_ref_pass() == "passMC") cout << " Reference: " << cfg.get_ref_period_mc() << "\n";
+    else cout << " Reference: " << cfg.get_ref_pass() << "\n";
 
     // create sublist of (run, pass, period) for each run
     string ref_pass = cfg.get_ref_pass();
@@ -65,6 +66,11 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
     for (auto run : list_runs)
     {
       cout << "\n Run " << run << ":\n"; 
+      if((rm.is_run(run,STR_BAD) && cfg.get_bad_runs() == "hide") || rm.is_run(run,STR_NOT_PART)) {
+        cout << "Run BAD and option 'hide' selected or MFT not participating -> skipped\n";
+        continue;
+      }
+
       vector<run_specifier> list_part;
       run_specifier ref;
       for (auto pass : list_pass) {
