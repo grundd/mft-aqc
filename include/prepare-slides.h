@@ -100,7 +100,13 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
 
 void create_main_latex (configuration cfg, run_map rm)
 {
-  ofstream ofs(cfg.get_latex_fname_main().data());
+  string fname = cfg.get_latex_fname_main();
+  bool file_exists = !gSystem->AccessPathName(fname.data());
+  if (file_exists && cfg.is_rewrite_latex() == false) {
+    cout << "File " << fname << " exists and rewrite_latex==false\n";
+    return;
+  }
+  ofstream ofs(fname.data());
   ofs << R"(
 \documentclass[12pt,xcolor={dvipsnames}]{beamer}
 \geometry{paperwidth=160mm,paperheight=90mm}
@@ -199,6 +205,12 @@ void create_slides (configuration cfg, run_map rm)
   for (int r = 0; r < n_rounds; r++) 
   {
     string fname = Form("%s%s", LATEX_FOLDER.data(), cfg.get_latex_fname_list()[r].data());
+    bool file_exists = !gSystem->AccessPathName(fname.data());
+    if (file_exists && cfg.is_rewrite_latex() == false) {
+      cout << "File " << fname << " exists and rewrite_latex==false\n";
+      return;
+    }
+
     ofstream ofs(fname.data());
     string path = Form("%s%s/", PLOTS_FOLDER.data(), cfg.get_group().data());
 
@@ -228,7 +240,7 @@ void create_slides (configuration cfg, run_map rm)
         {
           ofs << R"(\frame[t]{)" << "\n"
               << R"(\frametitle{)" << title << "}\n"
-              << R"({\small MFT run quality: })" << rm.get_run_quality(r) << "\n"
+              << R"({\small MFT quality: })" << rm.get_run_quality(r) << "\n"
               << "} \n\n";
           cout << "Run BAD and option 'hide' selected or MFT not participating -> skipped\n";
           continue;
