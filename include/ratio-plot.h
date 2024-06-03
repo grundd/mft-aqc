@@ -339,7 +339,7 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
 
   // create the legend
   float y_top = 0.98;
-  int extra_rows = 3;
+  int extra_rows = 4;
   
   TH1F* h_ref = r_ref.get_histo();
   if(!h_ref) {
@@ -354,6 +354,7 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
   l->AddEntry(h_ref,Form("%i : %s, %s", 
     r_ref.get_rsp().run, shorten_period_name(r_ref.get_rsp().period).data(), r_ref.get_rsp().pass.data()),"L");
   l->AddEntry((TObject*)0,"","");
+  l->AddEntry((TObject*)0,"","");
 
   // add others
   for(auto rh : r_arr) {
@@ -361,7 +362,7 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
     string pass = rh.get_rsp().pass; 
     string period = rh.get_rsp().period; 
     TH1F* h = (TH1F*)rh.get_histo();
-    bool is_empty = false;
+    bool is_empty = true;
     if(h) is_empty = h->GetEntries() == 0;
     bool is_bad = rm.is_run(run, STR_BAD);
     bool is_not_part = rm.is_run(run, STR_NOT_PART);
@@ -392,7 +393,8 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
   ltx.SetTextSize(text_size_px_leg);
   ltx.SetTextAlign(11);
   ltx.SetNDC();
-  ltx.DrawLatex(0.04,0.963,Form("Reference:"));
+  ltx.DrawLatex(0.03,0.963,Form("Reference:"));
+  ltx.DrawLatex(0.03,0.885,Form("Run list:"));
 
   return c;
 }
