@@ -57,7 +57,7 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
       // print the run info
       if(!single_period) ofs << period << " & ";
       ofs << fill << " & ";
-      if(run == cfg.get_ref_run(rm).run) {
+      if(cfg.get_compare() == "runs" && (run == cfg.get_ref_run(rm).run)) {
         ofs << R"(\RefRun{)" << run << "*} & ";
         ref_printed = true;
         print_ref_legend = true;
@@ -83,7 +83,7 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
     }
 
     // if we are on the last slide, print the reference details
-    if(runs_to_print.empty() && ref_printed == false) {
+    if(cfg.get_compare() == "runs" && runs_to_print.empty() && ref_printed == false) {
       run_specifier ref = cfg.get_ref_run(rm);
       ofs << R"(\begin{textblock*}{144mm}(8mm,81mm))" << "\n"
           << R"({\footnotesize\textbf{Reference run}: \RefRun{)" << ref.run << "} "
@@ -168,7 +168,7 @@ bool print_fig (ofstream& ofs, string path, string name, float h, float x, float
   }
 }
 
-void create_slide_run_comparison (ofstream& ofs, string path, string prefix, string title)
+void create_slide (ofstream& ofs, string path, string prefix, string title)
 {
   ofs << R"(\frame[t]{)" << "\n"
       << R"(\frametitle{)" << title << "}\n\n";
@@ -192,7 +192,7 @@ void create_slide_run_comparison (ofstream& ofs, string path, string prefix, str
   return;
 }
 
-void create_slides (configuration cfg)
+void create_slides (configuration cfg, run_map rm)
 {
   // one latex subfile for each round
   int n_rounds = cfg.get_n_rounds();
@@ -202,15 +202,41 @@ void create_slides (configuration cfg)
     ofstream ofs(fname.data());
     string path = Form("%s%s/", PLOTS_FOLDER.data(), cfg.get_group().data());
 
-    if(cfg.get_compare() == "runs")
+    if (cfg.get_compare() == "runs")
     {
       // create a title
       string title = cfg.get_latex_title();
       if(n_rounds == 1) title.append(": comparison of the runs");
-      else title.append(Form(": comparison of the runs %i/%i", r, n_rounds));
+      else title.append(Form(": comparison of the runs %i/%i", r+1, n_rounds));
+
       string prefix = "";
       if(n_rounds > 1) prefix = Form("%02i_", r+1);
-      create_slide_run_comparison(ofs, path, prefix, title);
+      create_slide(ofs, path, prefix, title);
+    }
+
+    if (cfg.get_compare() == "passes")
+    {
+      for (auto r : cfg.get_run_list())
+      {
+        // create a title
+        string title = cfg.get_latex_title();
+        title.append(Form(": %i", r));
+        string comment = rm.get_run_comment(r);
+        if(comment != "") title += (R"(~{\small()" + comment + R"()})");
+
+        if((rm.is_run(r,STR_BAD) && cfg.get_bad_runs() == "hide") || rm.is_run(r,STR_NOT_PART)) 
+        {
+          ofs << R"(\frame[t]{)" << "\n"
+              << R"(\frametitle{)" << title << "}\n"
+              << R"({\small MFT run quality: })" << rm.get_run_quality(r) << "\n"
+              << "} \n\n";
+          cout << "Run BAD and option 'hide' selected or MFT not participating -> skipped\n";
+          continue;
+        } else {
+          string prefix = Form("%i_", r);
+          create_slide(ofs, path, prefix, title);
+        }
+      }
     }
 
     ofs.close();
