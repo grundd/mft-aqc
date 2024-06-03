@@ -54,11 +54,11 @@ class ratio_plot
     int text_size_px = 20; // in pixels
     int text_size_px_leg = 17;
     // private methods
-    TH1F* load_histo (run_specifier rsp);
+    TH1F* load_histo (string prefix, run_specifier rsp, bool verbose = false);
     void set_axes (TH1F* h);
     void set_histo_type (histogram h);
-    void set_r_ref (run_specifier rsp);
-    void set_r_arr (vector<run_specifier> v_rsp); 
+    void set_r_ref (string prefix, run_specifier rsp);
+    void set_r_arr (string prefix, vector<run_specifier> v_rsp); 
     void set_ranges (configuration cfg, run_map rm);
     TCanvas* make_plot (configuration cfg, run_map rm, bool debug = false);
     TCanvas* make_legend (configuration cfg, run_map rm, bool debug = false);
@@ -74,7 +74,7 @@ ratio_plot::ratio_plot ():
   // default constructor
 }
 
-TH1F* ratio_plot::load_histo (run_specifier rsp)
+TH1F* ratio_plot::load_histo (string prefix, run_specifier rsp, bool verbose)
 {
   if(histo_type_empty) {
     cout << "histo_type is empty, please specify using set_histo_type()\n";
@@ -85,14 +85,19 @@ TH1F* ratio_plot::load_histo (run_specifier rsp)
   TH1F* h = (TH1F*)f->Get(histo_type.name_short.data());
   if(h) {
     gROOT->cd();
-    TH1F* h_clone = (TH1F*)h->Clone(Form("%i_%s_%s", rsp.run, rsp.pass.data(), h->GetName()));
+    // create a unique name for the histogram
+    string name = "";
+    if (prefix.find(Form("%i", rsp.run)) != string::npos) name = Form("%s%s_%s", prefix.data(), rsp.pass.data(), h->GetName());
+    else name = Form("%s%i_%s_%s", prefix.data(), rsp.run, rsp.pass.data(), h->GetName());
+    // clone it and close the file
+    TH1F* h_cl = (TH1F*)h->Clone(name.data());
     f->Close();
-    if(histo_type.options.find("rebinROF") != string::npos) h_clone = rebin_rof(h_clone);
-    h_clone->Scale(1./h_clone->Integral());
-    return h_clone;
+    if(histo_type.options.find("rebinROF") != string::npos) h_cl = rebin_rof(h_cl);
+    h_cl->Scale(1./h_cl->Integral());
+    return h_cl;
   } else {
     f->Close();
-    cout << histo_type.name_short << " not found for (" << rsp.run << ", " << rsp.pass << ", " << rsp.period << ")\n";
+    if(verbose) cout << histo_type.name_short << " not found for (" << rsp.run << ", " << rsp.pass << ", " << rsp.period << ")\n";
     return NULL;
   }
 }
@@ -123,16 +128,16 @@ void ratio_plot::set_histo_type (histogram h)
   return;
 }
 
-void ratio_plot::set_r_ref (run_specifier rsp)
+void ratio_plot::set_r_ref (string prefix, run_specifier rsp)
 { 
-  r_ref = run_histo(rsp,load_histo(rsp));
+  r_ref = run_histo(rsp, load_histo(Form("%sref_", prefix.data()), rsp));
   return;
 }
 
-void ratio_plot::set_r_arr (vector<run_specifier> v_rsp)
+void ratio_plot::set_r_arr (string prefix, vector<run_specifier> v_rsp)
 {
   for(auto rsp : v_rsp) {
-    r_arr.push_back(run_histo(rsp,load_histo(rsp)));
+    r_arr.push_back(run_histo(rsp, load_histo(prefix, rsp)));
   }
   return;
 }
@@ -154,8 +159,10 @@ void ratio_plot::set_ranges (configuration cfg, run_map rm)
         TH1F* h = (TH1F*)rh.get_histo();
         bool is_bad = rm.is_run(rh.get_rsp().run, STR_BAD);
         bool change_range = (is_bad == false) || (cfg.get_bad_runs() == "show");
-        if(h->GetMinimum() < range_y[0] && change_range == true) range_y[0] = h->GetMinimum();
-        if(h->GetMaximum() > range_y[2] && change_range == true) range_y[2] = h->GetMaximum();
+        if(h) {
+          if(h->GetMinimum() < range_y[0] && change_range == true) range_y[0] = h->GetMinimum();
+          if(h->GetMaximum() > range_y[2] && change_range == true) range_y[2] = h->GetMaximum();
+        }
       }
     }
   }
@@ -354,7 +361,8 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
     string pass = rh.get_rsp().pass; 
     string period = rh.get_rsp().period; 
     TH1F* h = (TH1F*)rh.get_histo();
-    bool is_empty = h->GetEntries() == 0;
+    bool is_empty = false;
+    if(h) is_empty = h->GetEntries() == 0;
     bool is_bad = rm.is_run(run, STR_BAD);
     bool is_not_part = rm.is_run(run, STR_NOT_PART);
     if(!is_empty) {
@@ -398,8 +406,8 @@ bool ratio_plot::create_plot (configuration cfg, run_map rm, string path, string
   if(!plot_exists || (plot_exists && cfg.is_rewrite_plots()))
   {
     set_histo_type(h);
-    set_r_ref(ref);
-    set_r_arr(v_rsp);
+    set_r_ref(prefix, ref);
+    set_r_arr(prefix, v_rsp);
     set_ranges(cfg, rm);
 
     // print plot and legend together
