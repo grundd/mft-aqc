@@ -128,7 +128,7 @@ void download_histos(configuration cfg, histogram_list hlst, run_specifier rsp)
   return;
 }
 
-void download_qc_objects (string input = "_test.txt", bool verbose = false)
+void download_qc_objects (string input = "", bool verbose = false)
 {
   // global run map
   run_map grm;

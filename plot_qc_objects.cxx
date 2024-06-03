@@ -100,7 +100,7 @@ bool create_plots (run_map rm, configuration cfg, vector<histogram> hlst, bool d
   return true;
 }
 
-void plot_qc_objects (string input = "_test.txt", bool verbose = false)
+void plot_qc_objects (string input = "", bool verbose = false)
 {
   // global run map
   run_map grm;

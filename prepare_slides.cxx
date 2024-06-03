@@ -8,7 +8,7 @@
 #include "include/load-list-of-histograms.h"
 #include "include/prepare-slides.h"
 
-void prepare_slides (string input = "_test.txt", bool verbose = false)
+void prepare_slides (string input = "", bool verbose = false)
 {
   gSystem->Exec(Form("mkdir -p %s%s", LATEX_FOLDER.data(), LATEX_SUBFOLDER.data()));
   // global run map
@@ -24,7 +24,7 @@ void prepare_slides (string input = "_test.txt", bool verbose = false)
   if(!hlst.load_from_csv(PATH_TO_HISTO_LIST)) return;
 
   create_main_latex (cfg, grm);
-  create_slides (cfg);
+  create_slides (cfg, grm);
 
   cout << "\nDone\n\n";
   return;
