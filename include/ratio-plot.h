@@ -367,7 +367,8 @@ TCanvas* ratio_plot::make_legend (configuration cfg, run_map rm, bool debug)
     bool is_bad = rm.is_run(run, STR_BAD);
     bool is_not_part = rm.is_run(run, STR_NOT_PART);
     if(!is_empty) {
-      if (is_bad == false && is_not_part == false) { // not bad and MFT participating
+      if ((is_bad == false || (is_bad == true && cfg.get_bad_runs() == "show"))
+          && is_not_part == false) { // (not bad or bad but should be shown) and MFT participating
         string text = Form("%i", run);
         if(cfg.get_n_periods_mc() > 1 && pass == "passMC") text += Form(" : %s", shorten_period_name(period).data());
         if(cfg.get_n_passes() > 1 && pass != "passMC") text += Form(" : %s", pass.data());
