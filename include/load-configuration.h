@@ -325,6 +325,10 @@ bool configuration::load_from_file (string fname, run_map rm, bool verbose)
         string run;
         iss >> run; 
         if(verbose) cout << run << "\n";
+        if(!rm.run_in_map(stoi(run))) {
+          cout << "Add the run to the global map: " << PATH_TO_GLOBAL_MAP << "\n";
+          return false;
+        }
         run_list.push_back(stoi(run));
         n_runs = (int)run_list.size();
         for(auto ps : pass_list) {
