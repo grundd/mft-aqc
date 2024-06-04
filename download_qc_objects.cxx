@@ -47,11 +47,9 @@ TH* download_histo(string hname, int run, string pass, string period, long times
   if(SET_QC_VERSION != "") metadata["qc_version"] = SET_QC_VERSION;
   // print the used metadata:
   if(verbose) {
-    cout << "\nmetadata specifications: \n";
-    cout << " -> RunNumber=" << s_run
-      << ", PeriodName=" << period;
-    if(specify_pass != "") cout << ", PassName=" << specify_pass;
-    if(SET_QC_VERSION != "") cout << ", qc_version=" << SET_QC_VERSION;
+    cout << "\nmetadata requirements: \n -> ";
+    map<string,string>::iterator it;
+    for (it = metadata.begin(); it != metadata.end(); it++) cout << it->first << "=" << it->second << ", ";
     cout << "\n";
   }
   TH* h = NULL;

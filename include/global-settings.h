@@ -5,7 +5,7 @@
 string SET_QC_VERSION = "";
 char csv_delimiter = ',';
 string STR_TRUE = "y";
-string STR_SOR = "STF"; // used to be SOR
+string STR_SOR = "SOR"; // SOR or STF
 string STR_GOOD = "good";
 string STR_MIXED = "mixed";
 string STR_BAD = "bad";
