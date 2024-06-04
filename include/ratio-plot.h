@@ -87,8 +87,8 @@ TH1F* ratio_plot::load_histo (string prefix, run_specifier rsp, bool verbose)
     gROOT->cd();
     // create a unique name for the histogram
     string name = "";
-    if (prefix.find(Form("%i", rsp.run)) != string::npos) name = Form("%s%s_%s", prefix.data(), rsp.pass.data(), h->GetName());
-    else name = Form("%s%i_%s_%s", prefix.data(), rsp.run, rsp.pass.data(), h->GetName());
+    if (prefix.find(Form("%i", rsp.run)) != string::npos) name = Form("%s%s_%s_%s", prefix.data(), rsp.period.data(), rsp.pass.data(), h->GetName());
+    else name = Form("%s%i_%s_%s_%s", prefix.data(), rsp.run, rsp.period.data(), rsp.pass.data(), h->GetName());
     // clone it and close the file
     TH1F* h_cl = (TH1F*)h->Clone(name.data());
     f->Close();
@@ -260,7 +260,7 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
   // lower pad: ratios
   c->cd();
   TPad* p2 = NULL; 
-  TGraph gr_band(4);
+  TGraph* gr_band = new TGraph(4);
   if(ratio_panel) {
     p2 = new TPad("p2","",0.0,0.0,1.,y_divide);
     p2->SetTopMargin(0.);
@@ -281,13 +281,13 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
     // print a band showing the limits
     float band = cfg.get_plot_band();
     if (band > 0) {
-      gr_band.SetPoint(0,x_min_plot,1.-band);
-      gr_band.SetPoint(1,range_x[2],1.-band);
-      gr_band.SetPoint(2,range_x[2],1.+band);
-      gr_band.SetPoint(3,x_min_plot,1.+band);
-      gr_band.SetFillStyle(1001);
-      gr_band.SetFillColorAlpha(kGreen-4,0.20);
-      gr_band.Draw("F");
+      gr_band->SetPoint(0,x_min_plot,1.-band);
+      gr_band->SetPoint(1,range_x[2],1.-band);
+      gr_band->SetPoint(2,range_x[2],1.+band);
+      gr_band->SetPoint(3,x_min_plot,1.+band);
+      gr_band->SetFillStyle(1001);
+      gr_band->SetFillColorAlpha(kGreen-4,0.20);
+      gr_band->Draw("F");
     }
 
     // draw ratios
