@@ -229,7 +229,14 @@ bool configuration::check ()
     jira_to_link = Form("%s%s}{%s}", link.data(), jira.data(), jira.data());
   }
   if(n_periods == 1) latex_title.append(Form("%s", period_list.front().data()));
-  if(n_periods == 1 && n_passes == 1) latex_title.append(Form(" %s", pass_list.front().data()));
+  if(n_periods == 1 && n_passes == 1) {
+    // for latex: if pass name contains _, replace it with \_
+    string pass = pass_list.front();
+    string to_replace = "_";
+    std::size_t pos = pass.find(to_replace);
+    if (pos != std::string::npos) pass.replace(pos, to_replace.length(), R"(\_)");
+    latex_title.append(Form(" %s", pass.data()));
+  }
   if(latex_title != "") latex_title.append(", ");
   latex_title.append(jira_to_link.data());
   if(latex_title == "") {
