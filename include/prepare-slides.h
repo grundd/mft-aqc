@@ -70,7 +70,7 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
 
       runs_to_print.erase(runs_to_print.begin());
       n_printed++;
-      print_more = (n_printed <= n_runs_per_slide) && runs_to_print.size() > 0;
+      print_more = (n_printed < n_runs_per_slide) && runs_to_print.size() > 0;
       
     }
     ofs << R"(\end{tabular})" << "\n\n";
@@ -132,6 +132,7 @@ void create_main_latex (configuration cfg, run_map rm)
 \newcommand{\RefRun}[1]{\colorbox{Goldenrod}{\textcolor{Black}{#1}}}
 \usetheme{Madrid}
 \usecolortheme{beaver}
+\setbeamerfont{frametitle}{size=\large}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{enumerate items}[square]
 \setbeamertemplate{itemize items}{\normalsize$\bullet$}
@@ -234,8 +235,7 @@ void create_slides (configuration cfg, run_map rm)
         string title = cfg.get_latex_title();
         title.append(Form(": %i", r));
         string comment = rm.get_run_comment(r);
-        if(comment != "") title += (R"(~{\small()" + comment + R"()})");
-
+        if(comment != "") title += (R"(~\begin{minipage}{70mm}\scriptsize()" + comment + R"()\end{minipage})");
         if((rm.is_run(r,STR_BAD) && cfg.get_bad_runs() == "hide") || rm.is_run(r,STR_NOT_PART)) 
         {
           ofs << R"(\frame[t]{)" << "\n"
