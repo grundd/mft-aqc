@@ -31,13 +31,13 @@
 
         <h2>2022</h2>
         <ul>
-            <li><a href="reports/LHC22f_apass4.pdf">LHC22f_apass4.pdf</a></li>
-            <li><a href="reports/LHC22o_apass6.pdf">LHC22o_apass6.pdf</a></li>
-            <li><a href="reports/LHC22p_apass2.pdf">LHC22p_apass2.pdf</a></li>
-            <li><a href="reports/LHC22p_apass3.pdf">LHC22p_apass3.pdf</a></li>
-            <li><a href="reports/LHC22q_apass2.pdf">LHC22q_apass2.pdf</a></li>
-            <li><a href="reports/LHC22q_apass3.pdf">LHC22q_apass3.pdf</a></li>
-            <li><a href="reports/LHC22s_apass5.pdf">LHC22s_apass5.pdf</a></li>
+            <li>LHC22f: <a href="reports/LHC22f_apass4.pdf">apass4.pdf</a></li>
+            <li>LHC22o: <a href="reports/LHC22o_apass6.pdf">apass6.pdf</a>, <a href="reports/LHC22o_apass7_skimmed.pdf">apass7_skimmed.pdf</a></li>
+            <li>LHC22p: <a href="reports/LHC22p_apass2.pdf">apass2.pdf</a>, <a href="reports/LHC22p_apass3.pdf">apass3.pdf</a>, <a href="reports/LHC22p_apass7_skimmed.pdf">apass7_skimmed.pdf</a></li>
+            <li>LHC22q: <a href="reports/LHC22q_apass2.pdf">apass2.pdf</a>, <a href="reports/LHC22q_apass3.pdf">apass3.pdf</a></li>
+            <li>LHC22r: <a href="reports/LHC22r_apass7_skimmed.pdf">apass7_skimmed.pdf</a></li>
+            <li>LHC22s: <a href="reports/LHC22s_apass5.pdf">apass5.pdf</a></li>
+            <li>LHC22t: <a href="reports/LHC22t_apass7_skimmed.pdf">apass7_skimmed.pdf</a></li>
         </ul>
 
         <h2>MC productions</h2>
