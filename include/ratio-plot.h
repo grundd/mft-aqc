@@ -253,7 +253,7 @@ TCanvas* ratio_plot::make_plot (configuration cfg, run_map rm, bool debug)
   ltx.SetTextSize(text_size_px);
   ltx.SetTextAlign(21);
   ltx.SetNDC();
-  ltx.DrawLatex(0.5,y_ltx,Form("%s : %s", cfg.get_group().data(), histo_type.title.data()));
+  ltx.DrawLatex(0.5,y_ltx,Form("%s", histo_type.title.data()));
 
   gPad->RedrawAxis();
 
