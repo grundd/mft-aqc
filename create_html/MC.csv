@@ -4,7 +4,12 @@ LHC23j5,O2-4439,apass1 of LHC23zo and LHC23zp,MC_LHC23j5_vs_LHC23zo_apass1,perio
 LHC23k2c,O2-4547,apass4 of LHC22 pp@13.6 TeV @500 kHz,MC_LHC23k2c_vs_LHC22pp_apass4,periods LHC22o+p+r+t,/
 LHC23k4b,O2-4556,apass1 of LHC23 pp@13.6 TeV,MC_LHC23k4b_vs_LHC23n+zk_apass1,periods LHC23n+zk,/
 ,,,MC_LHC23k4b_vs_LHC23pp_apass1,all other periods,/
+LHC23k4g,O2-4780,apass4 of LHC23 pp@13.6 TeV,MC_LHC23k4g_vs_LHC23n+zk_apass4,periods LHC23n+zk,/
+,,,MC_LHC23k4g_vs_LHC23pp_apass4,all other periods,/
 LHC23k6c,O2-4582,apass1 of LHC23 Pb-Pb@5.36 TeV,MC_LHC23k6c_vs_LHC23PbPb_apass1,-,/
 LHC23k6d,O2-4586,apass2 of LHC23 Pb-Pb@5.36 TeV,MC_LHC23k6d_vs_LHC23PbPb_apass2,-,/
 LHC23k6e,O2-4717,apass2 of LHC23 Pb-Pb@5.36 TeV,MC_LHC23k6e_vs_LHC23PbPb_apass2,-,/
-LHC24b1,O2-4718,apass6 of LHC22o - MinBias,MC_LHC24b1_vs_LHC22o_apass6,-,/
+LHC24b1b,O2-4718,apass6 of LHC22o - MinBias,MC_LHC24b1b_vs_LHC22o_apass6,-,/
+LHC24d2b,O2-4843,apass3 of LHC23 Pb-Pb@5.36 TeV,MC_LHC24d2b_vs_LHC23PbPb_apass3,golden periods,/
+,,,MC_LHC24d2b_vs_LHC23PbPb_apass3_nongolden_periods,non-golden periods,/
+LHC24e2,O2-4934,apass3 of LHC23 Pb-Pb@5.36 TeV ,MC_LHC24e2_vs_LHC23PbPb_apass3,-,/

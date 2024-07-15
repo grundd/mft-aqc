@@ -1,8 +1,14 @@
-﻿2024 pp,control pass,,\
-period,JIRA,report,\
-LHC24aa,O2-4810,LHC24aa_cpass0,\
-LHC24ab,O2-4810,LHC24ab_cpass0,\
-LHC24ac,O2-4850,not for physics,\
-LHC24ad,-,not for physics,\
-LHC24ae,O2-4879,not for physics,\
-LHC24af,O2-4879,LHC24af_cpass0,\
+﻿2024 pp,control pass,,apass1,,\
+period,JIRA,report,JIRA,report,\
+LHC24aa,O2-4810,LHC24aa_cpass0,,,\
+LHC24ab,O2-4810,LHC24ab_cpass0,,,\
+LHC24ac,O2-4850,not for physics,,,\
+LHC24ad,-,not for physics,,,\
+LHC24ae,-,not for physics,,,\
+LHC24af,O2-4879,LHC24af_cpass0,O2-4983,LHC24af_apass1,\
+LHC24ag,O2-4919,LHC24ag_cpass0,O2-4993,LHC24ag_apass1,\
+LHC24ah,-,VdM scans,-,VdM scans,\
+LHC24ai,-,VdM scans,-,VdM scans,\
+LHC24aj,O2-4969,LHC24aj_cpass0,O2-5047,LHC24aj_apass1,\
+LHC24ak,-,not for physics,,,\
+LHC24al,O2-5101,LHC24al_cpass0,O2-5153,,\

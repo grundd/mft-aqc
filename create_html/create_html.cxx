@@ -31,7 +31,7 @@ vector<vector<string>> loadCsv(string fname, bool print = false)
     return arr; 
 }
 
-bool createHtml(string dataset) 
+bool create_html(string dataset) 
 {
     string fname = Form("%s.csv",dataset.data());
     vector<vector<string>> table = loadCsv(fname, true);
@@ -105,11 +105,11 @@ bool createHtml(string dataset)
     return true;
 }
 
-void createHtmlTables ()
+void create_html ()
 {
-    createHtml("2023_pp");
-    createHtml("2023_PbPb");
-    createHtml("2024_pp");
-    createHtml("MC");
+    create_html("2023_pp");
+    create_html("2023_PbPb");
+    create_html("2024_pp");
+    create_html("MC");
     return;
 }
