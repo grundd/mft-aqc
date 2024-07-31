@@ -16,14 +16,14 @@ struct run_info
   string quality;
   string comment;
   string int_rate;
-  string coll_bcs;
-  run_info(string per, string fil, string qlt, string com, string irt, string cbs) {
+  string mu;
+  run_info(string per, string fil, string qlt, string com, string irt, string m) {
     period = per;
     fill = fil;
     quality = qlt;
     comment = com;
     int_rate = irt;
-    coll_bcs = cbs;
+    mu = m;
   }
 };
 
@@ -43,7 +43,7 @@ class run_map
     string get_run_quality(int r) { return (run_in_map(r) ? r_map.at(r).quality : "N/A"); }
     string get_run_comment(int r) { return (run_in_map(r) ? r_map.at(r).comment : "N/A"); }
     string get_run_int_rate(int r) { return (run_in_map(r) ? r_map.at(r).int_rate : "N/A"); }
-    string get_run_coll_bcs(int r) { return (run_in_map(r) ? r_map.at(r).coll_bcs : "N/A"); }
+    string get_run_mu(int r) { return (run_in_map(r) ? r_map.at(r).mu : "N/A"); }
 };
 
 run_map::run_map():
@@ -55,7 +55,7 @@ run_map::run_map():
 void run_map::print()
 {
   cout << "Printing map of runs:\n"
-       << "run \tper \tfill \tqlt \tIR \tcbs \tcomment \n";
+       << "run \tper \tfill \tqlt \tIR \tmu \tcomment \n";
   map<int,run_info>::iterator it;
   for (it = r_map.begin(); it != r_map.end(); it++) {
     cout << it->first << "\t"
@@ -63,7 +63,7 @@ void run_map::print()
       << it->second.fill << "\t"
       << it->second.quality << "\t"
       << it->second.int_rate << "\t"
-      << it->second.coll_bcs << "\t"
+      << it->second.mu << "\t"
       << it->second.comment << "\n";
   }
   return;
@@ -79,8 +79,18 @@ bool run_map::load_from_file (bool verbose, bool debug)
 	if(f.is_open()) {
 		while(getline(f,line)) {
 		  row.clear();
+      // https://stackoverflow.com/questions/17859992/reading-from-a-csv-text-file-with-quotes-in-c
 		  stringstream str(line);
-      while(getline(str, item, ',')) row.push_back(item);
+      // go until the first double quote
+      while(getline(str, item, '"')) {
+        // collect all items separated by commas
+        stringstream up_to_quote(item);
+        while(getline(up_to_quote, item, ',')) row.push_back(item);
+        // get the full surrounded by double quotes
+        if(getline(str, item, '"')) row.push_back(item);
+        // move behind the comma after the closing double quote
+        getline(str, item, ',');
+      }
       content.push_back(row);
 		}
 	} else {

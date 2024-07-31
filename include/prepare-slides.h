@@ -27,10 +27,10 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
     ofs << R"(\bgroup\scriptsize\def\arraystretch{1.05})" << "\n";
     if(single_period) {
       ofs << R"(\begin{tabular}{c c c c l})" << "\n"
-          << R"(\textbf{fill} & \textbf{run} & \textbf{IR (kHz)} & \textbf{coll bcs} & \textbf{MFT quality} \\)" << "\n";
+          << R"(\textbf{fill} & \textbf{run} & \textbf{IR (kHz)} & $\boldsymbol\mu$ & \textbf{MFT quality} \\)" << "\n";
     } else {
       ofs << R"(\begin{tabular}{c c c c c l})" << "\n"
-          << R"(\textbf{period} & \textbf{fill} & \textbf{run} & \textbf{IR (kHz)} & \textbf{coll bcs} & \textbf{MFT quality} \\)" << "\n";
+          << R"(\textbf{period} & \textbf{fill} & \textbf{run} & \textbf{IR (kHz)} & $\boldsymbol\mu$ & \textbf{MFT quality} \\)" << "\n";
     }
 
     bool print_ref_legend = false;
@@ -44,15 +44,16 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
       int run = runs_to_print.front();
       string quality = "";
       if(rm.is_run(run, STR_GOOD)) quality = R"(\Good)";
-      if(rm.is_run(run, STR_MIXED)) quality = R"(\Mixed)";
-      if(rm.is_run(run, STR_LIM)) quality = R"(\Limited)";
+      if(rm.is_run(run, STR_LIMREP)) quality = R"(\LimRep)";
+      if(rm.is_run(run, STR_LIMNOTREP)) quality = R"(\LimNotRep)";
       if(rm.is_run(run, STR_BAD)) quality = R"(\Bad)";
+      if(rm.is_run(run, STR_TIMEDEP)) quality = R"(\TimeDep)";
       if(rm.is_run(run, STR_NOT_PART)) quality = R"(\NotPart)";
       string period = rm.get_run_period(run);
       string fill = rm.get_run_fill(run);
       string comment = rm.get_run_comment(run);
       string int_rate = rm.get_run_int_rate(run);
-      string coll_bcs = rm.get_run_coll_bcs(run);
+      string mu = rm.get_run_mu(run);
 
       // print the run info
       if(!single_period) ofs << period << " & ";
@@ -63,9 +64,9 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
         print_ref_legend = true;
       } else ofs << run << " & ";
       ofs << int_rate << " & "
-          << coll_bcs << " & "
+          << mu << " & "
           << quality;
-      if(comment != "") ofs << R"(~{\scriptsize()" << comment << ")}";
+      if(comment != "") ofs << R"(~{\tiny()" << comment << ")}";
       ofs << R"(\\)" << "\n";
 
       runs_to_print.erase(runs_to_print.begin());
@@ -90,7 +91,7 @@ void print_run_list (ofstream& ofs, configuration cfg, run_map rm)
           << "(" << rm.get_run_period(ref.run)
           << ", " << ref.pass
           << ", IR = " << rm.get_run_int_rate(ref.run) << " kHz"
-          << ", " << rm.get_run_coll_bcs(ref.run) << " coll bcs)}" << "\n"
+          << R"(, $\mu =)" << rm.get_run_mu(ref.run) << "$)}" << "\n"
           << R"(\end{textblock*})" << "\n\n";
     }
     ofs << R"(\egroup})" << "\n\n";
@@ -110,6 +111,7 @@ void create_main_latex (configuration cfg, run_map rm)
   ofs << R"(
 \documentclass[12pt,xcolor={dvipsnames}]{beamer}
 \geometry{paperwidth=160mm,paperheight=90mm}
+\usepackage[T1]{fontenc}
 \usepackage{amsmath,amsfonts,amssymb,mathtools}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{graphicx}
@@ -124,10 +126,11 @@ void create_main_latex (configuration cfg, run_map rm)
 \usepackage{xspace}
 \newcommand{\ra}{\ensuremath{\rightarrow\xspace}}
 \newcommand{\Ra}{\ensuremath{\Rightarrow\xspace}}
-\newcommand{\Good}{\textcolor{OliveGreen}{\textbf{GOOD}}}
-\newcommand{\Mixed}{\textcolor{Orange}{\textbf{MIXED}}}
-\newcommand{\Limited}{\textcolor{Brown}{\textbf{Limited}}}
-\newcommand{\Bad}{\textcolor{Red}{\textbf{BAD}}}
+\newcommand{\Good}{\textcolor{OliveGreen}{\textbf{Good}}}
+\newcommand{\LimRep}{\textcolor{RawSienna}{\textbf{LA MC rep.}}}
+\newcommand{\LimNotRep}{\textcolor{Brown}{\textbf{LA not rep.}}}
+\newcommand{\Bad}{\textcolor{Red}{\textbf{Bad}}}
+\newcommand{\TimeDep}{\textcolor{CadetBlue}{\textbf{Time-dep.}}}
 \newcommand{\NotPart}{\textbf{not participating}}
 \newcommand{\RefRun}[1]{\colorbox{Goldenrod}{\textcolor{Black}{#1}}}
 \usetheme{Madrid}
@@ -136,6 +139,7 @@ void create_main_latex (configuration cfg, run_map rm)
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{enumerate items}[square]
 \setbeamertemplate{itemize items}{\normalsize$\bullet$}
+\setlength{\tabcolsep}{2pt}
 
 \title)";
   ofs << Form("[MFT A-QC: %s]{MFT A-QC: %s}", cfg.get_latex_title().data(), cfg.get_latex_title().data()) << R"(
