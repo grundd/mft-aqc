@@ -1,0 +1,16 @@
+compare=runs
+group=LHC22p_apass7_skimmed
+jira=O2-5057
+passes=apass7_skimmed
+ref_run=537602
+ref_pass=apass4
+runs:
+528602
+528604
+528617
+528781
+528782
+528783
+528784
+528798
+528801
