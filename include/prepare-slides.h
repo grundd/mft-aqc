@@ -139,7 +139,7 @@ void create_main_latex (configuration cfg, run_map rm)
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{enumerate items}[square]
 \setbeamertemplate{itemize items}{\normalsize$\bullet$}
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{3pt}
 
 \title)";
   ofs << Form("[MFT A-QC: %s]{MFT A-QC: %s}", cfg.get_latex_title().data(), cfg.get_latex_title().data()) << R"(
