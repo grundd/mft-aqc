@@ -2,8 +2,6 @@
 // David Grund
 // 2024
 
-// root 'download_qc_objects.cxx("'_test.txt'")'
-
 #include "TSystem.h"
 #include "TFile.h"
 #include "TH1.h"

@@ -7,7 +7,7 @@ do_aqc () {
     root -q 'prepare_slides.cxx("'$1'")'
 }
 
-for file in input_to_run/*.txt; 
+for file in input_runlists/*.txt; 
 do
   echo "INPUT CONFIGURATION FILE: $file"
   do_aqc $file
