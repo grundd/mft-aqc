@@ -58,7 +58,7 @@ class ratio_plot
     void set_axes (TH1F* h);
     void set_histo_type (histogram h);
     void set_r_ref (string prefix, run_specifier rsp);
-    void set_r_arr (string prefix, vector<run_specifier> v_rsp); 
+    void set_r_arr (string prefix, run_specifier ref, vector<run_specifier> v_rsp); 
     void set_ranges (configuration cfg, run_map rm);
     TCanvas* make_plot (configuration cfg, run_map rm, bool debug = false);
     TCanvas* make_legend (configuration cfg, run_map rm, bool debug = false);
@@ -134,9 +134,10 @@ void ratio_plot::set_r_ref (string prefix, run_specifier rsp)
   return;
 }
 
-void ratio_plot::set_r_arr (string prefix, vector<run_specifier> v_rsp)
+void ratio_plot::set_r_arr (string prefix, run_specifier ref, vector<run_specifier> v_rsp)
 {
   for(auto rsp : v_rsp) {
+    if(ref.run == rsp.run && ref.period == rsp.period && ref.pass == rsp.pass) continue;
     r_arr.push_back(run_histo(rsp, load_histo(prefix, rsp)));
   }
   return;
@@ -410,7 +411,7 @@ bool ratio_plot::create_plot (configuration cfg, run_map rm, string path, string
   {
     set_histo_type(h);
     set_r_ref(prefix, ref);
-    set_r_arr(prefix, v_rsp);
+    set_r_arr(prefix, ref, v_rsp);
     set_ranges(cfg, rm);
 
     // print plot and legend together
