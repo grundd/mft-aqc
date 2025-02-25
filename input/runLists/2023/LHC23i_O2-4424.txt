@@ -1,6 +1,0 @@
-period=LHC23i
-jira=O2-4424
-pass=apass1
-refRun=535545
-runs:
-535923

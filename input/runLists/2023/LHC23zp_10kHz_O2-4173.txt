@@ -1,7 +1,0 @@
-group=LHC23zp_10kHz_apass1
-period=LHC23zp
-jira=O2-4173
-pass=apass1
-refRun=539273
-runs:
-539421
