@@ -1,125 +1,14 @@
 period,fill,run,quality,comment,IR (kHz),mu,/
-LHC24al,9810,553185,good,,509.7,0.024,/
-LHC24al,9810,553187,good,,512.4,0.024,/
-LHC24al,9810,553188,good,,513,0.024,/
-LHC24al,9810,553189,good,,512.2,0.024,/
-LHC24al,9810,553193,good,,509.4,0.024,/
-LHC24al,9812,553219,good,,506.2,0.023,/
-LHC24al,9812,553225,good,,507.1,0.023,/
-LHC24al,9813,553250,lim mc rep,20-26 chips in error,503,0.023,/
-LHC24al,9813,553253,lim mc rep,22-29 chips in error,518.3,0.023,/
-LHC24al,9813,553255,good,,503.6,0.023,/
-LHC24al,9816,553274,good,,503.8,0.023,/
-LHC24al,9819,553294,good,,493.4,0.022,/
-LHC24al,9819,553297,not part,,508.8,0.023,/
-LHC24al,9819,553299,good,,507.7,0.023,/
-LHC24al,9819,553305,good,,507.5,0.023,/
-LHC24al,9832,553486,lim mc rep,"too many unrecoverable chips, dip around phi of -2",485.3,0.022,/
-LHC24al,9838,553512,good,,502.6,0.023,/
-LHC24al,9840,553530,good,BAD from 15:13:35: latch-up of all H0F1 chips,505.7,0.023,/
-LHC24al,9840,553536,lim mc rep,drop in phi around 1.4 | BAD from 20:53:30: clock transition,502,0.023,/
-LHC24al,9842,553555,good,,509.5,0.023,/
-LHC24al,9843,553588,good,"problems with levelling, IR slowly decreased to 350 kHz",421.5,0.019,/
-LHC24al,9843,553590,good,,508.3,0.023,/
-LHC24al,9846,553610,good,,492.1,0.022,/
-LHC24al,9848,553633,good,,510.9,0.023,/
-LHC24al,9849,553655,good,"LA MC repro. from 06:18: too many chips in E in H0D2F1Z1, only 4 recovered",510.8,0.023,/
-LHC24al,9849,553660,good,,509.4,0.023,/
-LHC24al,9849,553663,good,,507.8,0.023,/
-LHC24al,9852,553700,not part,,505.4,0.023,/
-LHC24al,9852,553702,good,,509.8,0.023,/
-LHC24al,9857,553739,good,,516,0.023,/
-LHC24al,9859,553756,good,,503.8,0.023,/
-LHC24al,9860,553785,good,"LA MC repro. from 21:30:20: H1D0F0Z2 in error, 2 ladders missing until EOR",508.4,0.023,/
-LHC24al,9861,553807,good,"15-22 chips in error, but no visible acc drops",508.7,0.023,/
-LHC24al,9861,553816,good,,512,0.023,/
-LHC24al,9861,553819,good,,510.5,0.023,/
-LHC24al,9861,553821,good,,505.8,0.023,/
-LHC24al,9861,553824,good,,519.2,0.023,/
-LHC24al,9861,553825,good,,509.1,0.023,/
-LHC24al,9862,553844,good,,507.2,0.023,/
-LHC24al,9864,553862,good,,507.8,0.023,/
-LHC24al,9865,553880,good,,504.4,0.023,/
-LHC24al,9867,553903,good,,476.1,0.021,/
-LHC24al,9877,553955,no physics,,523.7,0.025,/
-LHC24al,9877,553956,no physics,,519.9,0.024,/
-LHC24al,9877,553959,no physics,,503.1,0.024,/
-LHC24al,9877,553963,no physics,,507.8,0.024,/
-LHC24al,9877,553976,no physics,,483.5,0.023,/
-LHC24al,9877,553980,no physics,,375.2,0.018,/
-LHC24al,9878,553996,no physics,,526.6,0.024,/
-LHC24al,9878,553998,no physics,,753.1,0.034,/
-LHC24al,9879,554018,no physics,,750.8,0.034,/
-LHC24al,9883,554038,no physics,,766.6,0.035,/
-LHC24al,9883,554042,no physics,,734.4,0.033,/
-LHC24al,9886,554092,lim mc rep,drop in phi around -0.7,522.6,0.023,/
-LHC24al,9886,554094,lim mc rep,drop in phi around -0.7,528.8,0.024,/
-LHC24al,9886,554095,lim mc rep,drop in phi around -0.7,525.6,0.023,/
-LHC24al,9886,554097,lim mc rep,drop in phi around -0.7,511.5,0.023,/
-LHC24al,9886,554098,good,,506.4,0.023,/
-LHC24al,9891,554158,no physics,,500,0.186,/
-LHC24al,9895,554176,no physics,,500.3,0.186,/
-LHC24al,9895,554178,no physics,,496.4,0.185,/
-LHC24al,9895,554179,no physics,,502,0.187,/
-LHC24al,9896,554194,lim mc rep,about 20 chips in error,512.5,0.023,/
-LHC24al,9896,554198,lim mc rep,22-24 chips in error,513.8,0.023,/
-LHC24al,9896,554201,lim mc rep,about 20 chips in error,503.3,0.023,/
-LHC24al,9896,554203,good,,511.5,0.023,/
-LHC24al,9896,554207,good,,517.8,0.023,/
-LHC24al,9896,554208,good,,510.7,0.023,/
-LHC24al,9899,554223,good,,507.7,0.023,/
-LHC24al,9900,554247,good,,509.4,0.023,/
-LHC24al,9900,554261,good,,506.2,0.023,/
-LHC24al,9905,554293,good,BAD from 12:38:30 until 12:44:46: corr. data due to a global issue,520.6,0.023,/
-LHC24al,9905,554295,good,,508.5,0.023,/
-LHC24al,9906,554316,good,,511.7,0.023,/
-LHC24al,9906,554322,good,,506.4,0.023,/
-LHC24al,9906,554323,good,,499.8,0.022,/
-LHC24al,9910,554354,good,,509.8,0.023,/
-LHC24al,9911,554394,good,,511.2,0.023,/
-LHC24al,9911,554404,good,,511.4,0.023,/
-LHC24al,9911,554408,good,,508.1,0.023,/
-LHC24al,9911,554413,good,,499.2,0.022,/
-LHC24al,9912,554427,lim mc rep,drop in phi around -2.4,508.2,0.023,/
-LHC24al,9917,554462,lim mc rep,15-23 chips in error,507.4,0.023,/
-LHC24al,9917,554471,good,,503.9,0.023,/
-LHC24al,9920,554494,good,BAD from 02:17:08 until EOR: data corruption,508.3,0.023,/
-LHC24al,9920,554495,good,,508.8,0.023,/
-LHC24al,9920,554504,good,,508.8,0.023,/
-LHC24al,9920,554507,good,,517.8,0.023,/
-LHC24al,9921,554524,not part,,509.4,0.023,/
-LHC24al,9921,554526,lim mc rep,"too many chips in error, including two full ladders from H0D3F1Z0",509.2,0.023,/
-LHC24al,9921,554538,good,,508.2,0.023,/
-LHC24al,9923,554558,lim mc rep,"H1D1F0Z2 excl., 19-23 chips in error | BAD from 14:46:22 until EOR: corr. data",507.3,0.023,/
-LHC24al,9923,554564,lim mc rep,H1D1F0Z2 excl. | BAD from 19:21:18 until EOR: corr. data,506.6,0.023,/
-LHC24al,9923,554569,lim mc rep,"H1D1F0Z2 excl. + problems with H1D0F0Z1, H0D2F0Z0",509.5,0.023,/
-LHC24al,9925,554588,lim mc rep,H1D1F0Z2 excluded,504.8,0.023,/
-LHC24al,9926,554603,lim mc rep,H1D1F0Z2 excluded,509,0.023,/
-LHC24al,9926,554613,lim mc rep,H1D1F0Z2 excluded,511.3,0.023,/
-LHC24al,9926,554615,lim mc rep,H1D1F0Z2 excluded,509.5,0.023,/
-LHC24al,9927,554633,lim mc rep,H1D1F0Z2 excluded,508.7,0.023,/
-LHC24al,9931,554701,lim mc rep,H1D1F0Z2 excluded,521.9,0.023,/
-LHC24al,9931,554703,lim mc rep,H1D1F0Z2 excluded,509.8,0.023,/
-LHC24al,9931,554714,lim mc rep,H1D1F0Z2 excluded,509.8,0.023,/
-LHC24al,9932,554728,lim mc rep,H1D1F0Z2 excluded,510.2,0.023,/
-LHC24al,9932,554732,lim mc rep,H1D1F0Z2 excluded,502.9,0.023,/
-LHC24al,9932,554736,lim mc rep,H1D1F0Z2 excluded,502.5,0.023,/
-LHC24al,9934,554752,lim mc rep,H1D1F0Z2 excl. + significant drop in phi around 2.4,498.9,0.022,/
-LHC24al,9935,554768,lim mc rep,H1D1F0Z2 excluded,506.5,0.023,/
-LHC24al,9935,554772,lim mc rep,H1D1F0Z2 excluded,506.1,0.023,/
-LHC24al,9935,554774,lim mc rep,H1D1F0Z2 excl. and half-zone H1D3F1Z1 empty in cluster task,502.5,0.023,/
-LHC24al,9936,554791,lim mc rep,H1D1F0Z2 excl. and half-zone H1D3F1Z1 empty in cluster task,504.8,0.023,/
-LHC24al,9937,554808,lim mc rep,"H1D1F0Z2 excl., large number of chips in error",508.2,0.023,/
-LHC24al,9939,554835,lim mc rep,H1D1F0Z2 excl. | BAD from 11:11:09 until EOR: corr. data,501.4,0.023,/
-LHC24al,9939,554837,lim mc rep,H1D1F0Z2 excluded,507,0.023,/
-LHC24al,9941,554873,good,,508.7,0.023,/
-LHC24al,9941,554880,good,,505.9,0.023,/
-LHC24al,9942,554898,good,,508.6,0.023,/
-LHC24al,9943,554920,good,,508.5,0.023,/
-LHC24al,9945,554968,good,,504.4,0.023,/
-LHC24al,9945,554970,good,,512.2,0.023,/
-LHC24al,9945,554973,good,,508.4,0.023,/
-LHC24al,9947,554998,good,,509.5,0.023,/
-LHC24al,9951,555020,,,504.6,0.023,/
-LHC24al,9951,555022,,,509.2,0.023,/
-LHC24al,9951,555023,,,511.7,0.023,/
+LHC24ap,10305,559361,good,,804.1,0.032,/
+LHC24ap,10305,559362,good,,803.4,0.032,/
+LHC24ap,10307,559385,good,,798.8,0.032,/
+LHC24ap,10307,559386,good,,792.3,0.032,/
+LHC24ap,10307,559387,good,,802.6,0.032,/
+LHC24aq,10309,559408,good,,811,0.033,/
+LHC24aq,10309,559409,good,,831,0.033,/
+LHC24aq,10309,559410,good,,811.9,0.033,/
+LHC24aq,10310,559423,good,,808.6,0.033,/
+LHC24aq,10311,559437,good,,798.5,0.032,/
+LHC24aq,10311,559443,good,,806.2,0.032,/
+LHC24aq,10311,559444,good,,806.3,0.032,/
+LHC24aq,10312,559456,good,,794.6,0.032,/
