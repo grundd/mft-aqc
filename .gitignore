@@ -6,5 +6,6 @@
 # Folders to ignore:
 latex/*
 !latex/logo
+!latex/readme_example
 plots/
 rootFiles/
