@@ -1,7 +1,0 @@
-compare=passes
-group=pp_500kHz
-passes=online,cpass0,apass1
-ref_pass=online
-rewrite_latex=true
-runs:
-556981
